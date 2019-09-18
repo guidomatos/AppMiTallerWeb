@@ -1,0 +1,5 @@
+D:\sga\pry\prod\Web_SRC\PryWebSRC\Minvest.SRC.BE\bin\Release\Minvest.SRC.BE.dll
+D:\sga\pry\prod\Web_SRC\PryWebSRC\Minvest.SRC.BE\bin\Release\Minvest.SRC.BE.pdb
+D:\sga\pry\prod\Web_SRC\PryWebSRC\Minvest.SRC.BE\obj\Release\Minvest.SRC.BE.csprojResolveAssemblyReference.cache
+D:\sga\pry\prod\Web_SRC\PryWebSRC\Minvest.SRC.BE\obj\Release\Minvest.SRC.BE.dll
+D:\sga\pry\prod\Web_SRC\PryWebSRC\Minvest.SRC.BE\obj\Release\Minvest.SRC.BE.pdb

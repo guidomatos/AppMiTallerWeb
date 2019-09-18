@@ -1,0 +1,17 @@
+D:\gmatos\proyectos\AppMiTaller\AppMiTaller.Web\AppMiTaller.Web\Minvest.SRC.BE\bin\Debug\AppMiTaller.Web.BE.dll
+D:\gmatos\proyectos\AppMiTaller\AppMiTaller.Web\AppMiTaller.Web\Minvest.SRC.BE\bin\Debug\AppMiTaller.Web.BE.pdb
+D:\gmatos\proyectos\AppMiTaller\AppMiTaller.Web\AppMiTaller.Web\Minvest.SRC.BE\obj\Debug\AppMiTaller.Web.BE.csproj.CoreCompileInputs.cache
+D:\gmatos\proyectos\AppMiTaller\AppMiTaller.Web\AppMiTaller.Web\Minvest.SRC.BE\obj\Debug\AppMiTaller.Web.BE.dll
+D:\gmatos\proyectos\AppMiTaller\AppMiTaller.Web\AppMiTaller.Web\Minvest.SRC.BE\obj\Debug\AppMiTaller.Web.BE.pdb
+D:\gmatos\proyectos\AppMiTaller\AppMiTaller.Web\AppMiTaller.Web\AppMiTaller.Web.BE\bin\Debug\AppMiTaller.Web.BE.dll
+D:\gmatos\proyectos\AppMiTaller\AppMiTaller.Web\AppMiTaller.Web\AppMiTaller.Web.BE\bin\Debug\AppMiTaller.Web.BE.pdb
+D:\gmatos\proyectos\AppMiTaller\AppMiTaller.Web\AppMiTaller.Web\AppMiTaller.Web.BE\obj\Debug\AppMiTaller.Web.BE.csprojAssemblyReference.cache
+D:\gmatos\proyectos\AppMiTaller\AppMiTaller.Web\AppMiTaller.Web\AppMiTaller.Web.BE\obj\Debug\AppMiTaller.Web.BE.csproj.CoreCompileInputs.cache
+D:\gmatos\proyectos\AppMiTaller\AppMiTaller.Web\AppMiTaller.Web\AppMiTaller.Web.BE\obj\Debug\AppMiTaller.Web.BE.dll
+D:\gmatos\proyectos\AppMiTaller\AppMiTaller.Web\AppMiTaller.Web\AppMiTaller.Web.BE\obj\Debug\AppMiTaller.Web.BE.pdb
+C:\proyectos\AppMiTaller\AppMiTaller.Web\AppMiTaller.Web\AppMiTaller.Web.BE\bin\Debug\AppMiTaller.Web.BE.dll
+C:\proyectos\AppMiTaller\AppMiTaller.Web\AppMiTaller.Web\AppMiTaller.Web.BE\bin\Debug\AppMiTaller.Web.BE.pdb
+C:\proyectos\AppMiTaller\AppMiTaller.Web\AppMiTaller.Web\AppMiTaller.Web.BE\obj\Debug\AppMiTaller.Web.BE.csprojAssemblyReference.cache
+C:\proyectos\AppMiTaller\AppMiTaller.Web\AppMiTaller.Web\AppMiTaller.Web.BE\obj\Debug\AppMiTaller.Web.BE.csproj.CoreCompileInputs.cache
+C:\proyectos\AppMiTaller\AppMiTaller.Web\AppMiTaller.Web\AppMiTaller.Web.BE\obj\Debug\AppMiTaller.Web.BE.dll
+C:\proyectos\AppMiTaller\AppMiTaller.Web\AppMiTaller.Web\AppMiTaller.Web.BE\obj\Debug\AppMiTaller.Web.BE.pdb

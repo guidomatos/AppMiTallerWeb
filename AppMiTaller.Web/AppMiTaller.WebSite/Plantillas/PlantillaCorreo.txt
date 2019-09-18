@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head><title>Datos de la Cita</title>
+    
+<style type="text/css" >
+
+    .csTexto
+    {
+        font-family: Verdana; 
+        color: #646464; 
+        font-size: 10pt; 
+    } 
+    .csTitulo
+    {
+        font-family: Verdana; 
+        color: #646464; 
+        font-size: 10pt; 
+        font-weight: bold; 
+        text-decoration: underline;
+    }
+    .csNombre
+    {
+        font-family: Verdana; 
+        color: #646464; 
+        font-size: 10pt; 
+        font-weight: bold; 
+    }
+				  
+</style>
+
+</head>
+<body>
+    <form id="form1" >
+    <center>
+        <div style="border-right: dimgray 2px solid; border-top: dimgray 2px solid; border-left: dimgray 2px solid;
+            width: 600px; border-bottom: dimgray 2px solid; position:static;"><!--  height: 550px -->
+            <table style="font-style: normal; font-family: verdana; text-align: left;" width="600px">
+                <tr id="trLogo" style="display:{blLogo};">
+                    <td align="center"><img height="50" style="margin-top: 5px" width="127" src="{ImagenLogo}" /></td>
+                    <td align="left"><img height="50" style="margin-top: 5px" width="450" src="{Titulo}" /></td>
+                </tr>
+                <tr><td colspan="2" align="center" style="display:{blLogo};"><hr style="width: 576px" /></td></tr>
+                <tr>
+                    <td colspan="2" style="font-size: 10pt; padding-left: 15px;"> Estimado Sr(a):
+                        <span style="font-family:verdana;font-size:11pt;font-weight:bold;">{Cliente}</span></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding-left: 15px; font-size: 10pt">Se le adjunta el res&uacute;men de la {TipoCita} de su Cita:</td>
+                </tr>
+                <tr>
+					<td style="padding-left: 15px; font-size: 9pt; margin-right: 18px; font-weight: bold; font-family: arial;" colSpan="2" class="csNombre">
+					<br>"Favor de no responder a este correo, ya que esta cuenta es s&oacute;lo para notificaciones autom&aacute;ticas."</td> 
+				</tr> 
+                <tr>
+                    <td colspan="2" style="padding-right: 15px; padding-left: 15px; padding-bottom: 3px; padding-top: 15px">
+                        
+                        <div style="border-right: darkgray 2px solid; padding-right: 10px; border-top: darkgray 2px solid;
+                            padding-left: 10px; padding-bottom: 10px; border-left: darkgray 2px solid; padding-top: 10px;
+                            border-bottom: darkgray 2px solid; position:static;width:540px;"> <!--height: 280px -->
+                            <table style="font-style: normal; font-family: verdana; width: 100%;">
+                                <tr><td class="csTitulo">  Veh&iacute;culo</td></tr>
+                                <tr><td style="padding-left: 50px">
+                                        <span class="csNombre" style="display:inline-block;width:70px;">{TipoPlaca}</span>
+                                        <span class="csTexto">{NumPlaca}</span></td>                                </tr>
+                                <tr>
+                                    <td style="padding-left: 50px;">
+                                        <span class="csNombre" style="display:inline-block;width:70px;">Marca:</span><span class="csTexto">{Marca}</span>
+                                        &nbsp;&nbsp;
+                                        <span class="csNombre" style="display:inline-block;width:70px;">Modelo:</span><span class="csTexto">{Modelo}</span></td>
+                                </tr>
+                                <tr><td></td></tr>
+                                <tr><td class="csTitulo">Cita</td></tr>
+                                <tr><td style="padding-left: 50px;" class="csNombre">{DiaHoraCita}</td></tr>
+                                <tr><td style="padding-left: 50px">
+                                        <span class="csNombre" style="display:inline-block;">{TextoAsesor}&nbsp;</span>
+                                        <span class="csTexto">{Asesor}</span></td>
+                                </tr>
+                                <tr><td style="padding-left: 50px">
+                                        <span class="csNombre" style="display:inline-block;">Celular</span>
+                                        <span class="csTexto">{MovilAsesor}</span></td>
+                                </tr>
+                                <tr><td style="padding-left: 50px;"><span class="csNombre">Servicio&nbsp;&nbsp;</span><span class="csTexto">{Servicio}</span></td></tr>										
+                                <tr id="TRTALLER"><td style="padding-left: 50px;" class="csNombre">{Taller}</td></tr>
+                                <tr><td style="padding-left: 50px;">
+										<span class="csNombre">Ubicado en el {TextoLocal}</span>
+										<span class="csTexto">{PuntoRed}</span></td></tr>
+                                <tr><td style="padding-left: 50px;" class="csNombre">{Direccion}</td></tr>
+                                <tr><td style="padding-left: 50px;">
+										<span class="csNombre">Tel&eacute;fono: </span>
+										<span class="csTexto">{Telefono}</span></td></tr>
+                                <tr><td style="padding-left: 50px;">
+                                        <span class="csNombre" style="display:inline-block;width:151px;">C&oacute;digo de Reserva:</span>
+                                        <span class="csTexto" style="color:DarkGray;font-weight:bold;">{CodReserva}</span></td>
+                                </tr>
+                                <tr><td style="padding-left: 50px; height: 10px;"></td></tr>
+                                <tr id="TR1"><td class="csTitulo" > Recordatorio</td></tr>
+                                <tr id="TR2"><td style="padding-left: 50px;" class="csTexto" > Las notificaciones se les enviar&aacute;n de la siguiente forma:</td></tr>
+                                <tr id="TR3"><td >
+								<span style="padding-left:50px;display:inline-block;width:100%;" class="csNombre" id="textopie1" >{FormaRecordatorio}</span>
+								<br><br>
+								<span style="padding-left:50px;display:inline-block;width:100%;" class="csNombre">"Su puntualidad nos ayudar&aacute; a atenderlo mejor."</span><br><br>
+								<span id="textopie2" style="font-family: Verdana; color: #646464; padding-left: 1px;font-size: 7pt;display:inline-block;width:100%;">
+								{TextoPieCorreo}
+								</span>
+								<!--inline-block -->
+								<span style="font-family: Verdana; color: #646464; padding-left: 1px;font-size: 7pt;display:{blVerNota};width:100%;" id="textopie3"><br><br>
+								<u><b>Nota:</b></u> A los clientes que no tienen autorizaci&oacute;n pagar con cheque, estar&aacute;n sujeto a la confirmaci&oacute;n del mismo.
+								24 horas el cheque depositado al mismo banco y de 48 horas los cheques depositados a otros bancos.
+								</span>
+								</td></tr>
+                            </table>
+                        </div>
+                        <table border="0" cellpadding="0" width="100%" style="display:{blCallCenter};">
+                            <tr>
+                              <td>
+                            	<span id="textopie2" style="font-family: Verdana; color: #646464; padding-left: 1px;font-size: 7pt;display:inline-block;width:100%;">
+								En caso desee reprogramar su cita llame a nuestro callcenter al {CallCenter}<br>
+								Para ingresar al Sistema de Reserva de Citas haga click <a href ="{UrlPagina}">aqu&iacute;</a> 
+								</span>
+                              </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+				{QR}
+                <tr><td colspan="2" align="center"><img src="{ImagenPie}" width="580" height="20" /></td></tr>
+            </table>
+        </div>
+    </center>
+    </form>
+</body>
+</html>

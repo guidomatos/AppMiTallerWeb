@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Datos de la Cita</title>
+    <style type="text/css">
+        body
+        {
+            max-width: 610px;
+            min-width: 320px;
+            margin: 0 auto;
+            font-family: Verdana;
+            color: #646464;
+            font-size: 10pt;
+        }
+        div
+        {
+            padding-top: 3px;
+            padding-bottom: 3px;
+        }
+        .bold
+        {
+            font-weight: bold;
+        }
+        .underline
+        {
+            text-decoration: underline;
+        }
+        .datosSection
+        {
+            padding-left: 30px;
+        }
+        
+        .csTexto
+        {
+            font-family: Verdana;
+            color: #646464;
+            font-size: 10pt;
+        }
+        .csTitulo
+        {
+            font-family: Verdana;
+            color: #646464;
+            font-size: 10pt;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+        .csNombre
+        {
+            font-family: Verdana;
+            color: #646464;
+            font-size: 10pt;
+            font-weight: bold;
+        }
+    </style>
+    <script type="text/javascript">        function Imprimir() { window.print(); window.close(); } </script>
+</head>
+<body>
+    <div>
+        <div style="text-align: right;">
+            <input onclick="javascript:Imprimir();" type="image" alt="Imprimir Cita" src="img/Imprimir.PNG" />
+        </div>
+        <div style="border: dimgray 2px solid; padding: 10px;">
+            <div id="trLogo" style="display: {blLogo};">
+                <img height="50" style="margin-top: 5px; max-width: 127px" src="{ImagenLogo}" />
+                <img height="50" style="margin-top: 5px; width: 100%; max-width: 450px" src="{Titulo}" />
+            </div>
+            <div style="display: {blLogo};">
+                <hr />
+            </div>
+            <div>
+                <p>
+                    Estimado Sr(a): <span style="font-family: verdana; font-size: 11pt; font-weight: bold;">
+                        {Cliente}</span></p>
+                <p>
+                    Se le adjunta el res&uacute;men de la {TipoCita} de su Cita:</p>
+                <p class="bold">
+                    "Favor de no responder a este correo, ya que esta cuenta es s&oacute;lo para notificaciones
+                    autom&aacute;ticas."</p>
+                <div style="border: dimgray 2px solid; padding: 10px;">
+                    <div class="bold underline">
+                        Veh&iacute;culo</div>
+                    <div class="datosSection">
+                        <div>
+                            <span class="csNombre" style="width: 70px;">{TipoPlaca}</span> <span class="csTexto">
+                                {NumPlaca}</span>
+                        </div>
+                        <div>
+                            <span class="csNombre" style="width: 70px;">Marca:</span><span class="csTexto">{Marca}</span>
+                            &nbsp;&nbsp; <span class="csNombre" style="width: 70px;">Modelo:</span><span class="csTexto">{Modelo}</span>
+                        </div>
+                    </div>
+                    <div class="bold underline">
+                        Cita</div>
+                    <div class="datosSection">
+                        <div class="bold">
+                            {DiaHoraCita}
+                        </div>
+                        <div>
+                            <span class="csNombre">{TextoAsesor}&nbsp;</span> <span class="csTexto">{Asesor}</span>
+                        </div>
+                        <div>
+                            <span class="csNombre">Celular</span> <span class="csTexto">{MovilAsesor}</span>
+                        </div>
+                        <div>
+                            <span class="csNombre">Servicio&nbsp;&nbsp;</span><span class="csTexto">{Servicio}</span>
+                        </div>
+                        <div id="TRTALLER" class="bold">
+                            {Taller}
+                        </div>
+                        <div>
+                            <span class="csNombre">Ubicado en el {TextoLocal}</span> <span class="csTexto">{PuntoRed}</span>
+                        </div>
+                        <div class="bold">
+                            {Direccion}
+                        </div>
+                        <div>
+                            <span class="csNombre">Tel&eacute;fono: </span><span class="csTexto">{Telefono}</span>
+                        </div>
+                        <div>
+                            <span class="csNombre" style="width: 151px;">C&oacute;digo de Reserva:</span> <span
+                                class="csTexto" style="color: DarkGray; font-weight: bold;">{CodReserva}</span>
+                        </div>
+                    </div>
+                    <div id="TR1" class="bold underline" style="padding-top: 10px;">
+                        Recordatorio
+                    </div>
+                    <div id="TR2" class="datosSection">
+                        Las notificaciones se les enviar&aacute;n de la siguiente forma:
+                    </div>
+                    <div id="TR3">
+                        <span style="width: 100%;" class="csNombre datosSection" id="textopie1">{FormaRecordatorio}</span>
+                        <br />
+                        <br />
+                        <span style="width: 100%;" class="csNombre datosSection">"Su puntualidad nos ayudar&aacute;
+                            a atenderlo mejor."</span><br>
+                        <br />
+                        <span id="textopie2" style="font-family: Verdana; color: #646464; padding-left: 1px;
+                            font-size: 7pt; width: 100%;">{TextoPieCorreo} </span>
+                        <!--inline-block -->
+                        <span style="font-family: Verdana; color: #646464; padding-left: 1px; font-size: 7pt;
+                            display: {blVerNota}; width: 100%;" id="textopie3">
+                            <br />
+                            <br />
+                            <u><b>Nota:</b></u> A los clientes que no tienen autorizaci&oacute;n pagar con cheque,
+                            estar&aacute;n sujeto a la confirmaci&oacute;n del mismo. 24 horas el cheque depositado
+                            al mismo banco y de 48 horas los cheques depositados a otros bancos. </span>
+                    </div>
+                </div>
+                <div>
+                    <span id="textopie2" style="font-family: Verdana; color: #646464; padding-left: 1px;
+                        font-size: 7pt; width: 100%;">En caso desee reprogramar su cita llame a nuestro
+                        callcenter al {CallCenter}<br />
+                        Para ingresar al Sistema de Reserva de Citas haga click <a href="{UrlPagina}">aqu&iacute;</a>
+                    </span>
+                </div>
+                <div>
+                    <img alt="" src="{ImagenPie}" style="width: 100%; max-width: 580px;" height="20" />
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

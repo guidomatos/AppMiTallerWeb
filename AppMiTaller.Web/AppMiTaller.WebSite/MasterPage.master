@@ -1,0 +1,150 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Sistema de Reserva de Cita</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8; IE=EmulateIE9" />
+    <link href="css/JqGrid/ui.jqgrid.css" rel="stylesheet" type="text/css" />
+    <link href="css/JqGrid/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <script src="js/jquery-1.12.4.min.js" type="text/javascript"></script>
+    <script src="js/jquery-ui-1.12.0.min.js" type="text/javascript"></script>
+    <!--[if IE 7]> <script type="text/javascript" src="js/jqGrid-4.6.0/jsonIE7.js"></script> <![endif]-->
+    <script type="text/javascript" src="js/jqGrid-4.6.0/grid.locale-en.min.js"></script>
+    <script type="text/javascript" src="js/jqGrid-4.6.0/jquery.jqGrid.src.min.js"></script>
+    <script src="js/Funciones.js" type="text/javascript"></script>
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.css" media="screen,projection" />
+    <link rel="stylesheet" href="css/default.css" />
+    <!--Import jQuery before materialize.js (>= IE9 o otro tipo de explorador)-->
+    <!--[if (gte IE 9)|!(IE)]><!--> <script type="text/javascript" src="js/materialize.js"></script> <!--<![endif]-->
+    <!--[if lte IE 8]>
+    <style type="text/css">
+        #MenuPeruRes_Logo {
+            margin-left: 215px; /*Solo IE8 y versiones anteriores*/
+        }
+    </style>
+    <![endif]-->
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <script type="text/javascript">
+        //Para que no suceda error de consola en navegadores antiguos, consola no reconocida (<= IE8)
+        if (typeof console == "undefined") {
+            this.console = { log: function () { } };
+        }
+
+        function getQueryStringValue(key) {
+            return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+        }
+        
+        var MP_co_Parm12 = "<%=Parametros.GetValor(Parametros.PARM._12) %>";
+        var MP_co_marca_permitida = getQueryStringValue("co_marca");
+        var MP_Origen = getQueryStringValue("Origen");
+        var MP_nid_empresa = "<%=nid_empresa_configurada %>";
+    </script>
+    <form id="form1" runat="server">
+    <div>
+        <nav id="MenuPeruRes_Logo" class="nav-wrapper">
+            <a href="#" data-activates="mobile-demo2" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+            <a href="#" class="brand-logo"><img id="imgLogo" alt="" style="width:100px; height:40px; vertical-align:middle;" src="" /><label class="titleMenu">Sistema de Reserva de Cita</label></a>
+        </nav>
+        <nav id="MenuPeruRes" class="nav-wrapper">
+            
+            <ul class="side-nav" id="mobile-demo2">
+                <li><a id="a_Reservar_P1" href="SRC_ReservarCita.aspx">RESERVAR CITA</a></li>
+                <li style="display:none"><a id="a_Consultar_P1" href="SRC_ConsultarCita.aspx">CONSULTAR / MODIFICAR</a></li>
+                <li style="display:none"><a id="a_Confirmar_P1" href="SRC_ConfirmarCita.aspx">CONFIRMAR CITA</a></li>
+                <li style="display:none"><a id="a_Salir_P1" href="<%= Parametros.N_URLHome %>">SALIR</a></li>
+            </ul>
+            
+        </nav>
+        
+        <nav id="MenuPeru" class="hide-on-med-and-down">
+            <div class="nav-wrapper">
+              <ul class="left hide-on-med-and-down" style="width:100%; text-align:center;">
+                <li style="width:33%;"><a id="a_Reservar_P2" href="SRC_ReservarCita.aspx">RESERVAR CITA</a></li>
+                <li style="width:33%; display:none;"><a id="a_Consultar_P2" href="SRC_ConsultarCita.aspx">CONSULTAR / MODIFICAR</a></li>
+                <li style="width:33%; display:none;"><a id="a_Confirmar_P2" href="SRC_ConfirmarCita.aspx">CONFIRMAR CITA</a></li>
+                <li style="width:33%; display:none;"><a id="a_Salir_P2" href="<%= Parametros.N_URLHome %>">SALIR</a></li>
+              </ul>
+            </div>
+        </nav>
+        <div id="content"">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </div>
+    <div id="divProgress" class="Progress">
+        <img alt="...Cargando..." src="img/loading.gif" style="position: absolute; left: 48%;
+            top: 48%; vertical-align: middle;" />
+    </div>
+    </form>
+    <script type="text/javascript">
+        $(function () {
+            $("#imgLogo").hide();
+            var pgurl = window.location.href.replace("#", "");
+                
+            $('#MenuPeru').css('display', 'block');
+            $('#MenuPeruRes').css('display', 'block');
+
+            $("#MenuPeru div ul li a").each(function () {
+                if ($(this).attr("href") == pgurl)
+                    $(this).parent().addClass("active");
+            });
+            $("#MenuPeruRes ul li a").each(function () {
+                if ($(this).attr("href") == pgurl)
+                    $(this).parent().addClass("active");
+            });
+
+            var width_mnu = "33%";
+            if (MP_co_Parm12 == "1") {
+                width_mnu = "24%";
+                $("#a_Confirmar_P2").parent().css("width", width_mnu);
+            }
+            $("#a_Reservar_P2").parent().css("width", width_mnu);
+            $("#a_Consultar_P2").parent().css("width", width_mnu);
+            $("#a_Salir_P2").parent().css("width", width_mnu);
+            
+        });
+
+        $("button").button().addClass("waves-effect");
+        try {
+            $(".button-collapse").sideNav();
+        }
+        catch (ex) {
+            console.log(ex);
+        }
+
+        var qs_marca = "";
+        var qs_origen = "?Origen=" + (MP_Origen == "" ? "0" : MP_Origen);
+        if (this.MP_co_marca_permitida > 0) {
+            qs_marca = "?co_marca=" + this.MP_co_marca_permitida;
+            qs_origen = "&Origen=" + MP_Origen;
+        }
+
+        document.getElementById("a_Reservar_P1").href = document.getElementById("a_Reservar_P1").href + qs_marca + qs_origen;
+        document.getElementById("a_Reservar_P2").href = document.getElementById("a_Reservar_P2").href + qs_marca + qs_origen;
+        document.getElementById("a_Consultar_P1").href = document.getElementById("a_Consultar_P1").href + qs_marca;
+        document.getElementById("a_Consultar_P2").href = document.getElementById("a_Consultar_P2").href + qs_marca;
+        if (MP_co_Parm12 == "1") {
+            document.getElementById("a_Confirmar_P1").href = document.getElementById("a_Confirmar_P1").href + qs_marca;
+            document.getElementById("a_Confirmar_P2").href = document.getElementById("a_Confirmar_P2").href + qs_marca;
+        }
+        if(MP_co_marca_permitida > 0){
+            document.getElementById("a_Salir_P1").href = document.getElementById("a_Salir_P1").href.replace("[nid_marca]", this.MP_co_marca_permitida);
+            document.getElementById("a_Salir_P2").href = document.getElementById("a_Salir_P2").href.replace("[nid_marca]", this.MP_co_marca_permitida);
+        }
+        else{
+            document.getElementById("a_Salir_P1").href = document.getElementById("a_Salir_P1").href.replace("?co_marca=[nid_marca]", "");
+            document.getElementById("a_Salir_P2").href = document.getElementById("a_Salir_P2").href.replace("?co_marca=[nid_marca]", "");
+        }
+    </script>
+</body>
+</html>

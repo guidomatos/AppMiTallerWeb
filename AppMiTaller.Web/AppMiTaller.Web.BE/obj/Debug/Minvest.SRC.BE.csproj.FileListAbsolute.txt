@@ -1,0 +1,14 @@
+D:\sga\pry\prod\PryWebSRC\Minvest.SRC.BE\bin\Debug\Minvest.SRC.BE.dll
+D:\sga\pry\prod\PryWebSRC\Minvest.SRC.BE\bin\Debug\Minvest.SRC.BE.pdb
+D:\sga\pry\prod\PryWebSRC\Minvest.SRC.BE\obj\Debug\Minvest.SRC.BE.dll
+D:\sga\pry\prod\PryWebSRC\Minvest.SRC.BE\obj\Debug\Minvest.SRC.BE.pdb
+D:\sga\pry\prod\Web_SRC\PryWebSRC\Minvest.SRC.BE\bin\Debug\Minvest.SRC.BE.dll
+D:\sga\pry\prod\Web_SRC\PryWebSRC\Minvest.SRC.BE\bin\Debug\Minvest.SRC.BE.pdb
+D:\sga\pry\prod\Web_SRC\PryWebSRC\Minvest.SRC.BE\obj\Debug\Minvest.SRC.BE.dll
+D:\sga\pry\prod\Web_SRC\PryWebSRC\Minvest.SRC.BE\obj\Debug\Minvest.SRC.BE.pdb
+D:\gmatos\proyectos\AppMiTaller\PryWebSRC\PryWebSRC\Minvest.SRC.BE\bin\Debug\Minvest.SRC.BE.dll
+D:\gmatos\proyectos\AppMiTaller\PryWebSRC\PryWebSRC\Minvest.SRC.BE\bin\Debug\Minvest.SRC.BE.pdb
+D:\gmatos\proyectos\AppMiTaller\PryWebSRC\PryWebSRC\Minvest.SRC.BE\obj\Debug\Minvest.SRC.BE.csprojAssemblyReference.cache
+D:\gmatos\proyectos\AppMiTaller\PryWebSRC\PryWebSRC\Minvest.SRC.BE\obj\Debug\Minvest.SRC.BE.csproj.CoreCompileInputs.cache
+D:\gmatos\proyectos\AppMiTaller\PryWebSRC\PryWebSRC\Minvest.SRC.BE\obj\Debug\Minvest.SRC.BE.dll
+D:\gmatos\proyectos\AppMiTaller\PryWebSRC\PryWebSRC\Minvest.SRC.BE\obj\Debug\Minvest.SRC.BE.pdb

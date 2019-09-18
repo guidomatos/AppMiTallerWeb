@@ -1,0 +1,104 @@
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF8" /><title>
+	Datos de la Cita
+</title>
+</head>
+<body>
+    <form name="form1" method="post" action="Default5.aspx" id="form1">
+<div>
+</div>
+
+        <div style="border-right: dimgray thin solid; border-top: dimgray thin solid; border-left: dimgray thin solid;
+            width: 600px; border-bottom: dimgray thin solid; height: 280px; text-align: center; position: static;" id="PLANILLA">
+            <table  style="width: 600px; text-align: left" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td colspan="4" style="height: 52px; text-align: left" align="right">
+                        <img src="{ImagenLogo}" style="margin-top: 5px" height="50" />
+                        <img height="50" src="{Titulo}" style="margin-top: 5px; border-top-width: thin; border-left-width: thin; border-bottom-width: thin; border-right-width: thin;" width="448" /></td>
+                </tr>
+                <tr>
+
+                    <td align="center" colspan="4" style="height: 7px; text-align: center">
+                        <hr style="border-right: lightgrey thin solid; border-top: lightgrey thin solid;
+                            margin-bottom: 0px; padding-bottom: 0px; border-left: lightgrey thin solid; width: 576px;
+                            border-bottom: lightgrey thin solid" />
+                    </td>
+                </tr>
+                <tr style="font-size: 12pt; font-family: Times New Roman">
+                    <td style="width: 23px; height: 20px;">
+                    </td>
+                    <td colspan="3" style="height: 20px" valign="bottom">
+                        <span id="Label8" style="font-family:Verdana;font-size:10pt;">Hay una {TipoCita} de Cita con los siguientes datos:</span></td>
+
+                </tr>
+                <tr style="font-size: 12pt; font-family: Times New Roman">
+                    <td colspan="4" style="height: 130px">
+                        <br />
+                        <table align="center" border="0" cellpadding="0" cellspacing="1" style="border-right: darkgray thin solid;
+                            background-position: center center; border-top: darkgray thin solid; background-attachment: scroll;
+                            background-image: url({Fondo}); border-left: darkgray thin solid;
+                            width: 552px; border-bottom: darkgray thin solid; height: 110px;" id="TABLE1" onclick="return TABLE1_onclick()">
+                            <tr>
+                                <td align="left" style="width: 100px; font-size: 10pt; color: gray; font-family: verdana; font-weight: bold; height: 7px;">
+                                </td>
+                                <td align="left" style="height: 7px; font-size: 10pt; color: gray; font-family: verdana;" colspan="3">
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left" style="width: 100px; font-size: 10pt; color: gray; font-family: verdana; font-weight: bold;">
+                                    &nbsp;Fecha:</td>
+                                <td align="left" style="font-size: 10pt; color: gray; font-family: verdana;" colspan="3">
+                                    &nbsp;{FechaCita}&nbsp;</td>
+                            </tr>
+
+                            <tr>
+                                <td align="left" style="font-weight: bold; font-size: 10pt; width: 100px; color: gray;
+                                    font-family: verdana">
+                                    &nbsp;Hora:</td>
+                                <td align="left" colspan="3" style="font-size: 10pt; color: gray; font-family: verdana">
+                                    &nbsp;{HoraCita}&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td align="left" style="width: 100px; font-size: 10pt; color: gray; font-family: verdana; font-weight: bold;">
+
+                                    &nbsp;Cliente:</td>
+                                <td align="left" colspan="3" style="font-size: 10pt; color: gray; font-family: verdana">
+                                    &nbsp;{Cliente}</td>
+                            </tr>
+                            <tr style="font-size: 12pt; font-family: Times New Roman">
+                                <td align="left" style="width: 100px; font-size: 10pt; color: gray; font-family: verdana; font-weight: bold;">
+                                    &nbsp;Servicio:</td>
+
+                                <td align="left" colspan="3" style="font-size: 10pt; color: gray; font-family: verdana">
+                                    &nbsp;{Servicio}</td>
+                            </tr>
+                            <tr style="font-size: 12pt; font-family: Times New Roman">
+                                <td align="left" style="width: 100px; font-size: 10pt; color: gray; font-family: verdana; font-weight: bold;">
+                                    &nbsp;{TipoPlaca}</td>
+                                <td align="left" colspan="3" style="font-size: 10pt; color: gray; font-family: verdana">
+                                    &nbsp;{Placa} /&nbsp; <strong>
+                                    Marca:</strong> {Marca}&nbsp; /&nbsp; <strong>Modelo:</strong>
+
+                                    {Modelo}</td>
+                            </tr>
+                            <tr style="font-size: 12pt; font-family: Times New Roman">
+                                <td align="left" style="width: 100px; font-size: 10pt; color: gray; font-family: verdana; font-weight: bold; height: 7px;">
+                                </td>
+                                <td align="left" colspan="3" style="height: 7px; font-size: 10pt; color: gray; font-family: verdana;">
+                                </td>
+                            </tr>
+
+                        </table>
+                    </td>
+                </tr>
+                <tr style="font-size: 12pt; font-family: Times New Roman">
+                    <td colspan="4" align="center" valign="middle" style="height: 40px">
+                        <img src="{ImagenPie}" style="width: 576px; height: 24px" /></td>
+                </tr>
+            </table>
+        </div>
+
+    </form>
+</body>
+</html>
