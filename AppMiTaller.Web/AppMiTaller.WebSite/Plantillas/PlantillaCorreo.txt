@@ -31,16 +31,11 @@
 
 </head>
 <body>
-    <form id="form1" >
+    <form id="form1">
     <center>
         <div style="border-right: dimgray 2px solid; border-top: dimgray 2px solid; border-left: dimgray 2px solid;
             width: 600px; border-bottom: dimgray 2px solid; position:static;"><!--  height: 550px -->
             <table style="font-style: normal; font-family: verdana; text-align: left;" width="600px">
-                <tr id="trLogo" style="display:{blLogo};">
-                    <td align="center"><img height="50" style="margin-top: 5px" width="127" src="{ImagenLogo}" /></td>
-                    <td align="left"><img height="50" style="margin-top: 5px" width="450" src="{Titulo}" /></td>
-                </tr>
-                <tr><td colspan="2" align="center" style="display:{blLogo};"><hr style="width: 576px" /></td></tr>
                 <tr>
                     <td colspan="2" style="font-size: 10pt; padding-left: 15px;"> Estimado Sr(a):
                         <span style="font-family:verdana;font-size:11pt;font-weight:bold;">{Cliente}</span></td>
@@ -103,28 +98,11 @@
 								<span id="textopie2" style="font-family: Verdana; color: #646464; padding-left: 1px;font-size: 7pt;display:inline-block;width:100%;">
 								{TextoPieCorreo}
 								</span>
-								<!--inline-block -->
-								<span style="font-family: Verdana; color: #646464; padding-left: 1px;font-size: 7pt;display:{blVerNota};width:100%;" id="textopie3"><br><br>
-								<u><b>Nota:</b></u> A los clientes que no tienen autorizaci&oacute;n pagar con cheque, estar&aacute;n sujeto a la confirmaci&oacute;n del mismo.
-								24 horas el cheque depositado al mismo banco y de 48 horas los cheques depositados a otros bancos.
-								</span>
 								</td></tr>
                             </table>
                         </div>
-                        <table border="0" cellpadding="0" width="100%" style="display:{blCallCenter};">
-                            <tr>
-                              <td>
-                            	<span id="textopie2" style="font-family: Verdana; color: #646464; padding-left: 1px;font-size: 7pt;display:inline-block;width:100%;">
-								En caso desee reprogramar su cita llame a nuestro callcenter al {CallCenter}<br>
-								Para ingresar al Sistema de Reserva de Citas haga click <a href ="{UrlPagina}">aqu&iacute;</a> 
-								</span>
-                              </td>
-                            </tr>
-                        </table>
                     </td>
                 </tr>
-				{QR}
-                <tr><td colspan="2" align="center"><img src="{ImagenPie}" width="580" height="20" /></td></tr>
             </table>
         </div>
     </center>

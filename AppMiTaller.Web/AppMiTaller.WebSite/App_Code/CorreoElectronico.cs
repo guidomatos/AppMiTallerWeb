@@ -126,20 +126,11 @@ public class CorreoElectronico
                 }
                 string strTextoPie = Parametros.N_TextoPieCorreo;
                 string strNumCallCenter = Parametros.N_TelefonoCallCenter;
-                if (!oDatos.nid_taller_empresa.Equals(0))
-                {
-                    strTextoPie = strTextoPie.Replace("{banco}", oDatos.no_banco);
-                    strTextoPie = strTextoPie.Replace("{num_cuenta}", oDatos.nu_cuenta);
-                    strNumCallCenter = (string.IsNullOrEmpty(oDatos.nu_callcenter.Trim()) ? Parametros.N_TelefonoCallCenter : oDatos.nu_callcenter.Trim());
-                }
                 string strVerNota = oDatos.fl_nota;
                 string linea = null;
                 while (reader.Peek() > -1)
                 {
                     linea = reader.ReadLine().ToString();
-                    linea = linea.Replace("{ImagenLogo}", (ConfigurationManager.AppSettings["RutaServidor"] + (Parametros.SRC_Pais.Equals(1) ? ConfigurationManager.AppSettings["Logo" + Parametros.SRC_CodEmpresa(oDatos.nid_marca) + ""] : ConfigurationManager.AppSettings["LogoMarcas"] + "logo_" + oDatos.nid_marca.ToString() + ".jpg")));
-                    linea = linea.Replace("{Titulo}", (ConfigurationManager.AppSettings["RutaServidor"] + ConfigurationManager.AppSettings["Titulo"]));
-                    linea = linea.Replace("{Fondo}", (ConfigurationManager.AppSettings["RutaServidor"] + ConfigurationManager.AppSettings["Fondo"]));
                     linea = linea.Replace("{Cliente}", oDatos.no_cliente.Trim().ToUpper() + " " + oDatos.no_ape_paterno.Trim().ToUpper() + " " + oDatos.no_ape_materno.Trim().ToUpper());                    
                     linea = linea.Replace("{TipoCita}", strTipoCita);
                     linea = linea.Replace("{TipoPlaca}", Parametros.N_Placa + ": ");
@@ -161,10 +152,6 @@ public class CorreoElectronico
                     linea = linea.Replace("{TextoPieCorreo}", strTextoPie);
                     linea = linea.Replace("{UrlTaller}", oDatos.tx_url_taller.Trim());
                     linea = linea.Replace("{CallCenter}", strNumCallCenter);
-                    linea = linea.Replace("{UrlPagina}", (ConfigurationManager.AppSettings["PaginaInicial"]));
-                    linea = linea.Replace("{ImagenPie}", (ConfigurationManager.AppSettings["RutaServidor"] + ConfigurationManager.AppSettings["Pie" + Parametros.SRC_CodEmpresa(oDatos.nid_marca) + ""]));
-                    linea = linea.Replace("{blLogo}", ((Parametros.SRC_MostrarLogo.Equals("1")) ? "block" : "none"));
-                    linea = linea.Replace("{blCallCenter}", ((Parametros.SRC_MostrarTextoPie.Equals("1")) ? "block" : "none"));
                     linea = linea.Replace("{blVerNota}", strVerNota.Equals("1") ? "inline" : "none");
                     strBodyHTML.Append(linea);
                 }
@@ -202,21 +189,11 @@ public class CorreoElectronico
                 }
                 string strTextoPie = Parametros.N_TextoPieCorreo;
                 string strNumCallCenter = Parametros.N_TelefonoCallCenter;
-                Parametros prm = new Parametros();
-                if (!oDatos.nid_taller_empresa.Equals(0))
-                {
-                    strTextoPie = strTextoPie.Replace("{banco}", oDatos.no_banco);
-                    strTextoPie = strTextoPie.Replace("{num_cuenta}", oDatos.nu_cuenta);
-                    strNumCallCenter = (string.IsNullOrEmpty(oDatos.nu_callcenter.Trim()) ? Parametros.N_TelefonoCallCenter : oDatos.nu_callcenter.Trim());
-                }
                 string strVerNota = oDatos.fl_nota;
                 string linea = null;                
                 while (reader.Peek() > -1)
                 {
                     linea = reader.ReadLine().ToString();
-                    linea = linea.Replace("{ImagenLogo}", (ConfigurationManager.AppSettings["RutaServidor"] + (Parametros.SRC_Pais.Equals(1) ? ConfigurationManager.AppSettings["Logo" + Parametros.SRC_CodEmpresa(oDatos.nid_marca) + ""] : ConfigurationManager.AppSettings["LogoMarcas"] + "logo_" + oDatos.nid_marca.ToString() + ".jpg")));
-                    linea = linea.Replace("{Titulo}", (ConfigurationManager.AppSettings["RutaServidor"] + ConfigurationManager.AppSettings["Titulo"]));
-                    linea = linea.Replace("{Fondo}", (ConfigurationManager.AppSettings["RutaServidor"] + ConfigurationManager.AppSettings["Fondo"]));
                     linea = linea.Replace("{Cliente}", oDatos.no_cliente.Trim().ToUpper() + " " + oDatos.no_ape_paterno.Trim().ToUpper() + " " + oDatos.no_ape_materno.Trim().ToUpper());
                     linea = linea.Replace("{TipoCita}", strTipoCita);
                     linea = linea.Replace("{TipoPlaca}", Parametros.N_Placa + ": ");
@@ -238,19 +215,14 @@ public class CorreoElectronico
                     linea = linea.Replace("{TextoPieCorreo}", strTextoPie);
                     linea = linea.Replace("{UrlTaller}", oDatos.tx_url_taller.Trim());
                     linea = linea.Replace("{CallCenter}", strNumCallCenter);
-                    linea = linea.Replace("{UrlPagina}", (ConfigurationManager.AppSettings["PaginaInicial"]));
-                    linea = linea.Replace("{ImagenPie}", (ConfigurationManager.AppSettings["RutaServidor"] + ConfigurationManager.AppSettings["Pie" + Parametros.SRC_CodEmpresa(oDatos.nid_marca) + ""]));
-                    linea = linea.Replace("{blLogo}", ((Parametros.SRC_MostrarLogo.Equals("1")) ? "block" : "none"));
-                    linea = linea.Replace("{blCallCenter}", ((Parametros.SRC_MostrarTextoPie.Equals("1")) ? "block" : "none"));
                     linea = linea.Replace("{blVerNota}", strVerNota.Equals("1") ? "inline" : "none");
-                    linea = linea.Replace("{QR}",oDatos.no_nombreqr == null ? "" : oDatos.no_nombreqr == "" ? "" : prm.SRC_PlantillaCorreoQR.Replace("{QR}",prm.SRC_AccedeQR + oDatos.no_nombreqr));
                     strBodyHTML.Append(linea);
                 }
 
                 reader.Close();
             }
         }
-        catch
+        catch (Exception ex)
         {
             strBodyHTML = new StringBuilder();
             strBodyHTML.Append("-2");
@@ -281,9 +253,6 @@ public class CorreoElectronico
                 while (reader.Peek() > -1)
                 {
                     linea = reader.ReadLine().ToString();
-                    linea = linea.Replace("{ImagenLogo}", (ConfigurationManager.AppSettings["RutaServidor"] + (Parametros.SRC_Pais.Equals(1) ? ConfigurationManager.AppSettings["Logo" + Parametros.SRC_CodEmpresa(oDatos.nid_marca) + ""] : ConfigurationManager.AppSettings["LogoMarcas"] + "logo_" + oDatos.nid_marca.ToString() + ".jpg")));
-                    linea = linea.Replace("{Titulo}", (ConfigurationManager.AppSettings["RutaServidor"] + ConfigurationManager.AppSettings["Titulo"]));
-                    linea = linea.Replace("{Fondo}", (ConfigurationManager.AppSettings["RutaServidor"] + ConfigurationManager.AppSettings["Fondo"]));
                     linea = linea.Replace("{Asesor}", oDatos.no_asesor.Trim().ToUpper());
                     linea = linea.Replace("{TipoCita}", strTipoCita);
                     linea = linea.Replace("{FechaCita}", GetFechaLarga(Convert.ToDateTime(oDatos.fecha_prog)).ToUpper());
@@ -294,8 +263,6 @@ public class CorreoElectronico
                     linea = linea.Replace("{Placa}", oDatos.nu_placa.ToUpper());
                     linea = linea.Replace("{Marca}", oDatos.no_marca);
                     linea = linea.Replace("{Modelo}", oDatos.no_modelo);
-                    linea = linea.Replace("{UrlPagina}", (ConfigurationManager.AppSettings["PaginaInicial"]));
-                    linea = linea.Replace("{ImagenPie}", (ConfigurationManager.AppSettings["RutaServidor"] + ConfigurationManager.AppSettings["Pie" + Parametros.SRC_CodEmpresa(oDatos.nid_marca) + ""]));
                     strBodyHTML.Append(linea);
                 }
                 reader.Close();
@@ -332,9 +299,6 @@ public class CorreoElectronico
                 while (reader.Peek() > -1)
                 {
                     linea = reader.ReadLine().ToString();
-                    linea = linea.Replace("{ImagenLogo}", (ConfigurationManager.AppSettings["RutaServidor"] + (Parametros.SRC_Pais.Equals(1) ? ConfigurationManager.AppSettings["Logo" + Parametros.SRC_CodEmpresa(oDatos.nid_marca) + ""] : ConfigurationManager.AppSettings["LogoMarcas"] + "logo_" + oDatos.nid_marca.ToString() + ".jpg")));
-                    linea = linea.Replace("{Titulo}", (ConfigurationManager.AppSettings["RutaServidor"] + ConfigurationManager.AppSettings["Titulo"]));
-                    linea = linea.Replace("{Fondo}", (ConfigurationManager.AppSettings["RutaServidor"] + ConfigurationManager.AppSettings["Fondo"]));
                     linea = linea.Replace("{Asesor}", oDatos.no_asesor.Trim().ToUpper());
                     linea = linea.Replace("{TipoCita}", strTipoCita);
                     linea = linea.Replace("{FechaCita}", GetFechaLarga(Convert.ToDateTime(oDatos.fecha_prog)).ToUpper());
@@ -345,8 +309,6 @@ public class CorreoElectronico
                     linea = linea.Replace("{Placa}", oDatos.nu_placa.ToUpper());
                     linea = linea.Replace("{Marca}", oDatos.no_marca);
                     linea = linea.Replace("{Modelo}", oDatos.no_modelo);
-                    linea = linea.Replace("{UrlPagina}", (ConfigurationManager.AppSettings["PaginaInicial"]));
-                    linea = linea.Replace("{ImagenPie}", (ConfigurationManager.AppSettings["RutaServidor"] + ConfigurationManager.AppSettings["Pie" + Parametros.SRC_CodEmpresa(oDatos.nid_marca) + ""]));
                     strBodyHTML.Append(linea);
                 }
                 reader.Close();
@@ -374,17 +336,14 @@ public class CorreoElectronico
         string no_asunto = mail.Subject;
         if (e.Error != null)
         {
-            //Console.WriteLine("Error {1} ocurrido mientras se enviaba el correo [{0}] ", no_asunto, e.Error.ToString());
             //mailSent = false;
         }
         else if (e.Cancelled)
         {
             //mailSent = false;
-            //Console.WriteLine("Envio cancelado de correo con asunto [{0}].", no_asunto);
         }
         else
         {
-            //Console.WriteLine("Mensaje [{1}] enviado.", no_asunto);
             //mailSent = true;
         }
     }
@@ -450,10 +409,13 @@ public class CorreoElectronico
                 smtp.Host = nvc[0].ToString();
                 smtp.Port = Int32.Parse(nvc[1].ToString());
                 smtp.Credentials = new System.Net.NetworkCredential(nvc[2].ToString(), nvc[3].ToString());
+                smtp.EnableSsl = true;
+
                 smtp.SendCompleted += new SendCompletedEventHandler(SendCompletedCallback);
                 object userState = oEmail;
                 try
                 {
+                    //smtp.Send(oEmail);
                     smtp.SendAsync(oEmail, userState);
                 }
                 catch (Exception ex)
@@ -477,14 +439,5 @@ public class CorreoElectronico
         }
         return flEnvio;
     }
-
-
-    private StringBuilder Ocultar_Etiqueta(StringBuilder bodyHTML, string tipo, string id)
-    {
-        string _str1 = bodyHTML.ToString().Substring(bodyHTML.ToString().IndexOf("<" + tipo + " id='" + id + "'"));
-        string _str2 = _str1.Substring(0, _str1.IndexOf("" + tipo + ">") + 5);
-        return bodyHTML.Replace(_str2, "");
-    }
-
 
 }

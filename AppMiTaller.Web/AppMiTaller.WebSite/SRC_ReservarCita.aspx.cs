@@ -2541,10 +2541,8 @@ public partial class SRC_ReservarCita : System.Web.UI.Page
                 };
 
                 //>>------ ENVIO DE CORREOS --------- >>
-                /*
                 oEmail.EnviarCorreo_Cliente(oCitasBE, Parametros.EstadoCita.REGISTRADA);
-                oEmail.EnviarCorreo_Asesor(oCitasBE, Parametros.EstadoCita.REGISTRADA);
-                */
+                //oEmail.EnviarCorreo_Asesor(oCitasBE, Parametros.EstadoCita.REGISTRADA);
                 
             }
             else

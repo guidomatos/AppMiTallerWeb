@@ -17,10 +17,6 @@ public class Parametros
     public const string OBJECTO_ACTIVO = "Activo";
     public const string OBJECTO_INACTIVO = "Inactivo";
 
-    public string SRC_GuardaQR = ConfigurationManager.AppSettings["FileServerPath"].ToString() + @"Imagenes\QRCode\";
-    public string SRC_AccedeQR = "http://serviciosexternosqa.agperu.net/FileServer/" + @"Imagenes/QRCode/";
-    public string SRC_PlantillaCorreoQR = "'<tr><td colspan='2' align='center'><img src='{QR}' style='width: 200px;height: 200px;padding-top: 10px;'/></td></tr>";
-
     public static class Combo
     {
         public static class SRC
@@ -33,11 +29,10 @@ public class Parametros
     }
 
     //Configuración Principal
-    //public static string SRC_CodEmpresa = ConfigurationManager.AppSettings["codEmpresa"].ToString();
     public static Int32 SRC_CodEmpresaConfigurada()
     {
         Int32 nid_empresa_configurada = 0;
-        String codEmpresas = System.Configuration.ConfigurationManager.AppSettings["CodEmpresa"].ToString();
+        String codEmpresas = ConfigurationManager.AppSettings["CodEmpresa"].ToString();
         Int32 nu_empresas_configuradas = codEmpresas.Split('$').Length;
         if (nu_empresas_configuradas == 1)
         {
