@@ -46,3 +46,15 @@ G:\CURSOS PERSONALES\XAMARIN\Github\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.W
 G:\CURSOS PERSONALES\XAMARIN\Github\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.BL\obj\Debug\AppMiTaller.Web.BL.csproj.CopyComplete
 G:\CURSOS PERSONALES\XAMARIN\Github\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.BL\obj\Debug\AppMiTaller.Web.BL.dll
 G:\CURSOS PERSONALES\XAMARIN\Github\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.BL\obj\Debug\AppMiTaller.Web.BL.pdb
+G:\CURSOS PERSONALES\XAMARIN\Github\Tallerweb\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.BL\bin\Debug\AppMiTaller.Web.BL.dll
+G:\CURSOS PERSONALES\XAMARIN\Github\Tallerweb\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.BL\bin\Debug\AppMiTaller.Web.BL.pdb
+G:\CURSOS PERSONALES\XAMARIN\Github\Tallerweb\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.BL\bin\Debug\AppMiTaller.Web.BE.dll
+G:\CURSOS PERSONALES\XAMARIN\Github\Tallerweb\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.BL\bin\Debug\AppMiTaller.Web.DA.dll
+G:\CURSOS PERSONALES\XAMARIN\Github\Tallerweb\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.BL\bin\Debug\zxing.dll
+G:\CURSOS PERSONALES\XAMARIN\Github\Tallerweb\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.BL\bin\Debug\AppMiTaller.Web.BE.pdb
+G:\CURSOS PERSONALES\XAMARIN\Github\Tallerweb\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.BL\bin\Debug\AppMiTaller.Web.DA.pdb
+G:\CURSOS PERSONALES\XAMARIN\Github\Tallerweb\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.BL\obj\Debug\AppMiTaller.Web.BL.csprojAssemblyReference.cache
+G:\CURSOS PERSONALES\XAMARIN\Github\Tallerweb\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.BL\obj\Debug\AppMiTaller.Web.BL.csproj.CoreCompileInputs.cache
+G:\CURSOS PERSONALES\XAMARIN\Github\Tallerweb\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.BL\obj\Debug\AppMiTaller.Web.BL.csproj.CopyComplete
+G:\CURSOS PERSONALES\XAMARIN\Github\Tallerweb\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.BL\obj\Debug\AppMiTaller.Web.BL.dll
+G:\CURSOS PERSONALES\XAMARIN\Github\Tallerweb\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.BL\obj\Debug\AppMiTaller.Web.BL.pdb

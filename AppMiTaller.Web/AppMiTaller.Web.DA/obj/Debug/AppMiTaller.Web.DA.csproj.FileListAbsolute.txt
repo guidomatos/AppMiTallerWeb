@@ -25,3 +25,12 @@ C:\proyectos\AppMiTaller\AppMiTaller.Web\AppMiTaller.Web\AppMiTaller.Web.DA\obj\
 C:\proyectos\AppMiTaller\AppMiTaller.Web\AppMiTaller.Web\AppMiTaller.Web.DA\obj\Debug\AppMiTaller.Web.DA.csproj.CopyComplete
 C:\proyectos\AppMiTaller\AppMiTaller.Web\AppMiTaller.Web\AppMiTaller.Web.DA\obj\Debug\AppMiTaller.Web.DA.dll
 C:\proyectos\AppMiTaller\AppMiTaller.Web\AppMiTaller.Web\AppMiTaller.Web.DA\obj\Debug\AppMiTaller.Web.DA.pdb
+G:\CURSOS PERSONALES\XAMARIN\Github\Tallerweb\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.DA\bin\Debug\AppMiTaller.Web.DA.dll
+G:\CURSOS PERSONALES\XAMARIN\Github\Tallerweb\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.DA\bin\Debug\AppMiTaller.Web.DA.pdb
+G:\CURSOS PERSONALES\XAMARIN\Github\Tallerweb\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.DA\bin\Debug\AppMiTaller.Web.BE.dll
+G:\CURSOS PERSONALES\XAMARIN\Github\Tallerweb\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.DA\bin\Debug\AppMiTaller.Web.BE.pdb
+G:\CURSOS PERSONALES\XAMARIN\Github\Tallerweb\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.DA\obj\Debug\AppMiTaller.Web.DA.csprojAssemblyReference.cache
+G:\CURSOS PERSONALES\XAMARIN\Github\Tallerweb\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.DA\obj\Debug\AppMiTaller.Web.DA.csproj.CoreCompileInputs.cache
+G:\CURSOS PERSONALES\XAMARIN\Github\Tallerweb\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.DA\obj\Debug\AppMiTaller.Web.DA.csproj.CopyComplete
+G:\CURSOS PERSONALES\XAMARIN\Github\Tallerweb\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.DA\obj\Debug\AppMiTaller.Web.DA.dll
+G:\CURSOS PERSONALES\XAMARIN\Github\Tallerweb\AppMiTallerWeb\AppMiTaller.Web\AppMiTaller.Web.DA\obj\Debug\AppMiTaller.Web.DA.pdb

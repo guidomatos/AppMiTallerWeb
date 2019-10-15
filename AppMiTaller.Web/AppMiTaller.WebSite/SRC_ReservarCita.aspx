@@ -29,8 +29,10 @@
                     <button id="btnBuscarVehiculoxPlaca" type="button" onclick="fn_GetVehiculo();">
                         <%=Parametros.N_VerificaNum %>
                     </button>
+                    <!--
                     <label id="lblNoRecuerdo" style="font-weight:bold;"></label>
                     <label id="span_NoRecordAqui" class="enlace" style="font-weight:bold;" onclick="fn_OpenContacto();"></label>
+                    -->
                 </div>
             </div>
             <div class="row">
@@ -393,7 +395,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <!--<div class="row">
                 <div class="col l12 PieTextoConsulta">
                     <label id="lblTextoOferta">
                     </label>
@@ -413,6 +415,7 @@
                     </label>
                 </div>
             </div>
+            -->
             <div class="row">
                 <div class="col l12">
                     <label id="lblTextoNota">
