@@ -56,23 +56,20 @@
             <a href="#" class="brand-logo"><img id="imgLogo" alt="" style="width:100px; height:40px; vertical-align:middle;" src="" /><label class="titleMenu">Sistema de Reserva de Cita</label></a>
         </nav>
         <nav id="MenuPeruRes" class="nav-wrapper">
-            
             <ul class="side-nav" id="mobile-demo2">
                 <li><a id="a_Reservar_P1" href="SRC_ReservarCita.aspx">RESERVAR CITA</a></li>
-                <li style="display:none"><a id="a_Consultar_P1" href="SRC_ConsultarCita.aspx">CONSULTAR / MODIFICAR</a></li>
+                <li><a id="a_Consultar_P1" href="SRC_ConsultarCita.aspx">CONSULTAR CITA</a></li>
                 <li style="display:none"><a id="a_Confirmar_P1" href="SRC_ConfirmarCita.aspx">CONFIRMAR CITA</a></li>
-                <li style="display:none"><a id="a_Salir_P1" href="<%= Parametros.N_URLHome %>">SALIR</a></li>
+                <li><a id="a_Salir_P1" href="<%= Parametros.N_URLHome %>">SALIR</a></li>
             </ul>
-            
         </nav>
-        
         <nav id="MenuPeru" class="hide-on-med-and-down">
             <div class="nav-wrapper">
               <ul class="left hide-on-med-and-down" style="width:100%; text-align:center;">
                 <li style="width:33%;"><a id="a_Reservar_P2" href="SRC_ReservarCita.aspx">RESERVAR CITA</a></li>
-                <li style="width:33%; display:none;"><a id="a_Consultar_P2" href="SRC_ConsultarCita.aspx">CONSULTAR / MODIFICAR</a></li>
+                <li style="width:33%;"><a id="a_Consultar_P2" href="SRC_ConsultarCita.aspx">CONSULTAR CITA</a></li>
                 <li style="width:33%; display:none;"><a id="a_Confirmar_P2" href="SRC_ConfirmarCita.aspx">CONFIRMAR CITA</a></li>
-                <li style="width:33%; display:none;"><a id="a_Salir_P2" href="<%= Parametros.N_URLHome %>">SALIR</a></li>
+                <li style="width:33%;"><a id="a_Salir_P2" href="<%= Parametros.N_URLHome %>">SALIR</a></li>
               </ul>
             </div>
         </nav>

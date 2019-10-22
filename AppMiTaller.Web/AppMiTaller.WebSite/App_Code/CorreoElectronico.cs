@@ -222,7 +222,7 @@ public class CorreoElectronico
                 reader.Close();
             }
         }
-        catch (Exception ex)
+        catch //(Exception ex)
         {
             strBodyHTML = new StringBuilder();
             strBodyHTML.Append("-2");
