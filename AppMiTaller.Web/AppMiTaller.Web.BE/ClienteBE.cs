@@ -23,6 +23,8 @@ namespace AppMiTaller.Web.BE
         public string cod_tipo_documento { get; set; }
         public string des_tipo_persona { get; set; }
         public string des_tipo_documento { get; set; }
+
+        public string no_clave_web { get; set; }
     }
     [Serializable]
     public class ClienteBEList : List<ClienteBE> { }

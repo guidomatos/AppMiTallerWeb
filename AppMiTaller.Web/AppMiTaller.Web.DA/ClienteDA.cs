@@ -136,6 +136,47 @@ namespace AppMiTaller.Web.DA
             indice = DReader.GetOrdinal("des_tipo_documento");
             Entidad.des_tipo_documento = (DReader.IsDBNull(indice) ? "" : DReader.GetString(indice));
             return Entidad;
-        }		
-	}	
+        }
+
+        public ClienteBE Login(ClienteBE param)
+        {
+            ClienteBE retorno = null;
+
+            SqlConnection conn = new SqlConnection(DataBaseHelper.GetDbConnectionString());
+            SqlCommand cmd = new SqlCommand("src_sps_login_cliente_web", conn);
+            SqlDataReader reader = null;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@vi_usuario", param.nu_documento);
+            cmd.Parameters.AddWithValue("@vi_clave", param.no_clave_web);
+
+            try
+            {
+                conn.Open();
+                reader = cmd.ExecuteReader();
+                while (reader.Read())
+                    retorno = Entidad_Login(reader);
+                reader.Close();
+            }
+            catch
+            {
+                if (reader != null && !reader.IsClosed) reader.Close();
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+            return retorno;
+        }
+
+        private ClienteBE Entidad_Login(IDataRecord DReader)
+        {
+            ClienteBE Entidad = new ClienteBE();
+            Int32 indice;
+            indice = DReader.GetOrdinal("nid_cliente");
+            Entidad.nid_cliente = (DReader.IsDBNull(indice) ? 0 : DReader.GetInt32(indice));
+            return Entidad;
+        }
+    }	
 }
