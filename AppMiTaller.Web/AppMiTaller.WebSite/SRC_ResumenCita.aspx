@@ -107,9 +107,7 @@
             });
         }
         function fn_Confirmar() {
-            var qs_marca = "";
-            if (this.MP_co_marca_permitida > 0) { qs_marca = "?co_marca=" + this.MP_co_marca_permitida; }
-            var UrlConfirmar = "SRC_ConfirmarCita.aspx" + qs_marca;
+            var UrlConfirmar = "SRC_ConfirmarCita.aspx";
             var form = $('<form action="' + UrlConfirmar + '" method="post" target="_self">' +
                         '<input type="hidden" name="nid_cita" value="' + this.oCita.nid_cita + '" />' +
                         '<input type="hidden" name="nu_estado" value="' + this.oCita.nu_estado + '" />' +
@@ -118,9 +116,7 @@
             form.submit();
         }
         function fn_AnularCita() {
-            var qs_marca = "";
-            if (this.MP_co_marca_permitida > 0) { qs_marca = "?co_marca=" + this.MP_co_marca_permitida; }
-            var UrlAnular = "SRC_AnularCita.aspx" + qs_marca;
+            var UrlAnular = "SRC_AnularCita.aspx";
             var form = $('<form action="' + UrlAnular + '" method="post" target="_self">' +
                         '<input type="hidden" name="nid_cita" value="' + this.oCita.nid_cita + '" />' +
                         '<input type="hidden" name="nu_estado" value="' + this.oCita.nu_estado + '" />' +
@@ -129,9 +125,7 @@
             form.submit();
         }
         function fn_ReprogramarCita() {
-            var qs_marca = "";
-            if (this.MP_co_marca_permitida > 0) { qs_marca = "?co_marca=" + this.MP_co_marca_permitida; }
-            var UrlReprogramar = "SRC_ReprogramarCita.aspx" + qs_marca;
+            var UrlReprogramar = "SRC_ReprogramarCita.aspx";
             var form = $('<form action="' + UrlReprogramar + '" method="post" target="_self">' +
                         '<input type="hidden" name="nid_cita" value="' + this.oCita.nid_cita + '" />' +
                         '<input type="hidden" name="nu_estado" value="' + this.oCita.nu_estado + '" />' +

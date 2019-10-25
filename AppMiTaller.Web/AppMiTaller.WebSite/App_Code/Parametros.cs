@@ -79,7 +79,7 @@ public class Parametros
     public static string SRC_OrdenGrilla = ConfigurationManager.AppSettings["OrdenGrilla"].ToString();
     public static string SRC_CambiarTaller = ConfigurationManager.AppSettings["CambiarTaller"].ToString();
 
-    #region - Nombres de los Controles [PERU - CHILE]
+    #region - Nombres de los Controles
     public static string N_URLHome = nombreMensaje("nURLHome");
     public static string N_Asesor = nombreMensaje("nAsesor");
     public static string N_MaxLongitudTelfMovil = ConfigurationManager.AppSettings["MaxLongitudTelfMovil"].ToString();

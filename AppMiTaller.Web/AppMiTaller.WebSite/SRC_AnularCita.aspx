@@ -338,9 +338,8 @@
 
             var no_Home = "<%=Parametros.N_EtiquetaHome %>";
             $("#hlHome").html(no_Home);
-            var qs_marca = "";
-            if (this.MP_co_marca_permitida > 0) { qs_marca = "?co_marca=" + this.MP_co_marca_permitida; }
-            var URL_Home = "javascript:window.location.href='SRC_Home.aspx" + qs_marca + "'";
+
+            var URL_Home = "javascript:window.location.href='SRC_Home.aspx'";
             $("#hlHome").attr("onclick", URL_Home);
 
             $("#DivDato3").hide();

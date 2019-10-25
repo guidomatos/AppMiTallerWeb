@@ -6,15 +6,17 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div>
         <div class="bienvenido_home">
-            <div id="divBienvenido" runat="server">
-                <h1>Bienvenidos al Sistema de Reserva de Cita</h1>
+            <div>
+                <h1 id="msgBienvenida">Acceder al Sistema</h1>
+            </div>
 
+            <div id="divLogin">
                 <div class="row">
                     <div class="col l2 s5 x12">
                         <span class="texto">Usuario:</span>
                     </div>
                     <div class="col l10 s7 x12">
-                        <input id="txtUsuario" type="text" style="width:95px;" maxlength="20" />
+                        <input id="txtUsuario" type="text" style="width:95px;" maxlength="20" autocomplete="off" />
                     </div>
                 </div>
                 <div class="row">
@@ -33,6 +35,7 @@
                         <button id="btnRegistrarUsuario" class="ui-button ui-corner-all ui-widget waves-effect">Reg&iacute;strate</button>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -61,7 +64,17 @@
                     },
                     InicializarAcciones: function () {
 
-                        
+                        //Guardar Login de Usuario
+                        var id_usuario;
+                        if (sessionStorage.getItem('loginId')) {
+                            id_usuario = JSON.parse(sessionStorage.getItem("loginId"));
+
+                            $('#divLogin').css('display', 'none');
+                            $('#msgBienvenida').html('Bienvenido al Sistema');
+                        } else {
+                            $('#divLogin').css('display', 'block');
+                            $('#msgBienvenida').html('Acceder al Sistema');
+                        }
 
                     }
 
@@ -104,11 +117,11 @@
                                 if (sessionStorage.getItem('loginId')) {
                                     id_usuario = JSON.parse(sessionStorage.getItem("loginId"));
                                 } else {
-                                    
                                     sessionStorage.setItem("loginId", JSON.stringify(objResponse.co_retorno));
                                 }
 
-                                console.log(id_usuario);
+                                var pgurl = window.location.href.replace("#", "");
+                                location.href = pgurl;
 
                             } else {
 

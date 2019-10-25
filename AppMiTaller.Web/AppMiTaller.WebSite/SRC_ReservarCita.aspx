@@ -1193,8 +1193,6 @@
                         this.fc_FillCombo("cboTaller", this.oComboTaller, text_default);
 
                         $("#cboUbicacion").trigger("change", [nid_taller_sel, fl_ver_horario]); 
-                         
-                        
 
                     });
                 }
@@ -1538,8 +1536,6 @@
         }
         var fl_cambio_x_horario = false;
         $("#cboHoraFinalReserva").change(function () {
-            var ho_final = $("#cboHoraInicioReserva").val();
-            var ho_inicio = $(this).val();
 
             if ($("#cboHoraInicioReserva").prop("selectedIndex") >= $("#cboHoraFinalReserva").prop("selectedIndex")) {
                 fc_Alert("La hora final debe ser mayor que la hora inicial.");
@@ -1552,8 +1548,6 @@
             else fn_GetHorarioDisponibleTaller(undefined);
         });
         $("#cboHoraInicioReserva").change(function () {
-            var ho_inicio = $(this).val();
-            var ho_final = $("#cboHoraFinalReserva").val();
 
             if ($("#cboHoraInicioReserva").prop("selectedIndex") >= $("#cboHoraFinalReserva").prop("selectedIndex")) {
                 fc_Alert("La hora inicial debe ser menor que la hora final.");
@@ -1766,9 +1760,7 @@
                 var strUrlServicio = no_pagina + "/SaveReserva";
                 this.fc_CallService(strParametros, strUrlServicio, function (objResponse) {
                     if (objResponse.fl_seguir == "1") {
-                        var qs_marca = "";
-                        if (this.MP_co_marca_permitida > 0) { qs_marca = "?co_marca=" + this.MP_co_marca_permitida; }
-                        var UrlResumenCita = "SRC_ResumenCita.aspx" + qs_marca;
+                        var UrlResumenCita = "SRC_ResumenCita.aspx";
                         var form = $('<form action="' + UrlResumenCita + '" method="post" target="_self">' +
                         '<input type="hidden" name="nid_cita" value="' + objResponse.oDatosCita.nid_cita + '" />' +
                         '</form>');
@@ -1820,9 +1812,7 @@
             return true;
         }
         function fn_Confirmar() {
-            var qs_marca = "";
-            if (this.MP_co_marca_permitida > 0) { qs_marca = "?co_marca=" + this.MP_co_marca_permitida; }
-            var UrlConfirmar = "SRC_ConfirmarCita.aspx" + qs_marca;
+            var UrlConfirmar = "SRC_ConfirmarCita.aspx";
             var form = $('<form action="' + UrlConfirmar + '" method="post" target="_self">' +
                         '<input type="hidden" name="nid_cita" value="' + this.oCita.nid_cita + '" />' +
                         '<input type="hidden" name="nu_estado" value="' + this.oCita.nu_estado + '" />' +
@@ -1831,9 +1821,7 @@
             form.submit();
         }
         function fn_AnularCita() {
-            var qs_marca = "";
-            if (this.MP_co_marca_permitida > 0) { qs_marca = "?co_marca=" + this.MP_co_marca_permitida; }
-            var UrlAnular = "SRC_AnularCita.aspx" + qs_marca;
+            var UrlAnular = "SRC_AnularCita.aspx";
             var form = $('<form action="' + UrlAnular + '" method="post" target="_self">' +
                         '<input type="hidden" name="nid_cita" value="' + this.oCita.nid_cita + '" />' +
                         '<input type="hidden" name="nu_estado" value="' + this.oCita.nu_estado + '" />' +
@@ -1842,9 +1830,7 @@
             form.submit();
         }
         function fn_ReprogramarCita() {
-            var qs_marca = "";
-            if (this.MP_co_marca_permitida > 0) { qs_marca = "?co_marca=" + this.MP_co_marca_permitida; }
-            var UrlReprogramar = "SRC_ReprogramarCita.aspx" + qs_marca;
+            var UrlReprogramar = "SRC_ReprogramarCita.aspx";
             var form = $('<form action="' + UrlReprogramar + '" method="post" target="_self">' +
                         '<input type="hidden" name="nid_cita" value="' + this.oCita.nid_cita + '" />' +
                         '<input type="hidden" name="nu_estado" value="' + this.oCita.nu_estado + '" />' +
@@ -1861,43 +1847,24 @@
             switch (key) {
                 case "codPais": srtSMS = '<%=ConfigurationManager.AppSettings["CodPais"].ToString() %>'; break;
                 case "msgPlaca_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgPlaca_1"].ToString() %>'; break;
-                case "msgPlaca_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgPlaca_2"].ToString() %>'; break;
                 case "msgDep_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgDep_1"].ToString() %>'; break;
-                case "msgDep_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgDep_2"].ToString() %>'; break;
                 case "msgProv_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgProv_1"].ToString() %>'; break;
-                case "msgProv_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgProv_2"].ToString() %>'; break;
                 case "msgDist_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgDist_1"].ToString() %>'; break;
-                case "msgDist_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgDist_2"].ToString() %>'; break;
                 case "msgNombres_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNombres_1"].ToString() %>'; break;
-                case "msgNombres_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNombres_1"].ToString() %>'; break;
                 case "msgNoApePat_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoApePat_1"].ToString() %>'; break;
-                case "msgNoApePat_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoApePat_2"].ToString() %>'; break;
                 case "msgNoApeMat_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoApeMat_1"].ToString() %>'; break;
-                case "msgNoApeMat_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoApeMat_2"].ToString() %>'; break;
                 case "msgNoNumTelfFijo_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoNumTelfFijo_1"].ToString() %>'; break;
-                case "msgNoNumTelfFijo_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoNumTelfFijo_2"].ToString() %>'; break;
                 case "msgNoCodTelfFijo_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoCodTelfFijo_1"].ToString() %>'; break;
-                case "msgNoCodTelfFijo_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoCodTelfFijo_2"].ToString() %>'; break;
                 case "msgNoMovil_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoMovil_1"].ToString() %>'; break;
-                case "msgNoMovil_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoMovil_2"].ToString() %>'; break;
                 case "msgNoEmail_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoEmail_1"].ToString() %>'; break;
-                case "msgNoEmail_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoEmail_2"].ToString() %>'; break;
                 case "msgNoDia_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoDia_1"].ToString() %>'; break;
-                case "msgNoDia_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoDia_2"].ToString() %>'; break;
                 case "msgNoHora_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoHora_1"].ToString() %>'; break;
-                case "msgNoHora_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoHora_2"].ToString() %>'; break;
                 case "msgNoHoraIni_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoHoraIni_1"].ToString() %>'; break;
-                case "msgNoHoraIni_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoHoraIni_2"].ToString() %>'; break;
                 case "msgNoHoraFin_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoHoraFin_1"].ToString() %>'; break;
-                case "msgNoHoraFin_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoHoraFin_2"].ToString() %>'; break;
                 case "msgNoCodTelfMovil_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoCodTelfMovil_1"].ToString() %>'; break;
-                case "msgNoCodTelfMovil_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoCodTelfMovil_2"].ToString() %>'; break;
                 case "msgNoNumTelfMovil_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoNumTelfMovil_1"].ToString() %>'; break;
-                case "msgNoNumTelfMovil_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoNumTelfMovil_2"].ToString() %>'; break;
                 case "msgNoNumFijoMovil_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoNumFijoMovil_1"].ToString() %>'; break;
-                case "msgNoNumFijoMovil_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoNumFijoMovil_2"].ToString() %>'; break;
                 case "msgNoNumFijoMovil_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoNumFijoMovil_1"].ToString() %>'; break;
-                case "msgNoNumFijoMovil_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoNumFijoMovil_2"].ToString() %>'; break;
             }
             return srtSMS;
         }

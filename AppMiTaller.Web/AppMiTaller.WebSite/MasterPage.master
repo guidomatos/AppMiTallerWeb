@@ -44,10 +44,9 @@
             return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
         }
         
-        var MP_co_Parm12 = "<%=Parametros.GetValor(Parametros.PARM._12) %>";
-        var MP_co_marca_permitida = getQueryStringValue("co_marca");
-        var MP_Origen = getQueryStringValue("Origen");
-        var MP_nid_empresa = "<%=nid_empresa_configurada %>";
+        var MP_co_marca_permitida = "";
+        var MP_Origen = "0";
+        
     </script>
     <form id="form1" runat="server">
     <div>
@@ -57,20 +56,20 @@
         </nav>
         <nav id="MenuPeruRes" class="nav-wrapper">
             <ul class="side-nav" id="mobile-demo2">
+                <li><a id="a_Datos_P1" href="SRC_ActualizarCliente.aspx">ACTUALIZAR DATOS</a></li>
                 <li><a id="a_Reservar_P1" href="SRC_ReservarCita.aspx">RESERVAR CITA</a></li>
                 <li><a id="a_Consultar_P1" href="SRC_ConsultarCita.aspx">CONSULTAR CITA</a></li>
-                <li style="display:none"><a id="a_Confirmar_P1" href="SRC_ConfirmarCita.aspx">CONFIRMAR CITA</a></li>
                 <li><a id="a_Salir_P1" href="<%= Parametros.N_URLHome %>">SALIR</a></li>
             </ul>
         </nav>
         <nav id="MenuPeru" class="hide-on-med-and-down">
             <div class="nav-wrapper">
-              <ul class="left hide-on-med-and-down" style="width:100%; text-align:center;">
-                <li style="width:33%;"><a id="a_Reservar_P2" href="SRC_ReservarCita.aspx">RESERVAR CITA</a></li>
-                <li style="width:33%;"><a id="a_Consultar_P2" href="SRC_ConsultarCita.aspx">CONSULTAR CITA</a></li>
-                <li style="width:33%; display:none;"><a id="a_Confirmar_P2" href="SRC_ConfirmarCita.aspx">CONFIRMAR CITA</a></li>
-                <li style="width:33%;"><a id="a_Salir_P2" href="<%= Parametros.N_URLHome %>">SALIR</a></li>
-              </ul>
+                <ul class="left hide-on-med-and-down" style="width:100%; text-align:center;">
+                    <li style="width:24%;"><a id="a_Datos_P2" href="SRC_ActualizarCliente.aspx">ACTUALIZAR DATOS</a></li>
+                    <li style="width:24%;"><a id="a_Reservar_P2" href="SRC_ReservarCita.aspx">RESERVAR CITA</a></li>
+                    <li style="width:24%;"><a id="a_Consultar_P2" href="SRC_ConsultarCita.aspx">CONSULTAR CITA</a></li>
+                    <li style="width:24%;"><a id="a_Salir_P2" href="#">SALIR</a></li>
+                </ul>
             </div>
         </nav>
         <div id="content"">
@@ -79,69 +78,116 @@
         </div>
     </div>
     <div id="divProgress" class="Progress">
-        <img alt="...Cargando..." src="img/loading.gif" style="position: absolute; left: 48%;
-            top: 48%; vertical-align: middle;" />
+        <img alt="...Cargando..." src="img/loading.gif" style="position: absolute; left: 48%; top: 48%; vertical-align: middle;" />
     </div>
     </form>
+
     <script type="text/javascript">
-        $(function () {
-            $("#imgLogo").hide();
-            var pgurl = window.location.href.replace("#", "");
-                
-            $('#MenuPeru').css('display', 'block');
-            $('#MenuPeruRes').css('display', 'block');
+        var master;
 
-            $("#MenuPeru div ul li a").each(function () {
-                if ($(this).attr("href") == pgurl)
-                    $(this).parent().addClass("active");
-            });
-            $("#MenuPeruRes ul li a").each(function () {
-                if ($(this).attr("href") == pgurl)
-                    $(this).parent().addClass("active");
-            });
+        $(document).ready(function () {
 
-            var width_mnu = "33%";
-            if (MP_co_Parm12 == "1") {
-                width_mnu = "24%";
-                $("#a_Confirmar_P2").parent().css("width", width_mnu);
+            var main;
+
+            main = function () {
+                var me = this;
+
+                me.Globales = {
+                    BtnSalir1: '#a_Salir_P1',
+                    BtnSalir2: '#a_Salir_P2'
+                },
+                    me.Funciones = {
+
+                        //funciones a usar dentro de la pagina
+                        InicializarEventos: function () {
+                            $(document).on("click", me.Globales.BtnSalir1, me.Eventos.Logout);
+                            $(document).on("click", me.Globales.BtnSalir2, me.Eventos.Logout);
+                        },
+                        InicializarAcciones: function () {
+
+                            $("#imgLogo").hide();
+
+                            me.Funciones.ActivarMenu();
+
+                            var width_mnu = "24.5%";
+                            $("#a_Datos_P2").parent().css("width", width_mnu);
+                            $("#a_Reservar_P2").parent().css("width", width_mnu);
+                            $("#a_Consultar_P2").parent().css("width", width_mnu);
+                            $("#a_Salir_P2").parent().css("width", width_mnu);
+
+                            var id_usuario = 0;
+                            if (sessionStorage.getItem('loginId')) {
+                                id_usuario = JSON.parse(sessionStorage.getItem("loginId"));
+
+                                $('#MenuPeru').css('display', 'block');
+                                $('#MenuPeruRes').css('display', 'block');
+
+                                console.log('logueado');
+                            } else {
+                                $('#MenuPeru').css('display', 'none');
+                                $('#MenuPeruRes').css('display', 'none');
+
+                                console.log('no logueado');
+                            }
+
+
+                            $("button").button().addClass("waves-effect");
+                            try {
+                                $(".button-collapse").sideNav();
+                            }
+                            catch (ex) {
+                                console.log(ex);
+                            }
+
+                        },
+                        ActivarMenu: function () {
+                            var pgurl = window.location.href.replace("#", "");
+
+                            console.log(pgurl);
+
+                            $("#MenuPeru div ul li a").each(function () {
+
+                                var ref = $(this).attr("href");
+                                var n = pgurl.indexOf(ref);
+                                
+                                if (n > 0) $(this).parent().addClass("active");
+                            });
+                            $("#MenuPeruRes ul li a").each(function () {
+
+                                var ref = $(this).attr("href");
+                                var n = pgurl.indexOf(ref);
+
+                                if (n > 0) $(this).parent().addClass("active");
+                            });
+                        }
+
+                    },
+                    me.Eventos = {
+                        //eventos de los elementos html (input, button, radiobutton, checkbutton)
+
+                        Logout: function () {
+
+                            if (sessionStorage.getItem('loginId')) {
+                                sessionStorage.removeItem('loginId');
+                            }
+
+                            var pgurl = '<%= Parametros.N_URLHome %>';
+                            location.href = pgurl;
+
+                        }
+                    },
+                    me.Inicializar = function () {
+                        //funciones a usar ni bien se cargue la pagina
+                        me.Funciones.InicializarEventos();
+                        me.Funciones.InicializarAcciones();
+                    }
+
             }
-            $("#a_Reservar_P2").parent().css("width", width_mnu);
-            $("#a_Consultar_P2").parent().css("width", width_mnu);
-            $("#a_Salir_P2").parent().css("width", width_mnu);
-            
+
+            master = new main();
+            master.Inicializar();
+
         });
-
-        $("button").button().addClass("waves-effect");
-        try {
-            $(".button-collapse").sideNav();
-        }
-        catch (ex) {
-            console.log(ex);
-        }
-
-        var qs_marca = "";
-        var qs_origen = "?Origen=" + (MP_Origen == "" ? "0" : MP_Origen);
-        if (this.MP_co_marca_permitida > 0) {
-            qs_marca = "?co_marca=" + this.MP_co_marca_permitida;
-            qs_origen = "&Origen=" + MP_Origen;
-        }
-
-        document.getElementById("a_Reservar_P1").href = document.getElementById("a_Reservar_P1").href + qs_marca + qs_origen;
-        document.getElementById("a_Reservar_P2").href = document.getElementById("a_Reservar_P2").href + qs_marca + qs_origen;
-        document.getElementById("a_Consultar_P1").href = document.getElementById("a_Consultar_P1").href + qs_marca;
-        document.getElementById("a_Consultar_P2").href = document.getElementById("a_Consultar_P2").href + qs_marca;
-        if (MP_co_Parm12 == "1") {
-            document.getElementById("a_Confirmar_P1").href = document.getElementById("a_Confirmar_P1").href + qs_marca;
-            document.getElementById("a_Confirmar_P2").href = document.getElementById("a_Confirmar_P2").href + qs_marca;
-        }
-        if(MP_co_marca_permitida > 0){
-            document.getElementById("a_Salir_P1").href = document.getElementById("a_Salir_P1").href.replace("[nid_marca]", this.MP_co_marca_permitida);
-            document.getElementById("a_Salir_P2").href = document.getElementById("a_Salir_P2").href.replace("[nid_marca]", this.MP_co_marca_permitida);
-        }
-        else{
-            document.getElementById("a_Salir_P1").href = document.getElementById("a_Salir_P1").href.replace("?co_marca=[nid_marca]", "");
-            document.getElementById("a_Salir_P2").href = document.getElementById("a_Salir_P2").href.replace("?co_marca=[nid_marca]", "");
-        }
     </script>
 </body>
 </html>
