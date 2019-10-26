@@ -3,6 +3,7 @@ using AppMiTaller.Web.BL;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Web;
 using System.Web.Services;
 using System.Web.UI;
 
@@ -291,14 +292,24 @@ public partial class SRC_ActualizarCliente : System.Web.UI.Page
         oClienteBE.nu_tel_movil = strParametros[6];
         oClienteBE.no_email = strParametros[7];
         oClienteBE.tx_direccion = strParametros[8];
-
         oClienteBE.nu_placa = strParametros[9];
         oClienteBE.nid_marca = Convert.ToInt32(strParametros[10]);
         oClienteBE.nid_modelo = Convert.ToInt32(strParametros[11]);
 
-        oClienteBE.no_clave_web = strParametros[12];
+        //Generar Clave Web
+        string no_clave_web = "";
+        no_clave_web += oClienteBE.nu_documento.Substring(0, 4);
+        no_clave_web += oClienteBE.no_ape_paterno.Substring(0, 2);
+        no_clave_web += oClienteBE.no_ape_materno.Substring(0, 2);
+
+        oClienteBE.no_clave_web = no_clave_web;
 
         int resultado = oClienteBL.ActualizarClienteWeb(oClienteBE);
+
+        //Enviar Correo
+
+        CorreoElectronico oEmail = new CorreoElectronico(HttpContext.Current.Server.MapPath("~/"));
+        oEmail.EnviarCorreo_ClienteRegistro(oClienteBE, Parametros.EstadoCita.REGISTRADA);
 
         object response = new
         {

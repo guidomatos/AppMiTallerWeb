@@ -21,7 +21,6 @@ namespace AppMiTaller.Web.BE
         public string nu_tel_movil { get; set; }
         public string cod_tipo_persona { get; set; }
         public string cod_tipo_documento { get; set; }
-        public string des_tipo_persona { get; set; }
         public string des_tipo_documento { get; set; }
         public string tx_direccion { get; set; }
         public string no_clave_web { get; set; }

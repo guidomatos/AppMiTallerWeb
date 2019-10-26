@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head><title>Datos de la Cita</title>
+    
+<style type="text/css" >
+
+    .csTexto
+    {
+        font-family: Verdana; 
+        color: #646464; 
+        font-size: 10pt; 
+    } 
+    .csTitulo
+    {
+        font-family: Verdana; 
+        color: #646464; 
+        font-size: 10pt; 
+        font-weight: bold; 
+        text-decoration: underline;
+    }
+    .csNombre
+    {
+        font-family: Verdana; 
+        color: #646464; 
+        font-size: 10pt; 
+        font-weight: bold; 
+    }
+				  
+</style>
+
+</head>
+<body>
+    <center>
+        <div style="border-right: dimgray 2px solid; border-top: dimgray 2px solid; border-left: dimgray 2px solid;
+            width: 600px; border-bottom: dimgray 2px solid; position:static;"><!--  height: 550px -->
+            <table style="font-style: normal; font-family: verdana; text-align: left;" width="600px">
+                <tr>
+                    <td colspan="2" style="font-size: 10pt; padding-left: 15px;"> Estimado Sr(a):
+                        <span style="font-family:verdana;font-size:11pt;font-weight:bold;">{CLIENTE}</span></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding-left: 15px; font-size: 10pt">Se le adjunta el res&uacute;men de sus datos para el acceso al Sistema de Citas:</td>
+                </tr>
+                <tr>
+					<td style="padding-left: 15px; font-size: 9pt; margin-right: 18px; font-weight: bold; font-family: arial;" colSpan="2" class="csNombre">
+					<br>"Favor de no responder a este correo, ya que esta cuenta es s&oacute;lo para notificaciones autom&aacute;ticas."</td> 
+				</tr> 
+                <tr>
+                    <td colspan="2" style="padding-right: 15px; padding-left: 15px; padding-bottom: 3px; padding-top: 15px">
+                        
+                        <div style="border-right: darkgray 2px solid; padding-right: 10px; border-top: darkgray 2px solid;
+                            padding-left: 10px; padding-bottom: 10px; border-left: darkgray 2px solid; padding-top: 10px;
+                            border-bottom: darkgray 2px solid; position:static;width:540px;"> <!--height: 280px -->
+                            <table style="font-style: normal; font-family: verdana; width: 100%;">
+								<tr><td class="csTitulo">Datos de Acceso Web</td></tr>
+								<tr><td>
+										<span class="csNombre" style="display:inline-block;width:151px;">Usuario: </span>
+										<span class="csTexto">{USUARIO}</span></td>
+								</tr>
+								<tr><td>
+										<span class="csNombre" style="display:inline-block;width:151px;">Clave de Acceso: </span>
+										<span class="csTexto">{CLAVE}</span></td>
+								</tr>
+								<tr><td></td></tr>
+								<tr><td></td></tr>
+								<tr><td></td></tr>
+                                <tr><td class="csTitulo">Datos Generales</td></tr>
+                                <tr><td>
+										<span class="csNombre" style="display:inline-block;width:151px;">Nro. Documento: </span>
+										<span class="csTexto">{NRO_DOCUMENTO}</span></td>
+								</tr>
+                                <tr><td>
+                                        <span class="csNombre" style="display:inline-block;width:151px;">Nombre:</span>
+                                        <span class="csTexto">{NOMBRE}</span></td>
+                                </tr>
+								<tr><td>
+                                        <span class="csNombre" style="display:inline-block;width:151px;">Apellido Paterno:</span>
+                                        <span class="csTexto">{APELLIDO_PATERNO}</span></td>
+                                </tr>
+								<tr><td>
+                                        <span class="csNombre" style="display:inline-block;width:151px;">Apellido Materno:</span>
+                                        <span class="csTexto">{APELLIDO_MATERNO}</span></td>
+                                </tr>
+								<tr><td>
+                                        <span class="csNombre" style="display:inline-block;width:151px;">Celular:</span>
+                                        <span class="csTexto">{CELULAR}</span></td>
+                                </tr>
+								<tr><td>
+                                        <span class="csNombre" style="display:inline-block;width:151px;">E-mail:</span>
+                                        <span class="csTexto">{EMAIL}</span></td>
+                                </tr>
+								<tr><td>
+                                        <span class="csNombre" style="display:inline-block;width:151px;">Direcci&oacute;n:</span>
+                                        <span class="csTexto">{DIRECCION}</span></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </center>
+</body>
+</html>

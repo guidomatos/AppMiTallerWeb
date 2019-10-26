@@ -52,6 +52,15 @@ public class CorreoElectronico
             //"Error al enviar Correo-CallCenter";
         }
     }
+    public void EnviarCorreo_ClienteRegistro(ClienteBE oDatos, Parametros.EstadoCita oTipoCita)
+    {
+        CorreoElectronico oCorreoElectronico = new CorreoElectronico(System.Web.HttpContext.Current.Server.MapPath("~/"));
+        bool flEnvio = oCorreoElectronico.EnviarMensajeCorreoRegistroCliente(oDatos);
+        if (!flEnvio)
+        {
+            //"Error al enviar Correo-Cliente";
+        }
+    }
     #endregion "- Envío de email a Cliente/Asesor/Call Center"
 
     private string GetFechaLarga(DateTime dt)
@@ -321,7 +330,48 @@ public class CorreoElectronico
         }
         return strBodyHTML;
     }
+    public StringBuilder CargarPlantilla_RegistroCliente(ClienteBE oDatos)
+    {
+        StringBuilder strBodyHTML = new StringBuilder();
+        string strRutaPlantilla = Path.Combine(this.path_server, "Plantillas/PlantillaCorreoRegistroCliente.txt");
+        try
+        {
+            if (!File.Exists(strRutaPlantilla))
+                strBodyHTML.Append("-1");
+            else
+            {
+                FileStream stream = new FileStream(strRutaPlantilla, FileMode.Open, FileAccess.Read);
+                StreamReader reader = new StreamReader(stream);
 
+                string linea = null;
+
+                while (reader.Peek() > -1)
+                {
+                    linea = reader.ReadLine().ToString();
+                    linea = linea.Replace("{CLIENTE}", oDatos.no_nombre.Trim().ToUpper() + " " + oDatos.no_ape_paterno.Trim().ToUpper() + " " + oDatos.no_ape_materno.Trim().ToUpper());
+                    linea = linea.Replace("{USUARIO}", oDatos.nu_documento.ToUpper());
+                    linea = linea.Replace("{CLAVE}", oDatos.no_clave_web);
+                    linea = linea.Replace("{NRO_DOCUMENTO}", oDatos.nu_documento);
+                    linea = linea.Replace("{NOMBRE}", oDatos.no_nombre);
+                    linea = linea.Replace("{APELLIDO_PATERNO}", oDatos.no_ape_paterno);
+                    linea = linea.Replace("{APELLIDO_MATERNO}", oDatos.no_ape_materno);
+                    linea = linea.Replace("{CELULAR}", oDatos.nu_tel_movil);
+                    linea = linea.Replace("{EMAIL}", oDatos.no_email);
+                    linea = linea.Replace("{DIRECCION}", oDatos.tx_direccion);
+
+                    strBodyHTML.Append(linea);
+                }
+
+                reader.Close();
+            }
+        }
+        catch //(Exception ex)
+        {
+            strBodyHTML = new StringBuilder();
+            strBodyHTML.Append("-2");
+        }
+        return strBodyHTML;
+    }
 
     private string _no_error;
     public string no_error
@@ -406,6 +456,71 @@ public class CorreoElectronico
                 oEmail.Body = strHTML.ToString();
                 oEmail.IsBodyHtml = true;
                 oEmail.Priority = System.Net.Mail.MailPriority.High;
+                smtp.Host = nvc[0].ToString();
+                smtp.Port = Int32.Parse(nvc[1].ToString());
+                smtp.Credentials = new System.Net.NetworkCredential(nvc[2].ToString(), nvc[3].ToString());
+                smtp.EnableSsl = true;
+
+                smtp.SendCompleted += new SendCompletedEventHandler(SendCompletedCallback);
+                object userState = oEmail;
+                try
+                {
+                    //smtp.Send(oEmail);
+                    smtp.SendAsync(oEmail, userState);
+                }
+                catch (Exception ex)
+                {
+                    no_error = string.Format("{0}|{1}", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : string.Empty));
+                    //System.Web.HttpContext.Current.Response.Write("1 > " + ex.Message);
+                }
+                finally
+                { }
+            }
+            catch
+            {
+                flEnvio = false;
+                //System.Web.HttpContext.Current.Response.Write("1 > " + ex.Message);
+            }
+            finally
+            {
+                oEmail = null;
+                smtp = null;
+            }
+        }
+        return flEnvio;
+    }
+
+
+    public bool EnviarMensajeCorreoRegistroCliente(ClienteBE oDatos)
+    {
+        bool flEnvio = true;
+        Int32 intResp = 0;
+        StringBuilder strHTML = new StringBuilder();
+        strHTML = CargarPlantilla_RegistroCliente(oDatos);
+
+        //Validando retorno del HTML
+        if (strHTML.ToString().Equals("-1") || strHTML.ToString().Equals("-2"))
+        {
+            //-1 Error al cargar la Plantilla
+            //-2 Error al rrellenar Plantilla
+            intResp = Int32.Parse(strHTML.ToString());
+            flEnvio = false;
+        }
+        else
+        {
+            MailMessage oEmail = new MailMessage();
+            SmtpClient smtp = new SmtpClient();
+            try
+            {
+                oEmail.From = new MailAddress(ConfigurationManager.AppSettings["MailAddress"], ConfigurationManager.AppSettings["DisplayName"]);
+
+                if (!(oDatos.no_email.Trim().ToString().Equals(""))) { oEmail.To.Add(oDatos.no_email.Trim()); }
+
+                System.Collections.Specialized.NameValueCollection nvc = (System.Collections.Specialized.NameValueCollection)ConfigurationManager.GetSection("groupAGP/sectionEmail");
+                oEmail.Subject = "Registro Cliente Web";
+                oEmail.Body = strHTML.ToString();
+                oEmail.IsBodyHtml = true;
+                oEmail.Priority = MailPriority.High;
                 smtp.Host = nvc[0].ToString();
                 smtp.Port = Int32.Parse(nvc[1].ToString());
                 smtp.Credentials = new System.Net.NetworkCredential(nvc[2].ToString(), nvc[3].ToString());

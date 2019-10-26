@@ -361,12 +361,12 @@
                             $("#txtEmailPersonal").val(no_correo_personal);
                             $("#txtDireccion").val(tx_direccion);
 
+                            /*
                             $('#txtNroPlaca').val(nu_placa);
                             $(me.Globales.CboMarca).val(nid_marca);
                             $(me.Globales.CboMarca).trigger('change');
                             $(me.Globales.CboModelo).val(nid_modelo);
-                            console.log(nid_marca);
-                            console.log(nid_modelo);
+                            */
 
                             return false;
 
@@ -436,6 +436,7 @@
                                 else if (objResponse.msgNoEncontro == "3") {
                                     fc_Alert("<%=Parametros.msgNoExisteCE %>");
                                 }
+
                             });
 
                         },
@@ -461,11 +462,10 @@
                             var nu_placa = $.trim($("#txtNroPlaca").val());
                             var id_marca = $(me.Globales.CboMarca).val();
                             var id_modelo = $(me.Globales.CboModelo).val();
-                            var no_clave_web = "";
 
                             var parametros = new Array();
-                            parametros[0] = co_tipo_documento;
-                            parametros[1] = id_cliente;
+                            parametros[0] = id_cliente;
+                            parametros[1] = co_tipo_documento;
                             parametros[2] = nu_documento;
                             parametros[3] = nombres;
                             parametros[4] = ape_paterno;
@@ -476,16 +476,19 @@
                             parametros[9] = nu_placa;
                             parametros[10] = id_marca;
                             parametros[11] = id_modelo;
-                            parametros[12] = no_clave_web;
 
                             var strParametros = "{'strParametros':" + JSON.stringify(parametros) + "}";
                             var strUrlServicio = no_pagina + "/ActualizarClienteWeb";
                             fc_CallService(strParametros, strUrlServicio, function (objResponse) {
 
-                                console.log(objResponse);
-
                                 if (objResponse.resultado > 0) {
-                                    fc_Alert('Se registró su acceso correctamente. Verifique su correo con los datos de acceso');
+
+                                    if (id_cliente == 0) {
+                                        fc_Alert('Se registró su acceso correctamente. Verifique su correo con los datos de acceso');
+                                    } else {
+                                        fc_Alert('Se actualizaron sus datos correctamente');
+                                    }
+
 
                                     setTimeout(function () {
                                         location.href = 'SRC_Home.aspx';
