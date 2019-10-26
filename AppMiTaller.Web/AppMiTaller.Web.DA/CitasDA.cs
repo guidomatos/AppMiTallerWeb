@@ -195,55 +195,18 @@ namespace AppMiTaller.Web.DA
             SqlCommand cmd = new SqlCommand("SRC_SPI_RESERVAR_CITA_WEB_FO", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@vi_nid_contacto", ent.nid_contacto);
-            if (ent.nid_vehiculo != 0)
-                cmd.Parameters.AddWithValue("@vi_nid_vehiculo", ent.nid_vehiculo);
-            else
-                cmd.Parameters.AddWithValue("@vi_nid_vehiculo", DBNull.Value);
-            cmd.Parameters.AddWithValue("@vi_no_nombre", ent.no_nombre);
-            cmd.Parameters.AddWithValue("@vi_no_ape_paterno", ent.no_ape_paterno);
-            cmd.Parameters.AddWithValue("@vi_no_ape_materno", ent.no_ape_materno);
-            cmd.Parameters.AddWithValue("@vi_co_tipo_doc", ent.co_tipo_documento);
-            cmd.Parameters.AddWithValue("@vi_nu_documento", ent.nu_documento);
-            cmd.Parameters.AddWithValue("@vi_no_email", ent.no_email);
-            cmd.Parameters.AddWithValue("@vi_no_email_trab", ent.no_email_trabajo);
-            cmd.Parameters.AddWithValue("@vi_no_email_alter", ent.no_email_alter);
-            cmd.Parameters.AddWithValue("@vi_nu_tel_fijo", ent.nu_tel_fijo);
-            cmd.Parameters.AddWithValue("@vi_nu_tel_movil", ent.nu_tel_movil);
+            cmd.Parameters.AddWithValue("@vi_nid_vehiculo", ent.nid_vehiculo);
             cmd.Parameters.AddWithValue("@vi_nid_taller", ent.nid_taller);
             cmd.Parameters.AddWithValue("@vi_nid_usuario", ent.nid_usuario);
             cmd.Parameters.AddWithValue("@vi_nid_servicio", ent.nid_servicio);
             cmd.Parameters.AddWithValue("@vi_nu_placa", ent.nu_placa);
-            if (ent.nu_anio_vehiculo == -1)
-            {
-                cmd.Parameters.AddWithValue("@vi_nu_anio_veh", DBNull.Value);
-                cmd.Parameters.AddWithValue("@vi_co_tipo_veh", DBNull.Value);
-            }
-            else
-            {
-                cmd.Parameters.AddWithValue("@vi_nu_anio_veh", ent.nu_anio_vehiculo);
-                cmd.Parameters.AddWithValue("@vi_co_tipo_veh", ent.co_tipo_vehiculo);
-            }
             cmd.Parameters.AddWithValue("@vi_nid_marca", ent.nid_marca);
             cmd.Parameters.AddWithValue("@vi_nid_modelo", ent.nid_modelo);
             cmd.Parameters.AddWithValue("@vi_fe_programada", ent.fe_prog);
-            cmd.Parameters.AddWithValue("@vi_fl_origen", ent.fl_origen);
             cmd.Parameters.AddWithValue("@vi_ho_inicio", ent.ho_inicio);
             cmd.Parameters.AddWithValue("@vi_ho_fin", ent.ho_fin);
-            cmd.Parameters.AddWithValue("@vi_fl_datos_pend", ent.fl_datos_pend);
-            if (string.IsNullOrEmpty(ent.tx_observacion))
-                cmd.Parameters.AddWithValue("@vi_tx_observacion", DBNull.Value);
-            else
-                cmd.Parameters.AddWithValue("@vi_tx_observacion", ent.tx_observacion);
-            cmd.Parameters.AddWithValue("@vi_no_pais", ent.no_pais);
-            cmd.Parameters.AddWithValue("@VI_DD_ATENCION", ent.dd_atencion);
-            if (string.IsNullOrEmpty(ent.fl_taxi))
-                cmd.Parameters.AddWithValue("@vi_fl_taxi", DBNull.Value);
-            else
-                cmd.Parameters.AddWithValue("@vi_fl_taxi", ent.fl_taxi);
-            cmd.Parameters.AddWithValue("@vi_nid_empresa", ent.nid_empresa);
-            cmd.Parameters.AddWithValue("@vi_fl_tipo_texto_legal", ent.fl_tipo_texto_legal);
-            cmd.Parameters.AddWithValue("@co_origencita", ent.co_origencita);
-            cmd.Parameters.AddWithValue("@vi_no_nombreqr", ent.no_nombreqr);
+            cmd.Parameters.AddWithValue("@vi_tx_observacion", ent.tx_observacion);
+            cmd.Parameters.AddWithValue("@vi_dd_atencion", ent.dd_atencion);
             string res = string.Empty;
             try
             {
@@ -317,13 +280,12 @@ namespace AppMiTaller.Web.DA
         {
             CitasBEList lista = new CitasBEList();
             SqlConnection conn = new SqlConnection(DataBaseHelper.GetDbConnectionString());
-            SqlCommand cmd = new SqlCommand("[SRC_SPS_LISTAR_CITA_POR_DATOS_FO]", conn);
+            SqlCommand cmd = new SqlCommand("SRC_SPS_LISTAR_CITA_POR_DATOS_FO", conn);
             SqlDataReader reader = null;
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@vi_nid_cita", ent.nid_cita);
-            cmd.Parameters.AddWithValue("@vi_cod_resverva_cita", ent.cod_reserva_cita);
-            cmd.Parameters.AddWithValue("@vi_nu_documento", ent.nu_documento);
             cmd.Parameters.AddWithValue("@vi_nu_placa", ent.nu_placa);
+            cmd.Parameters.AddWithValue("@vi_nid_cliente", ent.nid_cliente);
             try
             {
                 conn.Open();
@@ -332,7 +294,7 @@ namespace AppMiTaller.Web.DA
                     lista.Add(Entidad_Listar_Datos_Cita(reader));
                 reader.Close();
             }
-            catch //(Exception ex)
+            catch
             {
                 if (reader != null && !reader.IsClosed) reader.Close();
                 throw;

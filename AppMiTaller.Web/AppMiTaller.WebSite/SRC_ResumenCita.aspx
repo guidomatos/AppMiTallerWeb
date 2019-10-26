@@ -10,9 +10,9 @@
     <div id="bg_blue">
         <div id="divPage_Paso3">
             <div class="titulo_pasos">
-                Paso 3 de 3: Resumen de Cita.</div>
+                Resumen de Cita.</div>
             <div class="titulo_section">
-                5. Reserva realizada</div>
+                Reserva realizada</div>
             <div class="titulo_section">
                 El Código de Reserva de es:
                 <label id="lblCodCita">

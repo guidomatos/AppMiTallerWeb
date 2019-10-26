@@ -24,6 +24,41 @@ public partial class SRC_ReprogramarCita : System.Web.UI.Page
 
     [System.Web.Script.Services.ScriptMethod(ResponseFormat = System.Web.Script.Services.ResponseFormat.Json)]
     [WebMethod]
+    public static object Get_Inicial(String nid_cliente)
+    {
+        #region "- Carga Placa por Cliente"
+        ArrayList oDatosVehiculo = new ArrayList();
+        List<object> oComboPlaca = new List<object>();
+
+        VehiculoBL oVehiculoBL = new VehiculoBL();
+        ClienteBE param = new ClienteBE();
+        param.nid_cliente = Convert.ToInt32(nid_cliente);
+        VehiculoBEList listaVehiculo = oVehiculoBL.ListarVehiculoPorCliente(param);
+        if (listaVehiculo != null && listaVehiculo.Count > 0)
+        {
+            foreach (VehiculoBE item in listaVehiculo)
+            {
+                oComboPlaca.Add(new
+                {
+                    value = item.nu_placa,
+                    nombre = item.nu_placa
+
+                });
+            }
+        }
+
+        #endregion
+
+        object response = new
+        {
+            oComboPlaca = oComboPlaca
+        };
+        System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+        return serializer.Serialize(response);
+    }
+
+    [System.Web.Script.Services.ScriptMethod(ResponseFormat = System.Web.Script.Services.ResponseFormat.Json)]
+    [WebMethod]
     public static object Get_UbigeoDisponible(String[] strParametros)
     {
         String msg_retorno = String.Empty;
@@ -1694,11 +1729,9 @@ public partial class SRC_ReprogramarCita : System.Web.UI.Page
     {
         CitasBE oCitasBE = new CitasBE();
         CitasBL oCitasBL = new CitasBL();
-        int intIdCita = 0;
-        oCitasBE.nid_cita = intIdCita;
-        oCitasBE.cod_reserva_cita = strFiltros[0];
-        oCitasBE.nu_documento = strFiltros[1];
-        oCitasBE.nu_placa = strFiltros[2];
+        oCitasBE.nid_cita = 0;
+        oCitasBE.nu_placa = strFiltros[0];
+        oCitasBE.nid_cliente = Convert.ToInt32(strFiltros[1]);
         CitasBEList oCitasBEList = oCitasBL.Listar_Datos_Cita(oCitasBE);
 
         List<object> oCitas = new List<object>();
@@ -1866,37 +1899,11 @@ public partial class SRC_ReprogramarCita : System.Web.UI.Page
         oClienteBE.no_ape_materno = strParametros[3];
         oClienteBE.nu_documento = strParametros[4];
         oClienteBE.no_email = strParametros[5];
-        oClienteBE.no_email_trabajo = strParametros[6];
-        oClienteBE.no_email_alter = strParametros[7];
-        oClienteBE.nu_tel_fijo = strParametros[8];
-        oClienteBE.nu_tel_movil = strParametros[9];
+        oClienteBE.nu_tel_movil = strParametros[6];
 
         int resultado = oClienteBL.ActualizarDatosCliente(oClienteBE);
 
         return resultado;
-    }
-        private static string getDiaSemanaConfig(Int32 intDia)
-    {
-        string strDia = string.Empty;
-        switch (intDia)
-        {
-            case 1: strDia = "Lunes"; break;
-            case 2: strDia = "Martes"; break;
-            case 3: strDia = "Miércoles"; break;
-            case 4: strDia = "Jueves"; break;
-            case 5: strDia = "Viernes"; break;
-            case 6: strDia = "Sábado"; break;
-            case 7: strDia = "Domingo"; break;
-        }
-        return strDia;
-    }
-
-    public static bool IsDate(object expression)
-    {
-        if (expression == null)
-            return false;
-        DateTime testDate;
-        return DateTime.TryParse(expression.ToString(), out testDate);
     }
 
     [System.Web.Script.Services.ScriptMethod(ResponseFormat = System.Web.Script.Services.ResponseFormat.Json)]

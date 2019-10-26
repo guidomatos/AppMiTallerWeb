@@ -45,45 +45,9 @@ public partial class SRC_ReservarCita : System.Web.UI.Page
 
     [System.Web.Script.Services.ScriptMethod(ResponseFormat = System.Web.Script.Services.ResponseFormat.Json)]
     [WebMethod]
-    public static object Get_Inicial(String co_marca)
+    public static object Get_Inicial(String nid_cliente)
     {
-        String co_marca_permitida = co_marca;
-
         CitasBL oCitasBL = new CitasBL();
-        #region "- Obtiene Texto Legal por Empresa"
-        String tx_legal = ""; String tx_alt_1 = ""; String tx_alt_2 = "";
-        String tx_nota = "";
-        if (Parametros.SRC_Pais_actual == Parametros.PAIS.PERU)
-        {
-            CitasBE oCitasBETextoLegal = new CitasBE();
-            Int32 IdEmpresa;
-            if(co_marca_permitida != "")
-                IdEmpresa = Convert.ToInt32(Parametros.SRC_CodEmpresa(Convert.ToInt32(co_marca_permitida)));
-            else
-                IdEmpresa = Parametros.SRC_CodEmpresaConfigurada();
-            
-            if (co_marca_permitida != "")
-            {
-                oCitasBETextoLegal = oCitasBL.Obtiene_Texto_Legal(IdEmpresa, Convert.ToInt32(co_marca_permitida));
-                tx_legal = oCitasBETextoLegal.tx_legal;
-                tx_alt_1 = oCitasBETextoLegal.tx_alternativo_01;
-                tx_alt_2 = oCitasBETextoLegal.tx_alternativo_02;
-            }
-        }
-        else
-        {
-            tx_legal = Parametros.N_TextoOferta();
-            tx_alt_1 = Parametros.N_TextoIndicador(1);
-            tx_alt_2 = Parametros.N_TextoIndicador(2);
-            tx_nota = Parametros.N_TextoIndicador(3);
-        }
-        ArrayList oTxtLegal = new ArrayList();
-        oTxtLegal.Add(tx_legal);
-        oTxtLegal.Add(tx_alt_1);
-        oTxtLegal.Add(tx_alt_2);
-        oTxtLegal.Add(tx_nota);
-        #endregion "- Obtiene Texto Legal por Empresa"
-
         CitasBEList oCitasBEList = new CitasBEList();
         List<object> oComboTipoServicio = new List<object>();
         List<object> oComboTipoDocumento = new List<object>();
@@ -94,12 +58,8 @@ public partial class SRC_ReservarCita : System.Web.UI.Page
         System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
 
         #region "- Obtiene Tipos de Servicio"
-        List<ServicioBE> lstTipoServicios = new ServicioBL().Listar_Tipos_Servicios(0); //Todos modelos
-        if (Parametros.SRC_Pais_actual == Parametros.PAIS.CHILE && co_marca_permitida != "9") //9: MAHINDRA
-        {   //Diferente a Mahindra, quita el servicio REVISION XUV500
-            ServicioBE oTipServ = lstTipoServicios.Find(ts => ts.nid_tipo_servicio == 8); //8: RXUV5 => [6 REVISION XUV500]
-            if (oTipServ != null) lstTipoServicios.Remove(oTipServ);
-        }
+        List<ServicioBE> lstTipoServicios = new ServicioBL().Listar_Tipos_Servicios(0);
+        
         foreach (ServicioBE oTS in lstTipoServicios)
         {
             oComboTipoServicio.Add(new
@@ -152,7 +112,7 @@ public partial class SRC_ReservarCita : System.Web.UI.Page
             DateTime dtHoraFin = Convert.ToDateTime(dtHF);
             while (dtHoraIni <= dtHoraFin)
             {
-                string strHoraT = Parametros.SRC_Pais_actual == Parametros.PAIS.CHILE ? dtHoraIni.ToString("HH:mm") : FormatoHora(dtHoraIni.ToString("HH:mm"));
+                string strHoraT = FormatoHora(dtHoraIni.ToString("HH:mm"));
                 string strHoraV = dtHoraIni.ToString("HH:mm").ToUpper().Replace(".", "");
                 oHorasIni.Add(new { value = strHoraV, nombre = strHoraT });
                 oHorasFin.Add(new { value = strHoraV, nombre = strHoraT });
@@ -172,6 +132,28 @@ public partial class SRC_ReservarCita : System.Web.UI.Page
         oDatosContacto.Add(lblCallTelefonos);
         oDatosContacto.Add(lblCallEmail);
 
+        #region "- Carga Placa por Cliente"
+        ArrayList oDatosVehiculo = new ArrayList();
+        List<object> oComboPlaca = new List<object>();
+
+        VehiculoBL oVehiculoBL = new VehiculoBL();
+        ClienteBE param = new ClienteBE();
+        param.nid_cliente = Convert.ToInt32(nid_cliente);
+        VehiculoBEList listaVehiculo = oVehiculoBL.ListarVehiculoPorCliente(param);
+        if (listaVehiculo != null && listaVehiculo.Count > 0) {
+            foreach (VehiculoBE item in listaVehiculo)
+            {
+                oComboPlaca.Add(new
+                {
+                    value = item.nu_placa,
+                    nombre = item.nu_placa
+                    
+                });
+            }
+        }
+
+        #endregion
+
         response = new
         {
             oComboTipoServicio = oComboTipoServicio,
@@ -179,8 +161,8 @@ public partial class SRC_ReservarCita : System.Web.UI.Page
             oDias = oDias,
             oHorasIni = oHorasIni,
             oHorasFin = oHorasFin,
-            oTxtLegal = oTxtLegal,
-            oDatosContacto = oDatosContacto
+            oDatosContacto = oDatosContacto,
+            oComboPlaca = oComboPlaca
         };
         return serializer.Serialize(response);
     }
@@ -385,32 +367,7 @@ public partial class SRC_ReservarCita : System.Web.UI.Page
                 }
             }
 
-            ArrayList oTxtLegal = null;
-            #region "Obtiene texto legal por marca del vehículo"
-            if (Parametros.SRC_Pais_actual == Parametros.PAIS.PERU)
-            {
-                if (nid_marca_permitida == "" && fl_seguir == "1")
-                {
-                    CitasBE oCitasBETextoLegal = new CitasBE();
-                    Int32 IdEmpresa;
-                    if (nid_marca_permitida != "")
-                        IdEmpresa = Convert.ToInt32(Parametros.SRC_CodEmpresa(Convert.ToInt32(nid_marca_permitida)));
-                    else
-                        IdEmpresa = Parametros.SRC_CodEmpresaConfigurada();
 
-                    CitasBL oCitasBL = new CitasBL();
-                    oCitasBETextoLegal = oCitasBL.Obtiene_Texto_Legal(IdEmpresa, oVehiculoBE.nid_marca);
-                    String tx_legal = oCitasBETextoLegal.tx_legal;
-                    String tx_alt_1 = oCitasBETextoLegal.tx_alternativo_01;
-                    String tx_alt_2 = oCitasBETextoLegal.tx_alternativo_02;
-
-                    oTxtLegal = new ArrayList();
-                    oTxtLegal.Add(tx_legal);
-                    oTxtLegal.Add(tx_alt_1);
-                    oTxtLegal.Add(tx_alt_2);
-                }
-            }
-            #endregion "Obtiene texto legal por marca del vehículo"
 
             strRetorno = new
             {
@@ -422,8 +379,7 @@ public partial class SRC_ReservarCita : System.Web.UI.Page
                 fl_seguir = fl_seguir,
                 msg_retorno = msg_retorno,
                 oCitaPendiente = oCitaPendiente,
-                oComboTipoServicio = oComboTipoServicio,
-                oTxtLegal = oTxtLegal
+                oComboTipoServicio = oComboTipoServicio
             };
         }
         catch (Exception ex)
@@ -725,7 +681,6 @@ public partial class SRC_ReservarCita : System.Web.UI.Page
                             coddist = oTaller.coddist,
                             nid_ubica = oTaller.nid_ubica,
                             tx_mapa_taller = oTaller.tx_mapa_taller,
-                            fl_taxi = oTaller.fl_taxi,
                             nid_taller = oTaller.nid_taller
                         };
                         oComboTaller.Add(objTaller);
@@ -2322,9 +2277,6 @@ public partial class SRC_ReservarCita : System.Web.UI.Page
     [WebMethod]
     public static object SaveReserva(Object strParametros)
     {
-        Boolean fl_integracion_ax = false;
-        if (Parametros.SRC_Pais_actual == Parametros.PAIS.CHILE) fl_integracion_ax = true;
-
         String fl_seguir = "0";
         String msg_retorno = String.Empty;
         object strRetorno;
@@ -2334,6 +2286,7 @@ public partial class SRC_ReservarCita : System.Web.UI.Page
             #region "- Seteando variables Request"
             Dictionary<string, object> oRequest = new Dictionary<string, object>();
             oRequest = (Dictionary<string, object>)strParametros;
+            Int32 nid_contacto; Int32.TryParse(oRequest["nid_cliente"].ToString(), out nid_contacto);
             Int32 nid_vehiculo; Int32.TryParse(oRequest["nid_vehiculo"].ToString(), out nid_vehiculo);
             String nu_placa = oRequest["nu_placa"].ToString().ToUpper();
             Int32 nid_marca; Int32.TryParse(oRequest["nid_marca"].ToString(), out nid_marca);
@@ -2348,29 +2301,28 @@ public partial class SRC_ReservarCita : System.Web.UI.Page
             String sfe_programada = oRequest["fe_programada"].ToString();
             String ho_inicio = oRequest["ho_inicio"].ToString();
             Int32 qt_intervalo_atenc; Int32.TryParse(oRequest["qt_intervalo_atenc"].ToString(), out qt_intervalo_atenc);
-            Int32 nid_contacto; Int32.TryParse(oRequest["nid_cliente"].ToString(), out nid_contacto);
-            String co_tipo_documento = oRequest["co_tipo_documento"].ToString();
-            String nu_documento = oRequest["nu_documento"].ToString().Trim().ToUpper();
-            String no_cliente = oRequest["no_cliente"].ToString().Trim().ToUpper();
-            String ape_paterno = oRequest["ape_paterno"].ToString().Trim().ToUpper();
-            String ape_materno = oRequest["ape_materno"].ToString().Trim().ToUpper();
-            String no_correo_personal = oRequest["no_correo_personal"].ToString().Trim();
-            String no_correo_trabajo = oRequest["no_correo_trabajo"].ToString().Trim();
-            String no_correo_alternativo = oRequest["no_correo_alternativo"].ToString().Trim();
-            String nu_telefono_cod = oRequest["nu_telefono_cod"].ToString().Trim();
-            String nu_telefono = oRequest["nu_telefono"].ToString().Trim();
-            String nu_celular_cod = oRequest["nu_celular_cod"].ToString().Trim();
-            String nu_celular = oRequest["nu_celular"].ToString().Trim();
-            String fl_recibir_info = oRequest["fl_recibir_info"].ToString();
-            String fl_taxi = oRequest["fl_taxi"].ToString();
-            String co_origen = oRequest["co_origen"].ToString();
+
+            //String co_tipo_documento = oRequest["co_tipo_documento"].ToString();
+            //String nu_documento = oRequest["nu_documento"].ToString().Trim().ToUpper();
+            //String no_cliente = oRequest["no_cliente"].ToString().Trim().ToUpper();
+            //String ape_paterno = oRequest["ape_paterno"].ToString().Trim().ToUpper();
+            //String ape_materno = oRequest["ape_materno"].ToString().Trim().ToUpper();
+            //String no_correo_personal = oRequest["no_correo_personal"].ToString().Trim();
+            //String no_correo_trabajo = oRequest["no_correo_trabajo"].ToString().Trim();
+            //String no_correo_alternativo = oRequest["no_correo_alternativo"].ToString().Trim();
+            //String nu_telefono_cod = oRequest["nu_telefono_cod"].ToString().Trim();
+            //String nu_telefono = oRequest["nu_telefono"].ToString().Trim();
+            //String nu_celular_cod = oRequest["nu_celular_cod"].ToString().Trim();
+            //String nu_celular = oRequest["nu_celular"].ToString().Trim();
+            //String fl_recibir_info = oRequest["fl_recibir_info"].ToString();
+            
             #endregion "- Seteando variables Request"
 
             #region "Validaciones"
             if (nu_placa.Trim() == "") { msg_retorno = Parametros.nombreMensaje("msgPlaca"); }
             else if (nid_marca <= 0) { msg_retorno = "Debe seleccionar una Marca."; }
             else if (nid_modelo <= 0) { msg_retorno = "Debe seleccionar un Modelo."; }
-            else if (nid_servicio <= 0) { msg_retorno = "Debe seleciconar un servicio."; }
+            else if (nid_servicio <= 0) { msg_retorno = "Debe seleciconar un Servicio."; }
             else if (nid_asesor <= 0) { msg_retorno = Parametros.msgSelFec; }
             else if (ho_inicio == "") { msg_retorno = Parametros.msgSelFec; }
             if (msg_retorno != "")
@@ -2379,10 +2331,9 @@ public partial class SRC_ReservarCita : System.Web.UI.Page
                 goto Response;
             }
             #endregion "Validaciones
-
-            //-----------------------------------------------------
+            /*
             //VERIFICAMOS SI EXISTE ESTE DOCUMENTO YA REGISTRADO
-            //-----------------------------------------------------
+            
             #region "- Verificando si el documento ya existe registrado"
             string strDatosCita = string.Empty, strCodRes = string.Empty, strCodigoDoc = string.Empty;
             if (String.IsNullOrEmpty(co_tipo_documento))
@@ -2392,28 +2343,25 @@ public partial class SRC_ReservarCita : System.Web.UI.Page
 
             if (nid_contacto <= 0) //Verificar si el número de documento no existe en la BD
             {
-                if (fl_integracion_ax == false)
+                ClienteBE oClienteBE = new ClienteBE();
+                ClienteBL oClienteBL = new ClienteBL();
+                oClienteBE.co_tipo_documento = strCodigoDoc;
+                oClienteBE.nu_documento = nu_documento;
+                Int32 intResDC = oClienteBL.ListarDatosContactoPorDoc(oClienteBE).Count;
+                if (intResDC > 0)
                 {
-                    ClienteBE oClienteBE = new ClienteBE();
-                    ClienteBL oClienteBL = new ClienteBL();
-                    oClienteBE.co_tipo_documento = strCodigoDoc;
-                    oClienteBE.nu_documento = nu_documento;
-                    Int32 intResDC = oClienteBL.ListarDatosContactoPorDoc(oClienteBE).Count;
-                    if (intResDC > 0)
-                    {
-                        if (strCodigoDoc.Equals(COD_DNI))
-                            msg_retorno = Parametros.msgRepDoc;
-                        else if (strCodigoDoc.Equals(COD_RUC))
-                            msg_retorno = Parametros.msgRepRUC;
-                        else if (strCodigoDoc.Equals(COD_CE))
-                            msg_retorno = Parametros.msgRepDoc;
+                    if (strCodigoDoc.Equals(COD_DNI))
+                        msg_retorno = Parametros.msgRepDoc;
+                    else if (strCodigoDoc.Equals(COD_RUC))
+                        msg_retorno = Parametros.msgRepRUC;
+                    else if (strCodigoDoc.Equals(COD_CE))
+                        msg_retorno = Parametros.msgRepDoc;
 
-                        fl_seguir = "0";
-                        goto Response;
-                    }
+                    fl_seguir = "0";
+                    goto Response;
                 }
             }
-            #endregion "- Verificando si el documento ya existe registrado"
+            */
 
             //******************************************************************************
             //>>  REGISTRO DE CITA 
@@ -2426,6 +2374,7 @@ public partial class SRC_ReservarCita : System.Web.UI.Page
             //=========================================== 
             oCitasBE.nid_contacto = nid_contacto;
             oCitasBE.nid_vehiculo = nid_vehiculo;
+            /*
             oCitasBE.no_nombre = no_cliente.Trim().ToUpper();
             oCitasBE.no_ape_paterno = ape_paterno.Trim().ToUpper();
             oCitasBE.no_ape_materno = ape_materno.Trim().ToUpper();
@@ -2435,54 +2384,27 @@ public partial class SRC_ReservarCita : System.Web.UI.Page
             oCitasBE.no_email_trabajo = no_correo_trabajo.Trim();
             oCitasBE.no_email_alter = no_correo_alternativo.Trim();
             oCitasBE.nu_tel_fijo = (nu_telefono_cod.Trim().Equals("") ? nu_telefono.Trim() : nu_telefono_cod.Trim() + "-" + nu_telefono.Trim());
-            if (Parametros.SRC_Pais_actual == Parametros.PAIS.CHILE)
-            {
-                if (nu_celular.Length == 8) { nu_celular_cod = "569"; }
-                else
-                {
-                    nu_celular_cod = "569";
-                    if (nu_celular.Length == 11)
-                    {
-                        nu_celular = nu_celular.Replace("569", "");
-                    }
-                }
-            }
             oCitasBE.nu_tel_movil = ((nu_celular_cod.Trim().Equals("")) ? "" : nu_celular_cod.Trim() + "-") + nu_celular.Trim();
-
+            */
             //===========================================
             // 3 - Datos de la Cita
             //=========================================== 
-            oCitasBE.no_pais = "PE";
             oCitasBE.nid_taller = nid_taller;
             oCitasBE.nid_usuario = nid_asesor;
             oCitasBE.nid_servicio = nid_servicio;
             oCitasBE.nu_placa = nu_placa.ToUpper();
-            oCitasBE.nu_anio_vehiculo = Convert.ToInt32(nu_anio);
-            oCitasBE.co_tipo_vehiculo = co_tipo_veh;
             oCitasBE.nid_marca = nid_marca;
             oCitasBE.nid_modelo = nid_modelo;
             oCitasBE.fe_prog = Convert.ToDateTime(sfe_programada);
-            oCitasBE.fl_origen = "F";
             oCitasBE.ho_inicio = ho_inicio;
             oCitasBE.ho_fin = Convert.ToDateTime(ho_inicio).AddMinutes(qt_intervalo_atenc).ToString("HH:mm");
-            oCitasBE.fl_datos_pend = (((oCitasBE.nid_contacto.Equals(0) | oCitasBE.nid_vehiculo.Equals(0))) ? "1" : "0");
             oCitasBE.tx_observacion = tx_observacion;
             oCitasBE.dd_atencion = getDiaSemana(oCitasBE.fe_prog);
-            oCitasBE.fl_taxi = fl_taxi;
-            oCitasBE.co_origencita = co_origen;
-            Int32 IdEmpresa = Convert.ToInt32(Parametros.SRC_CodEmpresa(Convert.ToInt32(nid_marca)));
-            oCitasBE.nid_empresa = IdEmpresa;
-            oCitasBE.fl_tipo_texto_legal = fl_recibir_info;
 
-            #region Datos Primarios
-            String imgQRCode = new CitasBL().GetNombreImagenQR(oCitasBE.nu_placa);
-            String imgQRCodeText = new CitasBL().GetNombreImagenQRWithText(imgQRCode);
-            oCitasBE.no_nombreqr = imgQRCode;
-            #endregion
             //-----------------------------------------------------------------------
             //> Registrando la Cita
             //-----------------------------------------------------------------------
-            strCodRes = oCitasBL.InsertarCita(oCitasBE);
+            String strCodRes = oCitasBL.InsertarCita(oCitasBE);
             if (strCodRes.Equals("C0")) //Validando la Concurrencia
                 msg_retorno = ("La " + Parametros.N_Placa + " tiene una cita pendiente.");
             else if (strCodRes.Equals("C1"))
@@ -2522,7 +2444,6 @@ public partial class SRC_ReservarCita : System.Web.UI.Page
                 {
                     template_impresion = strImpresion,
                     fl_confirmar = fl_confirmar,
-                    //-------------------------
                     nid_cita = oCitasBE.nid_cita,
                     nu_estado = oCitasBE.nu_estado,
                     co_reserva = " " + strCodRes,

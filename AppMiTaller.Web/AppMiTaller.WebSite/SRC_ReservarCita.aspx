@@ -13,8 +13,6 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div id="bg_blue">
         <div id="divPage_Paso1">
-            <div class="titulo_pasos">
-                Paso 1 de 3: Reservar Horario.</div>
             <div class="titulo_section">
                 1. Datos del Vehiculo</div>
             <div class="row" id="rowPlaca">
@@ -23,16 +21,14 @@
                         <%=Parametros.N_Placa %>:</span>
                 </div>
                 <div class="col l2 s7 x12">
-                    <input id="txtPlaca" type="text" style="width: 70px;" maxlength="6" />
+                    <select id="cboPlaca" style="width: 200px;">
+                        <option value=""><%=Parametros.OBJECTO_SELECCIONE %></option>
+                    </select>
                 </div>
                 <div class="col l7 s12 x12">
                     <button id="btnBuscarVehiculoxPlaca" type="button" onclick="fn_GetVehiculo();">
                         <%=Parametros.N_VerificaNum %>
                     </button>
-                    <!--
-                    <label id="lblNoRecuerdo" style="font-weight:bold;"></label>
-                    <label id="span_NoRecordAqui" class="enlace" style="font-weight:bold;" onclick="fn_OpenContacto();"></label>
-                    -->
                 </div>
             </div>
             <div class="row">
@@ -236,202 +232,12 @@
             </div>
             <div class="row">
                 <div class="col l12 x12">
-                    <button type="button" onclick="fn_Continuar();">
-                        Continuar</button>
-                </div>
-            </div>
-        </div>
-        <div id="divPage_Paso2" style="display: none;">
-            <div class="titulo_pasos">
-                Paso 2 de 3: Datos de Contacto.</div>
-            <div class="titulo_section">
-                4. Datos del Cliente</div>
-            <div class="row">
-                <div class="col l3 s5 x12">
-                    <span class="texto">
-                        <%=Parametros.N_TipoDocumento %>:</span>
-                </div>
-                <div class="col l2 s7 x12">
-                    <select id="cboTipoDocumento">
-                    </select>
-                    <input id="txtNroDocumento" type="text" style="width: 70px;" maxlength="10" onpaste="return false;"
-                        onblur="fn_VerificarDoc();" />
-                </div>
-                <div class="col l7 x12">
-                    <button type="button" onclick="fn_VerificarDoc();">
-                        <%=Parametros.N_VerificaDoc %>
-                    </button>
-                </div>
-            </div>
-            <div class="titulo_section">
-                <label id="lblTextoDatosContacto">
-                    Verifique sus datos a continuación y actualícelos si es necesario
-                </label>
-            </div>
-            <div class="row">
-                <div class="col l3 s5 x12">
-                    <span class="texto">
-                        <%=Parametros.N_Nombres %>:</span>
-                </div>
-                <div class="col l9 s7 x12">
-                    <input id="txtNombres" type="text" style="width: 150px;" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col l3 s5 x12">
-                    <span class="texto">
-                        <%=Parametros.N_ApellidoPat %>:</span>
-                </div>
-                <div class="col l9 s7 x12">
-                    <input id="txtApePaterno" type="text" style="width: 150px;" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col l3 s5 x12">
-                    <span class="texto">
-                        <%=Parametros.N_ApellidoMat %>:</span>
-                </div>
-                <div class="col l9 s7 x12">
-                    <input id="txtApeMaterno" type="text" style="width: 150px;" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col l3 s5 x12">
-                    <span class="texto">
-                        <%=Parametros.N_EmailPersonal %>:</span>
-                </div>
-                <div class="col l9 s7 x12">
-                    <input id="txtEmailPersonal" type="text" style="width: 150px;" />
-                </div>
-            </div>
-            <div class="row" id="divEmailTrab">
-                <div class="col l3 s5 x12">
-                    <span class="texto">
-                        <%=Parametros.N_EmailTrabajo %>:</span>
-                </div>
-                <div class="col l9 s7 x12">
-                    <input id="txtEmailTrabajo" type="text" style="width: 150px;" />
-                </div>
-            </div>
-            <div class="row" id="divEmailAlter">
-                <div class="col l3 s5 x12">
-                    <span class="texto">
-                        <%=Parametros.N_EmailAlternativo %>:</span>
-                </div>
-                <div class="col l9 s7 x12">
-                    <input id="txtEmailAternativo" type="text" style="width: 150px;" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col l3 s5 x12">
-                    <span class="texto">
-                        <%=Parametros.N_TelefonoFijo %>:</span>
-                </div>
-                <div class="col l9 s7 x12">
-                    <span class="texto">Código de Ciudad:</span>
-                    <input id="txtCodTelefono" type="text" style="width: 20px;" maxlength="2" onpaste="return false;" onkeypress="javascript:return fc_SoloNumeros(event)" />
-                    <span class="texto">Número Telefónico:</span>
-                    <input id="txtNroTelefono" type="text" style="width: 150px;" onpaste="return false;" onkeypress="javascript:return fc_SoloNumeros(event)" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col l3 s5 x12">
-                    <span class="texto">
-                        <%=Parametros.N_TelefonoMovil %>:</span>
-                </div>
-                <div class="col l9 s7 x12">
-                    <input id="txtNroCelular" type="text" style="width: 150px;" onpaste="return false;" onkeypress="javascript:return fc_SoloNumeros(event)" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col l3 s5 x12">
-                    <span class="texto">
-                        <%=Parametros.N_EnviarRecord %>:</span>
-                </div>
-                <div class="col l9 s7 x12">
-                    <input id="chkEmailCli" type="checkbox" class="chk_materialize filled-in" disabled="disabled"
-                        checked="checked" />
-                    <label for="chkEmailCli">
-                        Por E-mail</label>
-                </div>
-            </div>
-            <div class="row" id="divValeTaxi">
-                <div class="col l3 s5 x12">
-                    <span class="texto">
-                        Vale Taxi:</span>
-                </div>
-                <div class="col l9 s7 x12">
-                    <input id="chkValeTaxi" type="checkbox" class="chk_materialize filled-in" />
-                    <label for="chkValeTaxi">
-                        SI</label>
-                </div>
-            </div>
-            <div id="divDatosRecord">
-                <div class="row">
-                    <div class="col l12">
-                        <label class="titulo_section">
-                            <%=Parametros.N_DatosRecord %></label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col l3 s5 x12">
-                        <span class="texto">Día:</span>
-                    </div>
-                    <div class="col l9 s7 x12">
-                        <select id="cboDiaContacto">
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col l3 s5 x12">
-                        <span class="texto">Horario desde:</span>
-                    </div>
-                    <div class="col l9 s7 x12">
-                        <select id="cboHIContacto">
-                        </select>
-                        <span class="texto">Hasta:</span>
-                        <select id="cboHFContacto">
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <!--<div class="row">
-                <div class="col l12 PieTextoConsulta">
-                    <label id="lblTextoOferta">
-                    </label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col l12">
-                    <input type="radio" id="ind_acepto" name="indicador" checked="checked" value="1" />
-                    <label for="ind_acepto">
-                    </label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col l12">
-                    <input type="radio" id="ind_noacepto" name="indicador" value="2" />
-                    <label for="ind_noacepto">
-                    </label>
-                </div>
-            </div>
-            -->
-            <div class="row">
-                <div class="col l12">
-                    <label id="lblTextoNota">
-                    </label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col l12 x12">
-                    <button type="button" onclick="fn_Reservar();">
-                        Reservar Hora</button>
+                    <button type="button" onclick="fn_Reservar();">Reservar Hora</button>
                 </div>
             </div>
         </div>
         <div id="divPage_Paso3" style="display: none;">
-            <div class="titulo_pasos">
-                Paso 3 de 3: Resumen de Cita.</div>
+            <div class="titulo_pasos">Resumen de Cita.</div>
             <div class="titulo_section">
                 5. Reserva realizada
             </div>
@@ -672,6 +478,7 @@
     </div>
     <script type="text/javascript">
         var no_pagina = "SRC_ReservarCita.aspx";
+        var id_cliente = 0;
         var TEXTO_SELECCIONE = "<%=Parametros.OBJECTO_SELECCIONE %>";
         var TEXTO_TODOS = "<%=Parametros.OBJECTO_TODOS %>";
         var oCita = { nid_cita: 0, co_reserva: "", nu_estado: "", nid_vehiculo: 0, nu_placa: "", nu_vin: "", nid_marca: 0, no_marca: "", nid_modelo: 0, nu_anio: 0, co_tipo_veh: "", co_modeloservicio_ax: "", fl_campania_veh: "0"
@@ -713,7 +520,17 @@
         fn_CargaInicial();
         //#region Tab 1
         function fn_CargaInicial() {
-            $("#txtPlaca").keydown(function (event) { fc_PressKey(13, "btnBuscarVehiculoxPlaca"); });
+
+            if (sessionStorage.getItem('loginId')) {
+                id_cliente = JSON.parse(sessionStorage.getItem("loginId"));
+            } else {
+                location.href = 'SRC_Home.aspx';
+                return false;
+            }
+
+            //$("#txtPlaca").keydown(function (event) { fc_PressKey(13, "btnBuscarVehiculoxPlaca"); });
+            $("#cboPlaca").change(function (event) { fc_SeleccionarPlacaVehiculo() });
+
             this.Modal_Util.FormatModal("mpCitaPend", true, function () { });
             $("#mpPromociones_General").tabs();
             /*#region - Bloqueando controles*/
@@ -733,9 +550,12 @@
 
                 $("#btnMapaTallerPR").text("Ver más información"); 
             //#region - Carga controles
-            var strFiltros = "{'co_marca':'" + this.MP_co_marca_permitida + "'}";
+
+            var strFiltros = "{'nid_cliente':'" + id_cliente + "'}";
             var strUrlServicio = no_pagina + "/Get_Inicial";
             this.fc_CallService(strFiltros, strUrlServicio, function (objResponse) {
+
+                this.fc_FillCombo("cboPlaca", objResponse.oComboPlaca, TEXTO_SELECCIONE);
 
                 $("#lblCallDIa").text(objResponse.oDatosContacto[0]);
                 $("#lblCallHorario").text(objResponse.oDatosContacto[1]);
@@ -750,11 +570,6 @@
                 this.fc_FillCombo("cboDiaContacto", objResponse.oDias, "---");
                 this.fc_FillCombo("cboHIContacto", objResponse.oHorasIni, "---");
                 this.fc_FillCombo("cboHFContacto", objResponse.oHorasFin, "---");
-               
-                $("#lblTextoOferta").html(objResponse.oTxtLegal[0]);
-                $("label[for='ind_acepto']").text(objResponse.oTxtLegal[1]);
-                $("label[for='ind_noacepto']").text(objResponse.oTxtLegal[2]);
-                $("#lblTextoNota").text(objResponse.oTxtLegal[3]);
             });
             //#endregion - Carga controles
 
@@ -767,6 +582,18 @@
             if (PARM_14 == "1") $("#divDatosRecord").show();
             else $("#divDatosRecord").hide();
         }
+
+        function fc_SeleccionarPlacaVehiculo() {
+
+            var nu_placa = $("#cboPlaca").val();
+
+            if (nu_placa == '') {
+                fc_Alert('Debe seleccionar una Placa');
+                return false;
+            }
+
+        }
+
         //#region - "Funcion para ver foto del mapa del taller"
         var ventana;
         var cont = 0;
@@ -887,9 +714,11 @@
             });
         }
         function fn_GetVehiculo() {
-            var nu_placa = fc_Trim($("#txtPlaca").val());
+            //var nu_placa = fc_Trim($("#txtPlaca").val());
+            var nu_placa = $("#cboPlaca").val();
+
             var msg_retorno = "";
-            if (nu_placa == "") { msg_retorno = "- Debe ingresar número de <%=Parametros.N_Placa %>"; }
+            if (nu_placa == "") { msg_retorno = "- Debe seleccionar número de <%=Parametros.N_Placa %>"; }
             else if (nu_placa.length < 6) { msg_retorno = "- Número de <%=Parametros.N_Placa %> incorrecto." }
 
             if (msg_retorno != "") {
@@ -924,12 +753,7 @@
                     }
 
                     if (objResponse.fl_seguir == "1") {
-                        if (objResponse.oTxtLegal != null) {
-                            $("#lblTextoOferta").html(objResponse.oTxtLegal[0]);
-                            $("label[for='ind_acepto']").text(objResponse.oTxtLegal[1]);
-                            $("label[for='ind_noacepto']").text(objResponse.oTxtLegal[2]);
-                        }
-
+                        
                         if (objResponse.oComboMarca != null && objResponse.oComboMarca != "") {
                             this.fc_FillCombo("cboMarca", objResponse.oComboMarca, TEXTO_SELECCIONE);
                             if (objResponse.oComboMarca.length == 1) {
@@ -961,7 +785,7 @@
                             oCita.fl_campania_veh = objResponse.oVehiculo.fl_campania_veh;
 
                             //Quitar focus
-                            $("#txtPlaca").blur();
+                            //$("#txtPlaca").blur();
                                 this.oComboTipoServicio = objResponse.oComboTipoServicio;
                                 this.fc_FillCombo("cboTipoServicio", objResponse.oComboTipoServicio, TEXTO_SELECCIONE);
                         }
@@ -1373,8 +1197,6 @@
                 this.oCita.qt_intervalo_atenc = qt_intervalo_atenc;
 
                 objTalleres = $.grep(oComboTaller, function (e) { return (e.nid_taller == this.oCita.nid_taller); });
-                if (objTalleres[0].fl_taxi == "1") { $("#divValeTaxi").show(); }
-                else { $("#divValeTaxi").hide(); }
             }
         }
         function fn_ChangedFecha() {
@@ -1674,8 +1496,6 @@
             }
             this.oCita.nu_celular_cod = "";
             $("#txtNroCelular").val(this.oCita.nu_celular);
-
-            $("#chkValeTaxi").prop("checked", false);
         }
         function fn_VerificarDoc() {
             $("#txtTelMovilCli").prop("maxlength", parseInt("<%=Parametros.N_MaxLongitudTelfMovil %>"));
@@ -1740,36 +1560,23 @@
             return true;
         }
         function fn_Reservar() {
-            this.oCita.co_tipo_documento = $("#cboTipoDocumento").val();
-            this.oCita.nu_documento = fc_Trim($("#txtNroDocumento").val());
-            this.oCita.no_cliente = fc_Trim($("#txtNombres").val());
-            this.oCita.ape_paterno = fc_Trim($("#txtApePaterno").val());
-            this.oCita.ape_materno = fc_Trim($("#txtApeMaterno").val());
-            this.oCita.no_correo_personal = fc_Trim($("#txtEmailPersonal").val());
-            this.oCita.no_correo_trabajo = fc_Trim($("#txtEmailTrabajo").val());
-            this.oCita.no_correo_alternativo = fc_Trim($("#txtEmailAternativo").val());
-            this.oCita.nu_telefono_cod = $("#txtCodTelefono").val();
-            this.oCita.nu_telefono = $("#txtNroTelefono").val();
-            this.oCita.nu_celular = $("#txtNroCelular").val();
-            this.oCita.fl_recibir_info = ($("#ind_acepto").prop("checked") == true ? "1" : "0");
-            this.oCita.fl_taxi = ($("#chkValeTaxi").prop("checked") == true ? "1" : "0");
-            this.oCita.co_origen = MP_Origen;
 
-            if (this.fn_ValidarDatosReservaCliente()) {
-                var strParametros = "{'strParametros':" + JSON.stringify(this.oCita) + "}";
-                var strUrlServicio = no_pagina + "/SaveReserva";
-                this.fc_CallService(strParametros, strUrlServicio, function (objResponse) {
-                    if (objResponse.fl_seguir == "1") {
-                        var UrlResumenCita = "SRC_ResumenCita.aspx";
-                        var form = $('<form action="' + UrlResumenCita + '" method="post" target="_self">' +
-                        '<input type="hidden" name="nid_cita" value="' + objResponse.oDatosCita.nid_cita + '" />' +
-                        '</form>');
-                        $("body").append(form);
-                        form.submit();
-                    }
-                    if (objResponse.msg_retorno != "") { fc_Alert(objResponse.msg_retorno); }
-                });
-            }
+            this.oCita.nid_cliente = id_cliente;
+
+            var strParametros = "{'strParametros':" + JSON.stringify(this.oCita) + "}";
+            var strUrlServicio = no_pagina + "/SaveReserva";
+            this.fc_CallService(strParametros, strUrlServicio, function (objResponse) {
+                if (objResponse.fl_seguir == "1") {
+                    var UrlResumenCita = "SRC_ResumenCita.aspx";
+                    var form = $('<form action="' + UrlResumenCita + '" method="post" target="_self">' +
+                    '<input type="hidden" name="nid_cita" value="' + objResponse.oDatosCita.nid_cita + '" />' +
+                    '</form>');
+                    $("body").append(form);
+                    form.submit();
+                }
+                if (objResponse.msg_retorno != "") { fc_Alert(objResponse.msg_retorno); }
+            });
+            
         }
         function fn_ValidarDatosReservaCliente() {
             if (!fn_ValidarDocumento()) return false;

@@ -74,14 +74,7 @@ namespace AppMiTaller.Web.DA
             cmd.Parameters.AddWithValue("@vi_no_ape_materno", ent.no_ape_materno);
             cmd.Parameters.AddWithValue("@vi_nu_documento", ent.nu_documento);
             cmd.Parameters.AddWithValue("@vi_no_email", ent.no_email);
-            cmd.Parameters.AddWithValue("@vi_no_email_trab", ent.no_email_trabajo);
-            cmd.Parameters.AddWithValue("@vi_no_email_alter", ent.no_email_alter);
-            cmd.Parameters.AddWithValue("@vi_nu_tel_fijo", ent.nu_tel_fijo);
             cmd.Parameters.AddWithValue("@vi_nu_tel_movil", ent.nu_tel_movil);
-            cmd.Parameters.AddWithValue("@vi_tx_direccion", ent.nu_tel_movil);
-            cmd.Parameters.AddWithValue("@vi_nu_placa", ent.nu_placa);
-            cmd.Parameters.AddWithValue("@vi_nid_marca", ent.nid_marca);
-            cmd.Parameters.AddWithValue("@vi_nid_modelo", ent.nid_modelo);
 
             Int32 res = 0;
             try

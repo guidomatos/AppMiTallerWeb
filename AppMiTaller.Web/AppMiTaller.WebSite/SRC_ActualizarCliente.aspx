@@ -43,7 +43,7 @@
                     <%=Parametros.N_Nombres %>:</span>
             </div>
             <div class="col l9 s7 x12">
-                <input id="txtNombres" type="text" style="width: 150px;" />
+                <input id="txtNombres" type="text" style="width: 150px;" onkeypress="javascript:return SoloLetrasEspacio(event)" />
             </div>
         </div>
         <div class="row">
@@ -52,7 +52,7 @@
                     <%=Parametros.N_ApellidoPat %>:</span>
             </div>
             <div class="col l9 s7 x12">
-                <input id="txtApePaterno" type="text" style="width: 150px;" />
+                <input id="txtApePaterno" type="text" style="width: 150px;" onkeypress="javascript:return SoloLetrasEspacio(event)" />
             </div>
         </div>
         <div class="row">
@@ -61,7 +61,7 @@
                     <%=Parametros.N_ApellidoMat %>:</span>
             </div>
             <div class="col l9 s7 x12">
-                <input id="txtApeMaterno" type="text" style="width: 150px;" />
+                <input id="txtApeMaterno" type="text" style="width: 150px;" onkeypress="javascript:return SoloLetrasEspacio(event)" />
             </div>
         </div>
         <div class="row">

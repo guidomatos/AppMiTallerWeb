@@ -13,47 +13,12 @@
         <div id="divPage_Consulta">
             <div id="DivDato1" class="row">
                 <div class="col l3 s5 x12">
-                    <label id="lblDato1" class="texto">
-                    </label>
+                    <label class="texto">Seleccione Placa</label>
                 </div>
                 <div class="col l2 s7 x12">
-                    <input id="txtDato1" type="text" style="width: 100px;" maxlength="9" onkeypress="javascript:return fc_SoloLetrasNumeros(event);" />
-                </div>
-                <div class="col l7 s12 x12">
-                    <span class="ayuda">
-                        <label id="lblTextoFormatoDoc1">
-                        </label>
-                        <%=Parametros.N_DatosObligatorio() %></span>
-                </div>
-            </div>
-            <div id="DivDato2" class="row">
-                <div class="col l3 s5 x12">
-                    <label id="lblDato2" class="texto">
-                    </label>
-                </div>
-                <div class="col l2 s7 x12">
-                    <input id="txtDato2" type="text" style="width: 100px;" maxlength="9" onkeypress="javascript:return fc_SoloLetrasNumeros(event);" />
-                </div>
-                <div class="col l7 s12 x12">
-                    <span class="ayuda">
-                        <label id="lblTextoFormatoDoc2">
-                        </label>
-                    </span>
-                </div>
-            </div>
-            <div id="DivDato3" class="row">
-                <div class="col l3 s5 x12">
-                    <label id="lblDato3" class="texto">
-                    </label>
-                </div>
-                <div class="col l2 s7 x12">
-                    <input id="txtDato3" type="text" style="width: 100px;" maxlength="6" onkeypress="javascript:return fc_SoloLetrasNumeros(event);" />
-                </div>
-                <div class="col l7 s12 x12">
-                    <span class="ayuda">
-                        <label id="lblTextoFormatoDoc3">
-                        </label>
-                    </span>
+                    <select id="cboPlaca" style="width: 200px;">
+                        <option value=""><%=Parametros.OBJECTO_SELECCIONE %></option>
+                    </select>
                 </div>
             </div>
             <div class="row">
@@ -115,22 +80,9 @@
                         </label>
                     </div>
                     <div style="display: flex;">
-                        <label id="LblTelFij">
-                            Teléfono Fijo:
-                        </label>
-                        <input type="text" id="txtCliCodTelFijo" maxlength="4" class="cajatexto" onkeypress="javascript:return fc_SoloNumeros(event)"
-                            style="display: none; max-width: 35px;" />
-                        <input type="text" id="txtCliTelFijo" maxlength="46" class="cajatexto" onkeypress="javascript:return fc_SoloNumeros(event)"
-                            style="display: none;" />
-                        <label id="lblCliTelFijo">
-                        </label>
-                    </div>
-                    <div style="display: flex;">
                         <label id="LblTelMov">
                             Teléfono Móvil:
                         </label>
-                        <input type="text" id="txtCliCodTelCel" maxlength="2" class="cajatexto" onkeypress="javascript:return fc_SoloNumeros(event)"
-                            style="display: none;" />
                         <input type="text" id="txtCliTelCel" maxlength="15" class="cajatexto" onkeypress="javascript:return fc_SoloNumeros(event)"
                             style="display: none;" />
                         <label id="lblCliTelCel">
@@ -138,26 +90,10 @@
                     </div>
                     <div style="display: flex;">
                         <label id="lblTextoEmail1">
-                            E-mail Personal:
+                            E-mail:
                         </label>
                         <input type="text" id="txtCliEmail" maxlength="255" class="cajatexto" style="display: none;" />
                         <label id="lblCliEmail">
-                        </label>
-                    </div>
-                    <div style="display: flex;">
-                        <label id="lblTextoEmail2" style="display: none">
-                            E-mail Trabajo:
-                        </label>
-                        <input type="text" id="txtCliEmailTrab" maxlength="255" class="cajatexto" style="display: none;" />
-                        <label id="lblCliEmailTrab" style="display: none">
-                        </label>
-                    </div>
-                    <div style="display: flex;">
-                        <label id="lblTextoEmail3" style="display: none">
-                            E-mail Alternativo:
-                        </label>
-                        <input type="text" id="txtCliEmailAlter" maxlength="255" class="cajatexto" style="display: none;" />
-                        <label id="lblCliEmailAlter" style="display: none">
                         </label>
                     </div>
                     <div>
@@ -430,6 +366,7 @@
     </div>
     <script type="text/javascript">
         var no_pagina = "SRC_ReprogramarCita.aspx";
+        var id_cliente = 0;
         var TEXTO_SELECCIONE = "<%=Parametros.OBJECTO_SELECCIONE %>";
         var TEXTO_TODOS = "<%=Parametros.OBJECTO_TODOS %>";
         var oCita = { nid_cita: 0, co_reserva: "", nu_estado: "", nid_vehiculo: 0, nu_placa: "", nu_vin: "", nid_marca: 0, no_marca: "", nid_modelo: 0, nu_anio: 0, co_tipo_veh: "", co_modeloservicio_ax: "", fl_campania_veh: "0"
@@ -479,67 +416,53 @@
         /*#endregion - Variables Grilla Reserva*/
         fn_CargaInicial();
         function fn_CargaInicial() {
-            JQGrid_Util.AutoWidthResponsive(idGrilla_Bandeja);
+            if (sessionStorage.getItem('loginId')) {
+                id_cliente = JSON.parse(sessionStorage.getItem("loginId"));
+            } else {
+                location.href = 'SRC_Home.aspx';
+                return false;
+            }
 
-                $("#txtDato3").prop("maxlength", 7);
-                $("#txtDato1").prop("maxlength", 9);
-            
+            //#region - Carga controles
+            var strFiltros = "{'nid_cliente':'" + id_cliente + "'}";
+            var strUrlServicio = no_pagina + "/Get_Inicial";
+            this.fc_CallService(strFiltros, strUrlServicio, function (objResponse) {
+
+                this.fc_FillCombo("cboPlaca", objResponse.oComboPlaca, TEXTO_SELECCIONE);
+            });
+            //#endregion - Carga controles
+
+            JQGrid_Util.AutoWidthResponsive(idGrilla_Bandeja);
 
             var no_Home = "<%=Parametros.N_EtiquetaHome %>";
             $("#hlHome").html(no_Home);
 
             var URL_Home = "javascript:window.location.href='SRC_Home.aspx'";
-            $("#hlHome").attr("onclick", URL_Home);	
+            $("#hlHome").attr("onclick", URL_Home);
 
-                $("#DivDato3").hide();
-                $("#lblDato1").html("<%=Parametros.N_DatoConsulta2 %>" + ":");
-                $("#lblDato2").html("<%=Parametros.N_DatoConsulta3 %>" + ":");
 
-                $("#txtDato1").addClass(ESTILO_TXT_2).attr("MaxLength", 20);
-                $("#txtDato2").addClass(ESTILO_TXT_2).attr("MaxLength", 7);
+            $("#divTallerMapa").show();
 
-                $("#txtDato1").attr("onkeypress", "return fc_SoloLetrasNumeros(event)");
-                $("#txtDato2").attr("onkeypress", "return fc_SoloLetrasNumeros(event)").attr("onpaste", "return false");
-
-                $("#lblTextoFormatoDoc1").text("<%=Parametros.N_FormatoDoc %>");
-                $("#lblTextoDatoObligatorio").text("<%=Parametros.N_DatosObligatorio() %>");
-
-                $("#divTallerMapa").show();
-            
         }
         function fn_ValidarConsulta() {
-            var CodRes = "";
-            var NroDoc = "";
-            var NroPla = "";
-            NroDoc = $("#txtDato1").val();
-            NroPla = $("#txtDato2").val();
-
-            if (NroDoc.length == 0 && NroPla.length == 0) {
-                fc_Alert("Debes ingresar el " + ReadConfigSettings("nDatoConsulta2_1") + " y el " + ReadConfigSettings("nDatoConsulta3_1") + ".");
+            var nu_placa = $.trim($('#cboPlaca').val());
+            if (nu_placa == '') {
+                fc_Alert('Debe seleccionar una placa');
                 return false;
             }
-            if (NroDoc.length == 0) {
-                fc_Alert("Debes ingresar el " + ReadConfigSettings("nDatoConsulta2_1")); $("#txtDato1").focus(); return false;
-            }
-            if (NroPla.length < 6) {
-                fc_Alert("Debes ingresar el " + ReadConfigSettings("nDatoConsulta3_1")); $("#txtDato2").focus(); return false;
-            }
-            return true;
 
+            return true;
         }
         function fn_Consultar() {
-            if (fn_ValidarConsulta() == true) {
-                var CodRes;
-                var NroDoc;
-                var NroPla;
+            if (fn_ValidarConsulta()) {
 
-                    NroDoc = fc_Trim($("#txtDato1").val());
-                    NroPla = fc_Trim($("#txtDato2").val());
-                
+                var nu_placa;
+                nu_placa = $.trim($("#cboPlaca").val());
+
                 var parametros = new Array();
-                parametros[0] = CodRes;
-                parametros[1] = NroDoc;
-                parametros[2] = NroPla;
+                parametros[0] = nu_placa;
+                parametros[1] = id_cliente;
+
                 var strUrlServicio = no_pagina + "/Get_Bandeja";
                 var strFiltros = "{'strFiltros':" + JSON.stringify(parametros) + "}";
                 var JQGrid_Opciones_Bandeja = JQGrid_Opciones_Default;
@@ -602,16 +525,11 @@
                 }
 
                 //#region - "Datos del Cliente"
-                $("#lblCliEmailAlter").html("<a href='mailto:" + objResponse.no_correo_alter + "'>" + objResponse.no_correo_alter + "</a>");
-                $("#lblCliEmailTrab").html("<a href='mailto:" + objResponse.no_correo_trabajo + "'>" + objResponse.no_correo_trabajo + "</a>");
                 $("#lblCliEmail").html("<a href='mailto:" + objResponse.no_correo + "'>" + objResponse.no_correo + "</a>");
-                $("#txtCliEmailAlter").val(objResponse.no_correo_alter);
-                $("#txtCliEmailTrab").val(objResponse.no_correo_trabajo);
                 $("#txtCliEmail").val(objResponse.no_correo);
 
                 if (objResponse.nu_celular_c != "" || objResponse.nu_celular_c != null) {
                     if (objResponse.nu_celular_c.indexOf("-") >= 0) {
-                        strMovilCod = objResponse.nu_celular_c.split('-')[0];
                         strMovilNum = objResponse.nu_celular_c.split('-')[1];
                     }
                     else
@@ -620,22 +538,14 @@
 
                 if (objResponse.nu_telefono_c != "" || objResponse.nu_telefono_c != null) {
                     if (objResponse.nu_telefono_c.indexOf("-") >= 0) {
-                        strTelfCod = objResponse.nu_telefono_c.split('-')[0];
                         strTelfNum = objResponse.nu_telefono_c.split('-')[1];
                     }
                     else
                         strTelfNum = objResponse.nu_telefono_c;
                 }
 
-                $("#txtCliCodTelFijo").val(strTelfCod);
-                $("#txtCliCodTelFijo").css("display", "none");
-                $("#txtCliTelFijo").val(strTelfNum);
-                $("#lblCliTelFijo").text(strTelfCod == "" ? strTelfNum : (strTelfCod + "-" + strTelfNum));
-
-                $("#txtCliCodTelCel").val(strMovilCod);
-                $("#txtCliCodTelCel").css("display", "none");
                 $("#txtCliTelCel").val(strMovilNum);
-                $("#lblCliTelCel").text(strMovilCod == "" ? strMovilNum : (strMovilCod + "-" + strMovilNum));
+                $("#lblCliTelCel").text(strMovilNum);
 
                 $("#txtCliDoc").val(objResponse.nu_documento);
                 $("#lblCliDoc").text(objResponse.nu_documento);
@@ -774,27 +684,27 @@
         function fn_edicionDatosCliente(blnEditar) {
             
                 if (blnEditar == false) {
-                    $("#txtCliEditNom,#txtCliEditApeP,#txtCliEditApeM,#txtCliCodTelFijo").css("display", "none");
+                    $("#txtCliEditNom,#txtCliEditApeP,#txtCliEditApeM").css("display", "none");
                     $("#lblCliNombre").css("display", "");
                     $("#txtCliNombre").css("display", "none");
                     $("#txtCliDoc").removeAttr("readonly");
 
-                    $("#txtCliDoc,#txtCliNombre,#txtCliTelFijo,#txtCliTelCel,#txtCliEmailTrab,#txtCliEmailAlter").css("display", "none");
-                    $("#lblCliDoc,#lblCliNombre,#lblCliTelFijo,#lblCliTelCel,#lblTextoEmail2,#lblTextoEmail3").css("display", "");
+                    $("#txtCliDoc,#txtCliNombre,#txtCliTelCel").css("display", "none");
+                    $("#lblCliDoc,#lblCliNombre,#lblCliTelCel").css("display", "");
 
-                    $("#btnGrabarCliente,#btnCancActualiza,#txtCliEmail,#txtCliEmailAlter,#txtCliEmailTrab").css("display", "none");
-                    $("#lblCliEmail,#lblCliEmailAlter,#lblCliEmailTrab,#btnActCliente").css("display", "");
+                    $("#btnGrabarCliente,#btnCancActualiza,#txtCliEmail").css("display", "none");
+                    $("#lblCliEmail,#btnActCliente").css("display", "");
                 }
                 else {
-                    $("#txtCliEditNom,#txtCliEditApeP,#txtCliEditApeM,#txtCliCodTelFijo").css("display", "");
+                    $("#txtCliEditNom,#txtCliEditApeP,#txtCliEditApeM").css("display", "");
                     $("#lblCliNombre").css("display", "none");
                     $("#txtCliNombre").css("display", "none");
 
-                    $("#txtCliDoc,#txtCliTelFijo,#txtCliTelCel").css("display", "");
-                    $("#lblCliDoc,#lblCliNombre,#lblCliTelFijo,#lblCliTelCel").css("display", "none");
+                    $("#txtCliDoc,#txtCliTelCel").css("display", "");
+                    $("#lblCliDoc,#lblCliNombre,#lblCliTelCel").css("display", "none");
 
-                    $("#btnGrabarCliente,#btnCancActualiza,#txtCliEmail,#txtCliEmailTrab,#txtCliEmailAlter").css("display", "");
-                    $("#lblCliEmail,#lblCliEmailAlter,#lblCliEmailTrab,#btnActCliente").css("display", "none");
+                    $("#btnGrabarCliente,#btnCancActualiza,#txtCliEmail").css("display", "");
+                    $("#lblCliEmail,#btnActCliente").css("display", "none");
                 }
             
         }
@@ -806,12 +716,8 @@
             $("#txtCliEditApeP").val(this.oCitaDetalle.no_ape_paterno);
             $("#txtCliEditApeM").val(this.oCitaDetalle.no_ape_materno);
             $("#txtCliDoc").val($("#lblCliDoc").text());
-            $("#txtCliCodTelFijo").val(strTelfCod);
             $("#txtCliTelCel").val(strMovilNum);
-            $("#txtCliTelFijo").val(strTelfNum);
             $("#txtCliEmail").val($("#lblCliEmail").text());
-            $("#txtCliEmailAlter").val($("#lblCliEmailAlter").text());
-            $("#txtCliEmailTrab").val($("#lblCliEmailTrab").text());
             fn_edicionDatosCliente(false);
         }
         function fn_GrabarCliente() {
@@ -819,27 +725,12 @@
             ApePat = $("#txtCliEditApeP").val();
             ApeMat = $("#txtCliEditApeM").val();
             NumDoc = $("#txtCliDoc").val();
-            CliFij = ($("#txtCliCodTelFijo").css('display') == "block" ? $("#txtCliCodTelFijo").val() + "-" : "") + $("#txtCliTelFijo").val();
-            CliMov = ($("#txtCliCodTelCel").css('display') == "block" ? $("#txtCliCodTelCel").val() + "-" : "") + $("#txtCliTelCel").val();
+            CliMov = $("#txtCliTelCel").val();
             CliEma = $("#txtCliEmail").val();
-            CliEtr = $("#txtCliEmailTrab").val();
-            CliEal = $("#txtCliEmailAlter").val();
 
             if (CliEma != "") {
                 if (!fc_ValidarEmail(CliEma)) {
                     fc_Alert("E-mail Personal incorrecto.");
-                    return;
-                }
-            }
-            if (CliEtr != "") {
-                if (!fc_ValidarEmail(CliEtr)) {
-                    fc_Alert("E-mail Trabajo incorrecto.");
-                    return;
-                }
-            }
-            if (CliEal != "") {
-                if (!fc_ValidarEmail(CliEal)) {
-                    fc_Alert("E-mail Alternativo incorrecto.");
                     return;
                 }
             }
@@ -851,10 +742,7 @@
             parametros[3] = ApeMat;
             parametros[4] = NumDoc;
             parametros[5] = CliEma;
-            parametros[6] = CliEtr;
-            parametros[7] = CliEal;
-            parametros[8] = CliFij;
-            parametros[9] = CliMov;
+            parametros[6] = CliMov;
             var strParametros = "{'strParametros':" + JSON.stringify(parametros) + "}";
             var strUrlServicio = no_pagina + "/ActualizarDatosCliente";
             this.fc_CallService(strParametros, strUrlServicio, function (objResponse) { });
@@ -862,13 +750,8 @@
             $("#lblCliNombre").text(NomCom + " " + ApePat + " " + ApeMat);
             $("#lblCliDoc").text(NumDoc);
             $("#lblCliEmail").text(CliEma);
-            $("#lblCliEmailTrab").text(CliEtr);
-            $("#lblCliEmailAlter").text(CliEal);
-            $("#lblCliTelFijo").text(CliFij);
             $("#lblCliTelCel").text(CliMov);
 
-            strTelfNum = $("#txtCliTelFijo").val();
-            strTelfCod = $("#txtCliCodTelFijo").val();
             strMovilNum = $("#txtCliTelCel").val();
 
             fn_edicionDatosCliente(false);
@@ -882,62 +765,31 @@
             var srtSMS = "";
             switch (key) {
                 case "msgYaAtendCita_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgYaAtendCita_1"].ToString() %>'; break;
-                case "msgYaAtendCita_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgYaAtendCita_2"].ToString() %>'; break;
                 case "msgYaVencCita_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgYaVencCita_1"].ToString() %>'; break;
-                case "msgYaVencCita_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgYaVencCita_2"].ToString() %>'; break;
                 case "msgYaAnulCita_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgYaAnulCita_1"].ToString() %>'; break;
-                case "msgYaAnulCita_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgYaAnulCita_2"].ToString() %>'; break;
                 case "msgYaConfCita_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgYaConfCita_1"].ToString() %>'; break;
-                case "msgYaConfCita_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgYaConfCita_2"].ToString() %>'; break;
                 case "codPais": srtSMS = '<%=ConfigurationManager.AppSettings["CodPais"].ToString() %>'; break;
                 case "nDatoConsulta1_1": srtSMS = '<%=ConfigurationManager.AppSettings["nDatoConsulta1_1"].ToString() %>'; break;
-                case "nDatoConsulta1_2": srtSMS = '<%=ConfigurationManager.AppSettings["nDatoConsulta1_2"].ToString() %>'; break;
                 case "nDatoConsulta2_1": srtSMS = '<%=ConfigurationManager.AppSettings["nDatoConsulta2_1"].ToString() %>'; break;
-                case "nDatoConsulta2_2": srtSMS = '<%=ConfigurationManager.AppSettings["nDatoConsulta2_2"].ToString() %>'; break;
                 case "nDatoConsulta3_1": srtSMS = '<%=ConfigurationManager.AppSettings["nDatoConsulta3_1"].ToString() %>'; break;
-                case "nDatoConsulta3_2": srtSMS = '<%=ConfigurationManager.AppSettings["nDatoConsulta3_2"].ToString() %>'; break;
                 case "msgPlaca_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgPlaca_1"].ToString() %>'; break;
-                case "msgPlaca_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgPlaca_2"].ToString() %>'; break;
                 case "msgDep_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgDep_1"].ToString() %>'; break;
-                case "msgDep_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgDep_2"].ToString() %>'; break;
                 case "msgProv_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgProv_1"].ToString() %>'; break;
-                case "msgProv_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgProv_2"].ToString() %>'; break;
                 case "msgDist_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgDist_1"].ToString() %>'; break;
-                case "msgDist_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgDist_2"].ToString() %>'; break;
                 case "msgNombres_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNombres_1"].ToString() %>'; break;
-                case "msgNombres_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNombres_1"].ToString() %>'; break;
                 case "msgNoApePat_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoApePat_1"].ToString() %>'; break;
-                case "msgNoApePat_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoApePat_2"].ToString() %>'; break;
                 case "msgNoApeMat_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoApeMat_1"].ToString() %>'; break;
-                case "msgNoApeMat_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoApeMat_2"].ToString() %>'; break;
-                case "msgNoNumTelfFijo_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoNumTelfFijo_1"].ToString() %>'; break;
-                case "msgNoNumTelfFijo_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoNumTelfFijo_2"].ToString() %>'; break;
-                case "msgNoCodTelfFijo_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoCodTelfFijo_1"].ToString() %>'; break;
-                case "msgNoCodTelfFijo_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoCodTelfFijo_2"].ToString() %>'; break;
                 case "msgNoMovil_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoMovil_1"].ToString() %>'; break;
-                case "msgNoMovil_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoMovil_2"].ToString() %>'; break;
                 case "msgNoEmail_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoEmail_1"].ToString() %>'; break;
-                case "msgNoEmail_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoEmail_2"].ToString() %>'; break;
                 case "msgNoDia_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoDia_1"].ToString() %>'; break;
-                case "msgNoDia_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoDia_2"].ToString() %>'; break;
                 case "msgNoHora_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoHora_1"].ToString() %>'; break;
-                case "msgNoHora_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoHora_2"].ToString() %>'; break;
                 case "msgNoHoraIni_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoHoraIni_1"].ToString() %>'; break;
-                case "msgNoHoraIni_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoHoraIni_2"].ToString() %>'; break;
                 case "msgNoHoraFin_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoHoraFin_1"].ToString() %>'; break;
-                case "msgNoHoraFin_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoHoraFin_2"].ToString() %>'; break;
                 case "msgNoCodRes_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoCodRes_1"].ToString() %>'; break;
-                case "msgNoCodRes_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoCodRes_2"].ToString() %>'; break;
                 case "msgNoDoc_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoDoc_1"].ToString() %>'; break;
-                case "msgNoDoc_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoDoc_2"].ToString() %>'; break;
-                case "msgNoCodTelfMovil_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoCodTelfMovil_1"].ToString() %>'; break;
-                case "msgNoCodTelfMovil_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoCodTelfMovil_2"].ToString() %>'; break;
                 case "msgNoNumTelfMovil_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoNumTelfMovil_1"].ToString() %>'; break;
-                case "msgNoNumTelfMovil_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoNumTelfMovil_2"].ToString() %>'; break;
                 case "msgNoNumFijoMovil_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoNumFijoMovil_1"].ToString() %>'; break;
-                case "msgNoNumFijoMovil_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoNumFijoMovil_2"].ToString() %>'; break;
                 case "msgNoCita_1": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoCita_1"].ToString() %>'; break;
-                case "msgNoCita_2": srtSMS = '<%=ConfigurationManager.AppSettings["msgNoCita_2"].ToString() %>'; break;
             }
             return srtSMS;
         }

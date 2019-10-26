@@ -114,6 +114,38 @@ namespace AppMiTaller.Web.DA
             }
             return res;
         }
+
+
+        public VehiculoBEList ListarVehiculoPorCliente(ClienteBE ent)
+        {
+            VehiculoBEList lista = new VehiculoBEList();
+            SqlConnection conn = new SqlConnection(DataBaseHelper.GetDbConnectionString());
+            SqlCommand cmd = new SqlCommand("src_sps_vehiculo_por_cliente_web", conn);
+            SqlDataReader reader = null;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@vi_nid_cliente", ent.nid_cliente);
+            try
+            {
+                conn.Open();
+                reader = cmd.ExecuteReader();
+                while (reader.Read())
+                    lista.Add(Entidad_ListarVehiculoPorCliente(reader));
+                reader.Close();
+            }
+            catch (Exception)
+            {
+                if (reader != null && !reader.IsClosed) reader.Close();
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+            return lista;
+        }
+
+        #region "Llenado de Entidades"
         private VehiculoBE Entidad_ListarDatosPorPlaca(IDataRecord DReader)
         {
             VehiculoBE Entidad = new VehiculoBE();
@@ -161,6 +193,21 @@ namespace AppMiTaller.Web.DA
             indice = DReader.GetOrdinal("no_modelo");
             Entidad.no_modelo = (DReader.IsDBNull(indice) ? "" : DReader.GetString(indice));
             return Entidad;
-        }    
-    }	
+        }
+        private VehiculoBE Entidad_ListarVehiculoPorCliente(IDataRecord DReader)
+        {
+            VehiculoBE Entidad = new VehiculoBE();
+            Int32 indice = 0;
+            indice = DReader.GetOrdinal("nid_vehiculo");
+            Entidad.nid_vehiculo = (DReader.IsDBNull(indice) ? 0 : DReader.GetInt32(indice));
+            indice = DReader.GetOrdinal("nid_marca");
+            Entidad.nid_marca = (DReader.IsDBNull(indice) ? 0 : DReader.GetInt32(indice));
+            indice = DReader.GetOrdinal("nid_modelo");
+            Entidad.nid_modelo = (DReader.IsDBNull(indice) ? 0 : DReader.GetInt32(indice));
+            indice = DReader.GetOrdinal("nu_placa");
+            Entidad.nu_placa = (DReader.IsDBNull(indice) ? "" : DReader.GetString(indice));
+            return Entidad;
+        }
+        #endregion
+    }
 }

@@ -21,5 +21,9 @@ namespace AppMiTaller.Web.BL
         {
             return new VehiculoDA().MinimoDiasReservaPorModelo(ent);
         }
+        public VehiculoBEList ListarVehiculoPorCliente(ClienteBE ent)
+        {
+            return new VehiculoDA().ListarVehiculoPorCliente(ent);
+        }
     }
 }
