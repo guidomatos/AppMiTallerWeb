@@ -35,14 +35,13 @@ namespace AppMiTaller.Web.DA
             }
             return lista;
         }
-        public VehiculoBEList ListarMarcas(VehiculoBE ent)
+        public VehiculoBEList ListarMarcas()
         {
             VehiculoBEList lista = new VehiculoBEList();
             SqlConnection conn = new SqlConnection(DataBaseHelper.GetDbConnectionString());
-            SqlCommand cmd = new SqlCommand("[SRC_SPS_MARCAS_FO]", conn);
+            SqlCommand cmd = new SqlCommand("SRC_SPS_MARCAS_FO", conn);
             SqlDataReader reader = null;
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@vi_nid_empresa", ent.nid_empresa);
             try
             {
                 conn.Open();

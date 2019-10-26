@@ -9,9 +9,9 @@ namespace AppMiTaller.Web.BL
         {
             return new VehiculoDA().ListarDatosPorPlaca(ent);
         }
-        public VehiculoBEList ListarMarcas(VehiculoBE ent)
+        public VehiculoBEList ListarMarcas()
         {
-            return new VehiculoDA().ListarMarcas(ent);
+            return new VehiculoDA().ListarMarcas();
         }
         public VehiculoBEList ListarModelosPorMarca(VehiculoBE ent)
         {

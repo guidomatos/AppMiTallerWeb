@@ -136,6 +136,11 @@
                     },
                     RegistrarUsuario: function () {
 
+                        
+                        location.href = "SRC_ActualizarCliente.aspx";
+
+                        return false;
+
                     }
                 },
                 me.Inicializar = function () {

@@ -18,10 +18,13 @@ namespace AppMiTaller.Web.BL
         {
             return new ClienteDA().ActualizarDatosCliente(ent);
         }
-
         public ClienteBE Login(ClienteBE param)
         {
             return new ClienteDA().Login(param);
+        }
+        public ClienteBE ListarClientePorId(ClienteBE ent)
+        {
+            return new ClienteDA().ListarClientePorId(ent);
         }
     }
 }

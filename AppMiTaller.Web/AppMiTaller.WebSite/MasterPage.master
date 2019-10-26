@@ -143,8 +143,6 @@
                         ActivarMenu: function () {
                             var pgurl = window.location.href.replace("#", "");
 
-                            console.log(pgurl);
-
                             $("#MenuPeru div ul li a").each(function () {
 
                                 var ref = $(this).attr("href");

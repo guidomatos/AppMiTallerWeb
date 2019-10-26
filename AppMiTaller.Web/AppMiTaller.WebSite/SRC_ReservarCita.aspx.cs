@@ -248,12 +248,8 @@ public partial class SRC_ReservarCita : System.Web.UI.Page
                 if (Parametros.GetValor(Parametros.PARM._11).Equals("1"))
                 {
                     if (Parametros.SRC_Pais_actual == Parametros.PAIS.PERU) { msg_retorno = Parametros.msgExistePlaca; }
-                    oVehiculoBE = new VehiculoBE();
-                    if (nid_marca_permitida != "")
-                        oVehiculoBE.nid_empresa = Convert.ToInt32(Parametros.SRC_CodEmpresa(Convert.ToInt32(nid_marca_permitida)));
-                    else
-                        oVehiculoBE.nid_empresa = Parametros.SRC_CodEmpresaConfigurada();
-                    VehiculoBEList oMarcas = oVehiculoBL.ListarMarcas(oVehiculoBE);
+                    
+                    VehiculoBEList oMarcas = oVehiculoBL.ListarMarcas();
                     foreach (VehiculoBE oMarca in oMarcas)
                     {
                         if (nid_marca_permitida == oMarca.nid_marca.ToString() 
