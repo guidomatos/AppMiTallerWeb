@@ -26,5 +26,9 @@ namespace AppMiTaller.Web.BL
         {
             return new ClienteDA().ListarClientePorId(ent);
         }
+        public Int32 ActualizarClienteWeb(ClienteBE ent)
+        {
+            return new ClienteDA().ActualizarClienteWeb(ent);
+        }
     }
 }

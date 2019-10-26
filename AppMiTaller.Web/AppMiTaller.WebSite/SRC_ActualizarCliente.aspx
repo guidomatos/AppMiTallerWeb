@@ -34,7 +34,7 @@
                 <input id="txtNroDocumento" type="text" maxlength="10" onpaste="return false;"/>
             </div>
             <div class="col l5 x12">
-                <button id="btnConsultarCliente">Consultar</button>
+                <button id="btnConsultarCliente" style="display:none">Consultar</button>
             </div>
         </div>
         <div class="row">
@@ -147,6 +147,8 @@
             const MAX_RUC = 11;
             const MAX_CE = 11;
 
+            var id_cliente = 0;
+
             main = function () {
                 var me = this;
 
@@ -169,7 +171,7 @@
                             $(document).on("click", me.Globales.BtnLimpiarDatos, me.Eventos.LimpiarDatos);
                             $(document).on("click", me.Globales.BtnCancelar, me.Eventos.Cancelar);
                             $(document).on("change", me.Globales.CboTipoDocumento, me.Eventos.SeleccionarTipoDocumento);
-                            $(document).on("blur", me.Globales.TxtNroDocumento, me.Eventos.ConsultarClientePorDocumento);
+                            //$(document).on("blur", me.Globales.TxtNroDocumento, me.Eventos.ConsultarClientePorDocumento);
                             $(document).on("click", me.Globales.BtnConsultarCliente, me.Eventos.ConsultarClientePorDocumento);
                             $(document).on("keypress", me.Globales.TxtNroCelular, me.Eventos.ValidarIngresoCelular);
                             $(document).on("keypress", me.Globales.TxtNroDocumento, me.Eventos.ValidarIngresoDocumento);
@@ -178,10 +180,7 @@
                         InicializarAcciones: function () {
 
                             me.Funciones.CargarControles();
-
                             me.Funciones.CargarDatosClienteLogin();
-
-
 
                         },
                         ValidarNumeroDocumento: function () {
@@ -366,21 +365,21 @@
                             $(me.Globales.CboMarca).val(nid_marca);
                             $(me.Globales.CboMarca).trigger('change');
                             $(me.Globales.CboModelo).val(nid_modelo);
+                            console.log(nid_marca);
                             console.log(nid_modelo);
 
                             return false;
 
                         },
                         CargarDatosClienteLogin: function () {
-                            var id_cliente_login;
                             if (sessionStorage.getItem('loginId')) {
-                                id_cliente_login = JSON.parse(sessionStorage.getItem("loginId"));
+                                id_cliente = JSON.parse(sessionStorage.getItem("loginId"));
                             }
 
-                            if (id_cliente_login != undefined) {
+                            if (id_cliente != 0) {
 
                                 var parametros = new Array();
-                                parametros[0] = id_cliente_login;
+                                parametros[0] = id_cliente;
                                 var strParametros = "{'strParametros':" + JSON.stringify(parametros) + "}";
                                 var strUrlServicio = no_pagina + "/Get_ConsultarClientePorId";
 
@@ -388,10 +387,13 @@
 
                                     me.Funciones.setDatosCliente(objResponse);
 
+                                    $(me.Globales.CboTipoDocumento).prop("disabled", true);
+                                    $(me.Globales.TxtNroDocumento).prop("disabled", true);
+
                                 });
 
                             }
-                            
+
                         }
                     },
                     me.Eventos = {
@@ -448,6 +450,59 @@
                                 return false;
                             }
 
+                            var co_tipo_documento = $(me.Globales.CboTipoDocumento).val();
+                            var nu_documento = $.trim($(me.Globales.TxtNroDocumento).val());
+                            var nombres = $.trim($("#txtNombres").val());
+                            var ape_paterno = $.trim($("#txtApePaterno").val());
+                            var ape_materno = $.trim($("#txtApeMaterno").val());
+                            var celular = $.trim($(me.Globales.TxtNroCelular).val());
+                            var email = $.trim($("#txtEmailPersonal").val());
+                            var direccion = $.trim($("#txtDireccion").val());
+                            var nu_placa = $.trim($("#txtNroPlaca").val());
+                            var id_marca = $(me.Globales.CboMarca).val();
+                            var id_modelo = $(me.Globales.CboModelo).val();
+                            var no_clave_web = "";
+
+                            var parametros = new Array();
+                            parametros[0] = co_tipo_documento;
+                            parametros[1] = id_cliente;
+                            parametros[2] = nu_documento;
+                            parametros[3] = nombres;
+                            parametros[4] = ape_paterno;
+                            parametros[5] = ape_materno;
+                            parametros[6] = celular;
+                            parametros[7] = email;
+                            parametros[8] = direccion;
+                            parametros[9] = nu_placa;
+                            parametros[10] = id_marca;
+                            parametros[11] = id_modelo;
+                            parametros[12] = no_clave_web;
+
+                            var strParametros = "{'strParametros':" + JSON.stringify(parametros) + "}";
+                            var strUrlServicio = no_pagina + "/ActualizarClienteWeb";
+                            fc_CallService(strParametros, strUrlServicio, function (objResponse) {
+
+                                console.log(objResponse);
+
+                                if (objResponse.resultado > 0) {
+                                    fc_Alert('Se registró su acceso correctamente. Verifique su correo con los datos de acceso');
+
+                                    setTimeout(function () {
+                                        location.href = 'SRC_Home.aspx';
+                                    }, 2000);
+                                    
+                                } else {
+                                    if (objResponse.resultado == -5) {
+                                        fc_Alert('No se puede actualizar. Nro. Documento ya existe');
+                                    } else if (objResponse.resultado == -6) {
+                                        fc_Alert('No se puede actualizar. Cliente no es propietario del vehículo');
+                                    } else {
+                                        fc_Alert('No se puede actualizar. Consulte con administrador');
+                                    }
+                                }
+
+                            });
+
                             return false;
 
                         },
@@ -459,6 +514,9 @@
                             $("#txtApeMaterno").val('');
                             $(me.Globales.TxtNroCelular).val('');
                             $("#txtEmailPersonal").val('');
+
+                            $(me.Globales.CboMarca).val('');
+                            $(me.Globales.CboMarca).trigger('change');
                             return false;
                         },
                         Cancelar: function (event) {

@@ -66,7 +66,7 @@ namespace AppMiTaller.Web.DA
         public Int32 ActualizarDatosCliente(ClienteBE ent)
         {
             SqlConnection conn = new SqlConnection(DataBaseHelper.GetDbConnectionString());
-            SqlCommand cmd = new SqlCommand("[SRC_SPU_DATOS_CONTACTO_FO]", conn);
+            SqlCommand cmd = new SqlCommand("SRC_SPU_DATOS_CONTACTO_FO", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@vi_id_contacto", ent.nid_contacto);
             cmd.Parameters.AddWithValue("@vi_no_nombre", ent.no_nombre);
@@ -78,6 +78,11 @@ namespace AppMiTaller.Web.DA
             cmd.Parameters.AddWithValue("@vi_no_email_alter", ent.no_email_alter);
             cmd.Parameters.AddWithValue("@vi_nu_tel_fijo", ent.nu_tel_fijo);
             cmd.Parameters.AddWithValue("@vi_nu_tel_movil", ent.nu_tel_movil);
+            cmd.Parameters.AddWithValue("@vi_tx_direccion", ent.nu_tel_movil);
+            cmd.Parameters.AddWithValue("@vi_nu_placa", ent.nu_placa);
+            cmd.Parameters.AddWithValue("@vi_nid_marca", ent.nid_marca);
+            cmd.Parameters.AddWithValue("@vi_nid_modelo", ent.nid_modelo);
+
             Int32 res = 0;
             try
             {
@@ -156,6 +161,44 @@ namespace AppMiTaller.Web.DA
                 conn.Dispose();
             }
             return retorno;
+        }
+
+        public Int32 ActualizarClienteWeb(ClienteBE ent)
+        {
+            SqlConnection conn = new SqlConnection(DataBaseHelper.GetDbConnectionString());
+            SqlCommand cmd = new SqlCommand("src_spu_cliente_web", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@vi_nid_cliente", ent.nid_contacto);
+            cmd.Parameters.AddWithValue("@vi_co_tipo_documento", ent.co_tipo_documento);
+            cmd.Parameters.AddWithValue("@vi_nu_documento", ent.nu_documento);
+            cmd.Parameters.AddWithValue("@vi_no_nombre", ent.no_nombre);
+            cmd.Parameters.AddWithValue("@vi_no_ape_paterno", ent.no_ape_paterno);
+            cmd.Parameters.AddWithValue("@vi_no_ape_materno", ent.no_ape_materno);
+            cmd.Parameters.AddWithValue("@vi_nu_tel_movil", ent.nu_tel_movil);
+            cmd.Parameters.AddWithValue("@vi_no_email", ent.no_email);
+            cmd.Parameters.AddWithValue("@vi_tx_direccion", ent.tx_direccion);
+            cmd.Parameters.AddWithValue("@vi_nu_placa", ent.nu_placa);
+            cmd.Parameters.AddWithValue("@vi_nid_marca", ent.nid_marca);
+            cmd.Parameters.AddWithValue("@vi_nid_modelo", ent.nid_modelo);
+            cmd.Parameters.AddWithValue("@vi_no_clave_web", ent.no_clave_web);
+
+            Int32 res = 0;
+            try
+            {
+                conn.Open();
+                res = Int32.Parse(cmd.ExecuteScalar().ToString());
+            }
+            catch
+            {
+                res = 0;
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+            return res;
         }
         #region "Llenado de Entidades"
         private ClienteBE Entidad_ListarDatosContactoPorDoc(IDataRecord DReader)

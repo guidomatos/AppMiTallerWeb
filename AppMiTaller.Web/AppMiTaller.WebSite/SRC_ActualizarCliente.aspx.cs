@@ -270,4 +270,43 @@ public partial class SRC_ActualizarCliente : System.Web.UI.Page
         return serializer.Serialize(response);
     }
 
+
+
+    [System.Web.Script.Services.ScriptMethod(ResponseFormat = System.Web.Script.Services.ResponseFormat.Json)]
+    [WebMethod]
+    public static object ActualizarClienteWeb(String[] strParametros)
+    {
+        ClienteBE oClienteBE = new ClienteBE();
+        ClienteBL oClienteBL = new ClienteBL();
+        ClienteBEList oClienteBEList = new ClienteBEList();
+
+        int nid_cliente;
+        Int32.TryParse(strParametros[0], out nid_cliente);
+        oClienteBE.nid_cliente = nid_cliente;
+        oClienteBE.co_tipo_documento = strParametros[1];
+        oClienteBE.nu_documento = strParametros[2];
+        oClienteBE.no_nombre = strParametros[3];
+        oClienteBE.no_ape_paterno = strParametros[4];
+        oClienteBE.no_ape_materno = strParametros[5];
+        oClienteBE.nu_tel_movil = strParametros[6];
+        oClienteBE.no_email = strParametros[7];
+        oClienteBE.tx_direccion = strParametros[8];
+
+        oClienteBE.nu_placa = strParametros[9];
+        oClienteBE.nid_marca = Convert.ToInt32(strParametros[10]);
+        oClienteBE.nid_modelo = Convert.ToInt32(strParametros[11]);
+
+        oClienteBE.no_clave_web = strParametros[12];
+
+        int resultado = oClienteBL.ActualizarClienteWeb(oClienteBE);
+
+        object response = new
+        {
+            resultado
+        };
+
+        System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+        return serializer.Serialize(response);
+    }
+
 }
