@@ -53,32 +53,6 @@
                     </select>
                 </div>
             </div>
-            <div id="div_AnioTipoVeh" style="display: none;">
-                <div class="row">
-                    <div class="col l3 s5 x12">
-                        <span class="texto">
-                            <%=Parametros.N_AnioVehiculo %>:</span>
-                    </div>
-                    <div class="col l9 s7 x12">
-                        <select id="cboAño">
-                            <option value="">
-                                <%=Parametros.OBJECTO_SELECCIONE %></option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col l3 s5 x12">
-                        <span class="texto">
-                            <%=Parametros.N_TipoVehiculo %>:</span>
-                    </div>
-                    <div class="col l9 s7 x12">
-                        <select id="cboTipoCombustible">
-                            <option value="">
-                                <%=Parametros.OBJECTO_SELECCIONE%></option>
-                        </select>
-                    </div>
-                </div>
-            </div>
             <div class="titulo_section">
                 2. Datos del servicio a solicitar</div>
             <div class="row">
@@ -536,12 +510,7 @@
             /*#region - Bloqueando controles*/
             $("#cboMarca").prop("disabled", true);
             $("#cboModelo").prop("disabled", true);
-            $("#cboAño").prop("disabled", true);
-            $("#cboTipoCombustible").prop("disabled", true);
             $("#cboTipoServicio").prop("disabled", true);
-            if ("<%=Parametros.SRC_MostrarAnioTipoVehiculo %>" == "1") {
-                $("#div_AnioTipoVeh").show();
-            }
             /*#endregion - Bloqueando controles*/
             $("#btnMapaTallerPR").hide();
                 var msg_Norecuerdo = '<%=ConfigurationManager.AppSettings["nRecuerde_1"].ToString()  %>';
@@ -727,14 +696,11 @@
             else {
                 var parametros = new Array();
                 parametros[0] = nu_placa;
-                parametros[1] = this.MP_co_marca_permitida;
                 var strParametros = "{'strParametros':" + JSON.stringify(parametros) + "}";
                 var strUrlServicio = no_pagina + "/Get_Vehiculo";
                 this.fc_CallService(strParametros, strUrlServicio, function (objResponse) {
                     this.fn_Limpiar_Paso1();
                     if (objResponse.msg_retorno != "") { fc_Alert(objResponse.msg_retorno); }
-                    this.fc_FillCombo("cboAño", objResponse.oComboAnio, TEXTO_SELECCIONE);
-                    this.fc_FillCombo("cboTipoCombustible", objResponse.oComboTipoVeh, TEXTO_SELECCIONE);
 
                     if (objResponse.oCitaPendiente != null && objResponse.oCitaPendiente != "") {
                         this.Modal_Util.Open("mpCitaPend");
@@ -768,9 +734,6 @@
                         if (objResponse.oVehiculo != null && objResponse.oVehiculo != "") {
                             $("#cboModelo").val(objResponse.oVehiculo.nid_modelo).prop("disabled", true);
                             $("#cboModelo").trigger("change");
-                            if (objResponse.oVehiculo.nu_anio == 0) { $("#cboAño").val("").prop("disabled", true); }
-                            else { $("#cboAño").val(objResponse.oVehiculo.nu_anio).prop("disabled", true); }
-                            $("#cboTipoCombustible").val(objResponse.oVehiculo.co_tipo).prop("disabled", true);
 
                             //Set datos de reserva
                             oCita.nid_vehiculo = objResponse.oVehiculo.nid_vehiculo;
@@ -801,8 +764,6 @@
             oCita.nid_modelo = nid_modelo;
             var fl_block = true;
             if (nid_modelo > 0) { fl_block = false; }
-            $("#cboAño").prop("selectedIndex", 0).prop("disabled", fl_block);
-            $("#cboTipoCombustible").prop("selectedIndex", 0).prop("disabled", fl_block);
             $("#cboTipoServicio").prop("selectedIndex", 0).prop("disabled", fl_block);
             $("#cboTipoServicio").trigger("change");
         });
@@ -1399,14 +1360,6 @@
             }
             else if (this.oCita.nid_modelo <= 0) {
                 fc_Alert("Debe seleccionar un Modelo."); return false;
-            }
-            else if (this.fc_ExistDisplayControl("div_AnioTipoVeh")) {
-                if (this.oCita.nu_anio <= 0) {
-                    fc_Alert("<%=Parametros.msgSeleccioneAnio %>"); return false;
-                }
-                if (this.oCita.co_tipo_veh != "") {
-                    fc_Alert("<%=Parametros.msgSeleccioneTipo %>"); return false;
-                }
             }
             else if ($("#cboTipoServicio").val() == "") {
                 fc_Alert("Debe seleccionar un Tipo de Servicio."); return false;

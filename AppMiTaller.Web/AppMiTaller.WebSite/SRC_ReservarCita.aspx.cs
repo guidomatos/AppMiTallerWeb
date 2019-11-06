@@ -179,7 +179,7 @@ public partial class SRC_ReservarCita : System.Web.UI.Page
         try
         {
             String nu_placa = strParametros[0];
-            String nid_marca_permitida = strParametros[1];
+            
             oVehiculoBE = new VehiculoBE();
             oVehiculoBE.nu_placa = nu_placa;
             VehiculoBEList oVehiculoBEList = oVehiculoBL.ListarDatosPorPlaca(oVehiculoBE);
@@ -187,195 +187,94 @@ public partial class SRC_ReservarCita : System.Web.UI.Page
             object oCitaPendiente = null;
             ArrayList oComboMarca = null;
             ArrayList oComboModelo = null;
-            ArrayList oComboAnio = null;
-            ArrayList oComboTipoVeh = null;
+            
             List<object> oComboTipoServicio = null;
-            #region "- Get Tipo Veh"
-            string[] strTiposVehiculo = Parametros.SRC_TiposVehiculo.Split('|');
-            oComboTipoVeh = new ArrayList();
-            object objTipoVeh;
-            foreach (string strTipoveh in strTiposVehiculo)
-            {
-                if (string.IsNullOrEmpty(strTipoveh.Trim())) continue;
-                objTipoVeh = new { value = strTipoveh.Split('-').GetValue(0).ToString(), nombre = strTipoveh.Split('-').GetValue(1).ToString() };
-                oComboTipoVeh.Add(objTipoVeh);
-            }
-            #endregion "- Get Tipo Veh"
-            #region "- Get Años"
-            string strAniosVehiculo = Parametros.SRC_AniosVehiculo;
-            Int32 intAnioIni = Convert.ToInt32(strAniosVehiculo.ToString().Trim().Split('-').GetValue(0));
-            Int32 intAnioFin = Convert.ToInt32(strAniosVehiculo.ToString().Trim().Split('-').GetValue(1));
-            Int32 intStep = ((intAnioIni < intAnioFin) ? +1 : -1);
-            oComboAnio = new ArrayList();
-            object objAnio;
-            if (intStep == 1)
-            {
-                for (Int32 intAnio = intAnioIni; intAnio <= intAnioFin; intAnio += 1)
-                {
-                    objAnio = new { value = intAnio.ToString(), nombre = intAnio.ToString() };
-                    oComboAnio.Add(objAnio);
-                }
-            }
-            else
-            {
-                for (Int32 intAnio = intAnioFin; intAnio <= intAnioIni; intAnio += 1)
-                {
-                    objAnio = new { value = intAnio.ToString(), nombre = intAnio.ToString() };
-                    oComboAnio.Add(objAnio);
-                }
-            }
-            #endregion "- Get Años"
+
             if (oVehiculoBEList.Count == 0)
             {
-                if (Parametros.GetValor(Parametros.PARM._11).Equals("1"))
-                {
-                    if (Parametros.SRC_Pais_actual == Parametros.PAIS.PERU) { msg_retorno = Parametros.msgExistePlaca; }
-                    
-                    VehiculoBEList oMarcas = oVehiculoBL.ListarMarcas();
-                    foreach (VehiculoBE oMarca in oMarcas)
-                    {
-                        if (nid_marca_permitida == oMarca.nid_marca.ToString() 
-                            || Parametros.SRC_CodEmpresaConfigurada().ToString() == Parametros.SRC_CodEmpresa(oMarca.nid_marca)) //muestra primera marca encontrada
-                        {
-                            oComboMarca = new ArrayList();
-                            object objMarca;
-                            objMarca = new { value = oMarca.nid_marca.ToString(), nombre = oMarca.no_marca };
-                            oComboMarca.Add(objMarca);
-                            #region "- Get Modelos"
-                            oVehiculoBE = new VehiculoBE();
-                            oVehiculoBE.nid_marca = oMarca.nid_marca;
-                            VehiculoBEList oModelos = oVehiculoBL.ListarModelosPorMarca(oVehiculoBE);
-                            oComboModelo = new ArrayList();
-                            object objModelo;
-                            foreach (VehiculoBE oModelo in oModelos)
-                            {
-                                objModelo = new { value = oModelo.nid_modelo.ToString(), nombre = oModelo.no_modelo };
-                                oComboModelo.Add(objModelo);
-                            }
-                            #endregion "- Get Modelos"
-                            break;
-                        }
-                    }
-                    fl_seguir = "1";
-                }
-                else
-                {
-                    String msgAtenderUnid = Parametros.msgAtenderUnid;
-                    msg_retorno = msgAtenderUnid;
-                }
+                String msgAtenderUnid = Parametros.msgAtenderUnid;
+                msg_retorno = msgAtenderUnid;
             }
             else
             {
                 oVehiculoBE = oVehiculoBEList[0];
                 oVehiculoBE.nu_placa = nu_placa;
-                String codEmpresas = System.Configuration.ConfigurationManager.AppSettings["CodEmpresa"].ToString();
-                Int32 nu_empresas_configuradas = codEmpresas.Split('$').Length;
-                Int32 nid_empresa_configurada = 0;
-                if (nu_empresas_configuradas == 1)
-                {
-                    nid_empresa_configurada = Convert.ToInt32(codEmpresas.Split('$')[0].Split(':')[0]);
-                }
 
-                if (nid_marca_permitida != "" && oVehiculoBE.nid_marca.ToString() != nid_marca_permitida)
+                fl_seguir = "1";
+                oVehiculo = new
                 {
-                    msg_retorno = Parametros.msgMarcaNo;
-                }
-                else if (Parametros.SRC_CodEmpresa(oVehiculoBE.nid_marca) == "0")
+                    nid_vehiculo = oVehiculoBE.nid_vehiculo,
+                    nu_placa = oVehiculoBE.nu_placa,
+                    nu_vin = oVehiculoBE.nu_vin,
+                    nid_marca = oVehiculoBE.nid_marca,
+                    nid_modelo = oVehiculoBE.nid_modelo,
+                    nu_anio = oVehiculoBE.nu_anio,
+                    co_tipo = oVehiculoBE.co_tipo
+                };
+                oComboMarca = new ArrayList();
+                oComboMarca.Add(new { value = oVehiculoBE.nid_marca.ToString(), nombre = oVehiculoBE.no_marca });
+                oComboModelo = new ArrayList();
+                oComboModelo.Add(new { value = oVehiculoBE.nid_modelo.ToString(), nombre = oVehiculoBE.no_modelo });
+
+                #region - Verificar Citas pendientes
+                CitasBL oCitasBL = new CitasBL();
+                CitasBE oCitasBE = new CitasBE();
+
+                oCitasBE.nu_placa = oVehiculoBE.nu_placa;
+                CitasBEList oCitasPendientesBEList = oCitasBL.VerificarCitasPedientesPlaca(oCitasBE);
+                if (oCitasPendientesBEList.Count > 0)
                 {
-                    msg_retorno = Parametros.msgMarcaNo;
-                }
-                else if (nid_empresa_configurada.ToString() != Parametros.SRC_CodEmpresa(oVehiculoBE.nid_marca))
-                {
-                    msg_retorno = Parametros.msgMarcaNo;
-                }
-                else
-                {
-                    fl_seguir = "1";
-                    oVehiculo = new
+                    string strPRM_16 = Parametros.GetValor(Parametros.PARM._16);
+                    if (strPRM_16.Equals("1"))
                     {
-                        nid_vehiculo = oVehiculoBE.nid_vehiculo,
-                        nu_placa = oVehiculoBE.nu_placa,
-                        nu_vin = oVehiculoBE.nu_vin,
-                        nid_marca = oVehiculoBE.nid_marca,
-                        nid_modelo = oVehiculoBE.nid_modelo,
-                        nu_anio = oVehiculoBE.nu_anio,
-                        co_tipo = oVehiculoBE.co_tipo
-                    };
-                    oComboMarca = new ArrayList();
-                    oComboMarca.Add(new { value = oVehiculoBE.nid_marca.ToString(), nombre = oVehiculoBE.no_marca });
-                    oComboModelo = new ArrayList();
-                    oComboModelo.Add(new { value = oVehiculoBE.nid_modelo.ToString(), nombre = oVehiculoBE.no_modelo });
-
-                    #region - Verificar Citas pendientes
-                    CitasBL oCitasBL = new CitasBL();
-                    CitasBE oCitasBE = new CitasBE();
-
-                    oCitasBE.nu_placa = oVehiculoBE.nu_placa;
-                    CitasBEList oCitasPendientesBEList = oCitasBL.VerificarCitasPedientesPlaca(oCitasBE);
-                    if (oCitasPendientesBEList.Count > 0)
-                    {
-                        string strPRM_16 = Parametros.GetValor(Parametros.PARM._16);
-                        if (strPRM_16.Equals("1"))
+                        CitasBE oCitaPendienteBE = oCitasPendientesBEList[0];
+                        oCitaPendiente = new
                         {
-                            CitasBE oCitaPendienteBE = oCitasPendientesBEList[0];
-                            oCitaPendiente = new
-                            {
-                                no_cliente = oCitaPendienteBE.no_cliente,
-                                nu_tel_fijo = oCitaPendienteBE.nu_tel_fijo,
-                                nu_placa = oCitaPendienteBE.nu_placa,
-                                no_marca = oCitaPendienteBE.no_marca,
-                                no_modelo = oCitaPendienteBE.no_modelo,
-                                cod_reserva_cita = oCitaPendienteBE.cod_reserva_cita,
-                                fecha_prog = oCitaPendienteBE.fecha_prog,
-                                ho_inicio = oCitaPendienteBE.ho_inicio,
-                                no_servicio = oCitaPendienteBE.no_servicio,
-                                no_taller = oCitaPendienteBE.no_taller,
-                                no_direccion = oCitaPendienteBE.no_direccion,
-                                no_asesor = oCitaPendienteBE.no_asesor
-                            };
-                        }
-                        if (Parametros.GetValor(Parametros.PARM._08).Equals("0"))
-                        {
-                            if (strPRM_16.Equals("0"))
-                                msg_retorno = Parametros.msgCitasPendPlaca;
-                            fl_seguir = "0";
-                        }
+                            no_cliente = oCitaPendienteBE.no_cliente,
+                            nu_tel_fijo = oCitaPendienteBE.nu_tel_fijo,
+                            nu_placa = oCitaPendienteBE.nu_placa,
+                            no_marca = oCitaPendienteBE.no_marca,
+                            no_modelo = oCitaPendienteBE.no_modelo,
+                            cod_reserva_cita = oCitaPendienteBE.cod_reserva_cita,
+                            fecha_prog = oCitaPendienteBE.fecha_prog,
+                            ho_inicio = oCitaPendienteBE.ho_inicio,
+                            no_servicio = oCitaPendienteBE.no_servicio,
+                            no_taller = oCitaPendienteBE.no_taller,
+                            no_direccion = oCitaPendienteBE.no_direccion,
+                            no_asesor = oCitaPendienteBE.no_asesor
+                        };
                     }
-                    #endregion - Verificar Citas pendientes
-
-                    if (Parametros.SRC_Pais_actual == Parametros.PAIS.PERU)
+                    if (Parametros.GetValor(Parametros.PARM._08).Equals("0"))
                     {
-                        #region "- Obtiene Tipos de Servicio por Modelo"
-                        List<ServicioBE> lstTipoServicios = new ServicioBL().Listar_Tipos_Servicios(oVehiculoBE.nid_modelo);
-                        if (Parametros.SRC_Pais_actual == Parametros.PAIS.CHILE && nid_marca_permitida != "9") //9: MAHINDRA
-                        {   //Diferente a Mahindra, quita el servicio REVISION XUV500
-                            ServicioBE oTipServ = lstTipoServicios.Find(ts => ts.nid_tipo_servicio == 8); //8: RXUV5 => [6 REVISION XUV500]
-                            if (oTipServ != null) lstTipoServicios.Remove(oTipServ);
-                        }
-                        oComboTipoServicio = new List<object>();
-                        foreach (ServicioBE oTS in lstTipoServicios)
-                        {
-                            oComboTipoServicio.Add(new
-                            {
-                                value = oTS.nid_tipo_servicio.ToString(),
-                                nombre = oTS.no_tipo_servicio,
-                                fl_visible_obs = (oTS.fl_visible_obs == "1" ? true : false)
-                            });
-                        }
-                        #endregion "- Obtiene Tipos de Servicio por Modelo"
+                        if (strPRM_16.Equals("0"))
+                            msg_retorno = Parametros.msgCitasPendPlaca;
+                        fl_seguir = "0";
                     }
                 }
+                #endregion - Verificar Citas pendientes
+
+                #region "- Obtiene Tipos de Servicio por Modelo"
+                List<ServicioBE> lstTipoServicios = new ServicioBL().Listar_Tipos_Servicios(oVehiculoBE.nid_modelo);
+
+                oComboTipoServicio = new List<object>();
+                foreach (ServicioBE oTS in lstTipoServicios)
+                {
+                    oComboTipoServicio.Add(new
+                    {
+                        value = oTS.nid_tipo_servicio.ToString(),
+                        nombre = oTS.no_tipo_servicio,
+                        fl_visible_obs = (oTS.fl_visible_obs == "1" ? true : false)
+                    });
+                }
+                #endregion "- Obtiene Tipos de Servicio por Modelo"
+
             }
-
-
 
             strRetorno = new
             {
                 oVehiculo = oVehiculo,
                 oComboMarca = oComboMarca,
                 oComboModelo = oComboModelo,
-                oComboAnio = oComboAnio,
-                oComboTipoVeh = oComboTipoVeh,
                 fl_seguir = fl_seguir,
                 msg_retorno = msg_retorno,
                 oCitaPendiente = oCitaPendiente,
