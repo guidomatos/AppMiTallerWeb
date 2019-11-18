@@ -129,9 +129,10 @@ public class CorreoElectronico
                 switch (oTipoCita)
                 {
                     case Parametros.EstadoCita.REGISTRADA: strTipoCita = "Reserva"; break;
-                    case Parametros.EstadoCita.REPROGRAMADA: strTipoCita = "Reprogramacion"; break;
+                    case Parametros.EstadoCita.CONFIRMADA: strTipoCita = "Confirmaci&oacute;n"; break;
+                    case Parametros.EstadoCita.REPROGRAMADA: strTipoCita = "Reprogramaci&oacute;n"; break;
                     case Parametros.EstadoCita.REASIGNADA: strTipoCita = "Asignaci&oacute;n"; break;
-                    case Parametros.EstadoCita.ANULADA: strTipoCita = "Anulacion"; break;
+                    case Parametros.EstadoCita.ANULADA: strTipoCita = "Anulaci&oacute;n"; break;
                 }
                 string strTextoPie = Parametros.N_TextoPieCorreo;
                 string strNumCallCenter = Parametros.N_TelefonoCallCenter;
@@ -192,9 +193,10 @@ public class CorreoElectronico
                 switch (oTipoCita)
                 {
                     case Parametros.EstadoCita.REGISTRADA: strTipoCita = "Reserva"; break;
-                    case Parametros.EstadoCita.REPROGRAMADA: strTipoCita = "Reprogramacion"; break;
+                    case Parametros.EstadoCita.CONFIRMADA: strTipoCita = "Confirmaci&oacute;n"; break;
+                    case Parametros.EstadoCita.REPROGRAMADA: strTipoCita = "Reprogramaci&oacute;n"; break;
                     case Parametros.EstadoCita.REASIGNADA: strTipoCita = "Asignaci&oacute;n"; break;
-                    case Parametros.EstadoCita.ANULADA: strTipoCita = "Anulacion"; break;
+                    case Parametros.EstadoCita.ANULADA: strTipoCita = "Anulaci&oacute;n"; break;
                 }
                 string strTextoPie = Parametros.N_TextoPieCorreo;
                 string strNumCallCenter = Parametros.N_TelefonoCallCenter;
@@ -428,6 +430,7 @@ public class CorreoElectronico
                 switch (oTipoCita)
                 {
                     case Parametros.EstadoCita.REGISTRADA: strAsunto = "SubjectCitaReserv"; break;
+                    case Parametros.EstadoCita.CONFIRMADA: strAsunto = "SubjectCitaConfirma"; break;
                     case Parametros.EstadoCita.REPROGRAMADA: strAsunto = "SubjectCitaReprog"; break;
                     case Parametros.EstadoCita.REASIGNADA: strAsunto = "SubjectCitaAsigna"; break;
                     case Parametros.EstadoCita.ANULADA: strAsunto = "SubjectCitaAnula"; break;

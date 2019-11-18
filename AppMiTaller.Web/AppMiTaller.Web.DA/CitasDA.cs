@@ -284,6 +284,7 @@ namespace AppMiTaller.Web.DA
             SqlDataReader reader = null;
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@vi_nid_cita", ent.nid_cita);
+            cmd.Parameters.AddWithValue("@vi_cod_resverva_cita", ent.cod_reserva_cita);
             cmd.Parameters.AddWithValue("@vi_nu_placa", ent.nu_placa);
             cmd.Parameters.AddWithValue("@vi_nid_cliente", ent.nid_cliente);
             try
